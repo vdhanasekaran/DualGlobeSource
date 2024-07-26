@@ -1,0 +1,57 @@
+﻿@model DualGlobe.ERP.Models.EmployeeModel
+
+@{
+    ViewBag.Title = "Levy Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Levy Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Work Status</th>
+                            <th>Levy Amount</th>
+                        </tr>
+                    </thead>
+
+                    @if (Model.SalaryArray != null)
+                    {
+                    <tbody>
+                        @{
+                            foreach (var item in Model.SalaryArray)
+                            {
+                            <tr>
+                                <td>@System.Configuration.ConfigurationManager.AppSettings["EmployeeIdPrefix"]@item.EmployeeId</td>
+                                <td>@item.EmployeeName</td>
+                                <td>@item.WorkStatus</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.Levy.GetValueOrDefault(0))</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                            }
+                </table>
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

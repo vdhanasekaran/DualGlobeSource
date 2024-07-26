@@ -1,0 +1,72 @@
+﻿@model List<Library.DualGlobe.ERP.Models.SalaryDetail>
+
+@{
+    ViewBag.Title = "View Salary";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        View Salary
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">View Salary</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="tblClient" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Employee Id</th>
+                                <th>Employee Name</th>
+                                <th>Work Status</th>
+                                <th>Basic Salary</th>
+                                <th>Fixed Allowance</th>
+                                <th>Bonous Allowance</th>
+                                <th>Incentive Allowance</th>
+                                <th>Total Deduction</th>
+                                <th>Net Salary</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+
+                        @if (Model != null)
+                        {
+                            <tbody>
+                                @{
+                                    int i = 0;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@System.Configuration.ConfigurationManager.AppSettings["EmployeeIdPrefix"]@item.EmployeeId</td>
+                                            <td>@item.EmployeeName</td>
+                                            <td>@item.WorkStatus</td>
+                                            <td style="text-align:right;">S$@String.Format("{0:n}", item.BasicSalary)</td>
+                                            <td style="text-align:right;">S$@String.Format("{0:n}", item.FixedAllowance.GetValueOrDefault(0))</td>
+                                            <td style="text-align:right;">S$@String.Format("{0:n}", item.BonusAllowance.GetValueOrDefault(0))</td>
+                                            <td style="text-align:right;">S$@String.Format("{0:n}", item.IncentiveAllowance.GetValueOrDefault(0))</td>
+                                            <td style="text-align:right;">S$@String.Format("{0:n}", item.TotalDetectSalary.GetValueOrDefault(0))</td>
+                                            <td style="text-align:right;">S$@String.Format("{0:n}", item.GrossSalary)</td>
+                                            <td>@item.Status</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                                    }
+                    </table>
+
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.col -->
+</section>
+<!-- /.content -->

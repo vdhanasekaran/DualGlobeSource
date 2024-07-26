@@ -1,0 +1,207 @@
+﻿@using DualGlobe.ERP.Utility;
+@model DualGlobe.ERP.Models.InvoiceModel
+    
+@{
+    ViewBag.Title = "Sales Report";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Sales Report
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Sales Report</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box">
+        <div class="box-body">
+            @using (Html.BeginForm("InvoiceGSTReport", "Report", FormMethod.Post))
+            {
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("Start Date: ") <span class="required">*</span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("End Date: ") <span class="required">*</span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("Payment Status: ")
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("Client: ")
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("Project: ")
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => Model.StartDate, new { @Value = Model.StartDate != null ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "", @id = "startDate", @class = "form-control datepicker",type="date", @required = "required" })
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => Model.EndDate, new { @Value = Model.EndDate != null ? Model.EndDate.Value.ToString("yyyy-MM-dd") : "", @id = "endDate", @class = "form-control datepicker",type="date", @required = "required" })
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.SelectedPaymentStatus, new SelectList(Model.PaymentStatus, "Value", "Text"), "All", new { @id = "ddlFilter", @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.SelectedClient, new SelectList(Model.ClientList, "Value", "Text"), "All", new { @id = "ddlPaymentStatus", @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.SelectedProject, new SelectList(Model.ProjectList, "Value", "Text"), "--Select--", new { @id = "ddlSupplier", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-primary pull-right">Search</button>
+                </div>
+            </div>
+            @*<div class="row">
+                <div class="col-xs-1">
+                    <div class="form-group">
+                        @Html.Label("StartDate: ") <span class="required">*</span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => Model.StartDate, new { @Value = Model.StartDate != null ? Model.StartDate.Value.ToString("d") : "", @id = "startDate", @class = "form-control date", @required = "required" })
+                    </div>
+                </div>
+                <div class="col-xs-1">
+                    <div class="form-group">
+                        @Html.Label("EndDate: ") <span class="required">*</span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => Model.EndDate, new { @Value = Model.EndDate != null ? Model.EndDate.Value.ToString("d") : "", @id = "endDate", @class = "form-control date", @required = "required" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-primary pull-right">Search</button>
+                </div>
+            </div>*@
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="tblClient" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Seriol No</th>
+                                <th>Quotation No</th>
+                                <th>PO No</th>
+                                <th>Invoice No</th>
+                                <th>Date</th>
+                                <th>Client Name</th>
+                                <th>Sub Total</th>
+                                <th>GST</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+
+                        @if (Model.InvoiceArray != null)
+                        {
+                        <tbody>
+                            @{
+                                int i = 0;
+                                decimal gstSum = 0;
+                                decimal subTotalSum = 0;
+                                foreach (var item in Model.InvoiceArray)
+                                {
+                                    decimal gst = item.TotalDiscountedGST.GetValueOrDefault(0) > 0 ? item.TotalDiscountedGST.GetValueOrDefault(0) : item.TotalGSTAmount.GetValueOrDefault(0);
+                                    decimal subTotal = item.TotalDiscountedPhaseInvoice.GetValueOrDefault(0) > 0 ? (item.TotalPhaseAmount.GetValueOrDefault(0) - item.TotalDiscountedPhaseInvoice.GetValueOrDefault(0)) : item.TotalPhaseAmount.GetValueOrDefault(0);
+                                    gstSum = gstSum + gst;
+                                    subTotalSum = subTotalSum + subTotal;
+                                <tr>
+                                    <td>@(++i)</td>
+                                    <td>@item.QuotationId</td>
+                                    <td>@Utilities.GetPONumberByQuotationId(item.QuotationId.GetValueOrDefault())</td>
+                                    <td>@item.Id</td>
+                                    <td>@item.InvoiceDate.Value.ToString("d")</td>
+                                    <td>@Utilities.GetClientName(item.ClientId.GetValueOrDefault())</td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", subTotal)</td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", gst) </td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", item.InvoiceAmount.Value)</td>
+                                </tr>
+                                }
+                                }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total</b></td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", subTotalSum)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", gstSum)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray.AsEnumerable().Sum(j => j.InvoiceAmount.GetValueOrDefault(0)))</td>
+                            </tr>
+                        </tfoot>
+                                }
+                    </table>
+
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="box">
+                @if (Model.InvoiceArray != null)
+                {
+                
+
+                <div class="box-footer">
+                    <a href="@Url.Action("PrintInvoiceGSTReport", "Report", new { @startDate = Model.StartDate, @endDate = Model.EndDate, @paymentStatus = Model.SelectedPaymentStatus, @client = Model.SelectedClient, @project = Model.SelectedProject })" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</a>
+                </div>
+                                }
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</section>
+
+<!-- /.content -->

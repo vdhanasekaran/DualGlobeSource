@@ -1,0 +1,66 @@
+﻿
+@model DualGlobe.ERP.Models.InvoiceModel
+
+<!-- /.box-body -->
+@Html.HiddenFor(model => Model.InvoiceRecord.Id)
+@Html.HiddenFor(model => Model.InvoiceRecord.QuotationId)
+@Html.HiddenFor(model => Model.InvoiceRecord.ClientId)
+@Html.HiddenFor(model => Model.InvoiceRecord.InvoiceAmount)
+@Html.HiddenFor(model => Model.InvoiceRecord.TotalGSTAmount)
+@*@Html.HiddenFor(model => Model.InvoiceRecord.TotalDiscountedGST)*@
+@Html.HiddenFor(model => Model.InvoiceRecord.TotalPhaseAmount)
+@*@Html.HiddenFor(model => Model.InvoiceRecord.TotalDiscountedPhaseInvoice)*@
+@Html.HiddenFor(model => Model.InvoiceRecord.PhaseName)
+@Html.HiddenFor(model => Model.InvoiceRecord.DiscountValue)
+
+<div class="box-body">
+    <div class="row">
+        @if (Model.InvoiceRecord != null && Model.PageMode == "Edit")
+        {
+            <div class="col-md-1">
+                <div class="form-group">
+                    <a href="@Url.Action("AddPayment", "Invoice", new { @invoiceId = Model.InvoiceRecord.Id })" class="btn btn-primary">Add/View Payment</a>
+                </div>
+            </div>
+        }
+    </div>
+    <table id="tblAddPhase" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Item Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                @*<th>GST Amount</th>*@
+                <th>Invoice Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.InvoiceRecord.InvoicePhases.Count; i++)
+            {
+            <tr>
+                <td>
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].Id)
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].InvoiceId)
+                    @Html.TextAreaFor(model => Model.InvoiceRecord.InvoicePhases[i].Description, new { @class = "form-control", @readonly = "readonly" })
+                </td>
+                <td>@Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].Quantity, new { @class = "form-control", @readonly = "readonly" })</td>
+                <td>@Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].UnitPrice, new { @class = "form-control", @readonly = "readonly" })</td>
+                @*<td>@Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].GST, new { @class = "form-control", @readonly = "readonly" })</td>*@
+                <td>
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].Percentage)
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].QuotationAmount)
+                  
+                    @*@Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].GST)
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].GSTAmount)
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].DiscountedGSTAmount)*@
+                    
+                    @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].PhaseInvoiceAmount)
+                    @*@Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].DiscountedPhaseInvoiceAmount)*@
+                    @Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].PhaseAmount, new { @class = "form-control", @readonly = "readonly" })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- /.box-body -->

@@ -1,0 +1,72 @@
+﻿@model DualGlobe.ERP.Models.EmployeeProjectModel
+
+@{
+    ViewBag.Title = "Add Project Employee";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Employee to Project
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "EmployeeProject")">Project Employee</a></li>
+        <li class="active">Add Project Employee</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="@Url.Action("Index","EmployeeProject")" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Go to Employee Project List</a>
+        </div>
+    </div>
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "EmployeeProject", FormMethod.Post))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.employeeProjectRecord.Id)
+                            @Html.LabelFor(model => Model.employeeProjectRecord.projectId, "Project Id") <span class="required">*</span>                           
+                            @Html.DropDownListFor(model => Model.employeeProjectRecord.projectId, new SelectList(Model.projectList, "Value", "Text"), "--Select--", new { @id = "ddlProject", @class = "form-control", @required = "required" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeProjectRecord.EmployeeId, "Employee Id") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeProjectRecord.EmployeeId, Model.EmployeeList, "--Select--", new { @id = "txtEmployeeId", @class = "form-control", @required = "required"})
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("Index","EmployeeProject")" class="btn btn-primary">Back</a>
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            </div>
+
+            if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+            <div class="alert alert-warning alert-dismissible">
+                <h4><i class="icon fa fa-warning"></i> Error!</h4>
+                @ViewBag.ErrorMessage
+            </div>
+            }
+            if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+            {
+            <div class="alert alert-success alert-dismissible">
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                @ViewBag.SuccessMessage
+            </div>
+            }
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

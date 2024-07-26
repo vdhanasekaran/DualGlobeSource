@@ -1,0 +1,41 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/Content/printPdf.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript">
+
+    function PrintElem(elem)
+    {
+        Popup($(elem).html());
+    }
+
+    function Popup(data)
+    {
+        var mywindow = window.open('', 'my div', 'height=400,width=600');
+        mywindow.document.write('<html><head><title>Pay Slip</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
+    </script>
+</head>
+<body>
+    <div id="paySlip" class="invoice-box">
+        <!-- Main content -->
+        @RenderBody()
+    </div>
+    <button type="button" onclick ="PrintElem('#paySlip')" class="btn btn-block btn-default btn-lg">Print</button>
+    <!-- ./wrapper -->
+</body>
+</html>

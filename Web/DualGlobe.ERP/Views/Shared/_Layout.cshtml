@@ -1,0 +1,2834 @@
+﻿
+@using DualGlobe.ERP.Utility;
+
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dual Biz</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+    <!-- Font Awesome -->
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">*@
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+
+    <!-- Ionicons -->
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">*@
+    @*<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">*@
+
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/ionicons.min.css" rel="stylesheet" />
+
+    <!-- bootstrap datepicker -->
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+    <!-- DataTables -->
+    <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
+    <!-- bootstrap timepicker -->
+    <link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Content/AdminLTE.min.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link href="~/Content/skins/_all-skins.min.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .required {
+            color: red;
+        }
+
+        .ui-datepicker-calendar {
+            display: none;
+        }
+
+        .page-header {
+            font-size: 14px !important;
+        }
+
+        .top-buffer {
+            margin-top: 20px;
+        }
+
+        .input-disabled {
+            background-color: #EBEBE4;
+            border: 1px solid #ABADB3;
+            padding: 2px 1px;
+        }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+
+        @if (!Request.IsAuthenticated || User == null)
+        {
+            var url = Url.Action("LogOff", "Account");
+            Response.Redirect(url);
+
+        }
+        else
+        {<!-- Main Header -->
+                            <header class="main-header">
+
+                                <!-- Logo -->
+                                <a href="@Url.Action("Index", "Home")" class="logo">
+                                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                                    <span class="logo-mini">
+                                        <b>
+                                            D<i style="color: #f7f100;
+                                font-style: normal;
+                                text-transform: none;">Biz</i>
+                                        </b>
+                                    </span>
+                                    <!-- logo for regular state and mobile devices -->
+                                    <span style="font-size: 26px;
+                          font-family: Century gothic;
+                          font-weight: 600;
+                          letter-spacing: 0px;" class="logo-lg">
+                                        DUAL<i style="color: #f7f100;
+                               font-style: normal;
+                               text-transform: none;">Biz</i>
+                                    </span>
+                                </a>
+
+                                <!-- Header Navbar -->
+                                <nav class="navbar navbar-static-top" role="navigation">
+                                    <!-- Sidebar toggle button-->
+                                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                                        <span class="sr-only">Tggle navigation</span>
+                                    </a>
+                                    <!-- Navbar Right Menu -->
+                                    <div class="navbar-custom-menu">
+                                        <ul class="nav navbar-nav">
+                                            <!-- User Account Menu -->
+                                            <li class="dropdown user user-menu">
+                                                <!-- Menu Toggle Button -->
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                    <!-- The user image in the navbar-->
+                                                    @*<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">*@
+                                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                                    <span class="hidden-xs">@User.FirstName</span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <!-- The user image in the menu -->
+                                                    <li class="user-header">
+                                                        @*<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">*@
+
+                                                        <p>Role : @User.roles[0]</p>
+                                                    </li>
+                                                    <li class="user-footer">
+                                                        <div class="pull-right">
+                                                            <a href="@Url.Action("LogOff", "Account")" class="btn btn-default btn-flat">Sign out</a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            @if (User.IsInRole("Admin"))
+                                            {<!-- Control Sidebar Toggle Button -->
+                                                                    <li>
+                                                                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                                                                    </li>}
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </header> <!-- Left side column. contains the logo and sidebar -->
+                                            <aside class="main-sidebar">
+
+                                                <!-- sidebar: style can be found in sidebar.less -->
+                                                <section class="sidebar">
+                                                    <!-- Sidebar Menu -->
+                                                    <ul class="sidebar-menu">
+                                                        <li class="header">MENU</li>
+                                                        <!-- Optionally, you can add icons to the links -->
+                                                        <li>
+                                                            <a href="@Url.Action("Index", "Home")">
+                                                                <i class="fa fa-th"></i> <span>Dashboard</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="treeview client">
+                                                            <a href="#">
+                                                                <i class="fa fa-users"></i> <span>Client</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                @if (User.IsInRole("Admin"))
+                                                                {
+                                                <li>@Html.ActionLink("Add Client", "Client", "Client")</li>}
+                                                                <li>@Html.ActionLink("Client List", "Index", "Client")</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="treeview project">
+                                                            <a href="#">
+                                                                <i class="fa fa-reorder"></i> <span>Project</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                @if (User.IsInRole("Admin"))
+                                                                {
+                                                <li>@Html.ActionLink("Add Project", "Project", "Project")</li>}
+
+                                                                <li>@Html.ActionLink("Project List", "Index", "Project")</li>
+
+                                                                @if (User.IsInRole("Admin"))
+                                                                {
+                                                <li>@Html.ActionLink("Add Employees to Project", "EmployeeProject", "EmployeeProject")</li>}
+
+                                                                <li>@Html.ActionLink("Project Employee List", "Index", "EmployeeProject")</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="treeview quotation">
+                                                            <a href="#">
+                                                                <i class="fa fa-money"></i> <span>Quotation</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                @if (User.IsInRole("Admin"))
+                                                                {
+                                                <li>@Html.ActionLink("Add Quotation", "Quotation", "Quotation")</li>}
+
+                                                                <li>@Html.ActionLink("Quotation List", "Index", "Quotation")</li>
+                                                            </ul>
+                                                        </li>
+
+                                                        <li class="treeview invoices">
+                                                            <a href="#">
+                                                                <i class="fa fa-pencil-square-o"></i> <span>Invoice</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                @if (User.IsInRole("Admin"))
+                                                                {
+                                                <li>@Html.ActionLink("Add Invoice/Progress Claim", "Invoice", "Invoice")</li>}
+
+                                                                <li>@Html.ActionLink("Invoice List", "Index", "Invoice")</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="treeview employee">
+                                                            <a href="#">
+                                                                <i class="fa fa-user"></i> <span>Employee</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                @if (User.IsInRole("Admin"))
+                                                                {
+                                                <li>@Html.ActionLink("Add Employee", "Employee", "Employee")</li>}
+
+                                                                <li>@Html.ActionLink("Employee List", "Index", "Employee")</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="treeview payroll">
+                                                            <a href="#">
+                                                                <i class="fa fa-usd"></i> <span>Employee Service</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                <li>@Html.ActionLink("Leave", "Index", "Leave")</li>
+                                                                <li>@Html.ActionLink("Timesheet", "Index", "Timesheet")</li>
+                                                                <li>@Html.ActionLink("Bonus/Incentives", "Index", "Allowance")</li>
+                                                                <li>@Html.ActionLink("Loan And Advance", "Index", "LoanAndAdvance")</li>
+                                                                <li>@Html.ActionLink("Generate CPF", "Index", "CPF")</li>
+                                                                <li>@Html.ActionLink("Generate Salary", "Index", "Payroll")</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="treeview expense">
+                                                            <a href="#">
+                                                                <i class="fa  fa-shopping-cart"></i> <span>Income / Expense</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                <li>@Html.ActionLink("Expenses", "Index", "Expense")</li>
+                                                                <li>@Html.ActionLink("Other Income", "OtherIncome", "Income")</li>
+                                                            </ul>
+                                                        </li>
+                                                        @*<li class="treeview report">
+                                                                <a href="#">
+                                                                    <i class="fa fa-pie-chart"></i>
+                                                                    <span>Reports</span>
+                                                                    <span class="pull-right-container">
+                                                                        <i class="fa fa-angle-left pull-right"></i>
+                                                                    </span>
+                                                                </a>
+                                                                <ul class="treeview-menu">
+                                                                    <li>@Html.ActionLink("Employee Report", "EmployeeReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Attendance Report", "AttendanceReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Salary Report", "SalaryReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("CPF Report", "CPFReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Levy Report", "LevyReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("SDL Report", "SDLReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Client Report", "ClientReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Project Report", "ProjectReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Profit & Loss", "ProfitLossReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Project Profit & Loss", "ProjectProfitLossReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Invoice GST Report", "InvoiceGSTReport", "Report")</li>
+                                                                    <li>@Html.ActionLink("Purchase GST Report", "PurchaseGSTReport", "Report")</li>
+                                                                </ul>
+                                                            </li>*@
+                                                        <li class="treeview report">
+                                                            <a href="#">
+                                                                <i class="fa fa-pie-chart"></i> <span>Reports</span>
+                                                                <span class="pull-right-container">
+                                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                                </span>
+                                                            </a>
+                                                            <ul class="treeview-menu">
+                                                                <li class="treeview menu-open">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-circle-o"></i> Employee
+                                                                        <span class="pull-right-container">
+                                                                            <i class="fa fa-angle-left pull-right"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("EmployeeReport", "Report")"><i class="fa fa-circle-o"></i> Employee Report</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li class="treeview menu-open">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-circle-o"></i> Payroll
+                                                                        <span class="pull-right-container">
+                                                                            <i class="fa fa-angle-left pull-right"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("AttendanceReport", "Report")"><i class="fa fa-circle-o"></i> Attendance</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("SalaryReport", "Report")"><i class="fa fa-circle-o"></i> Salary</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("CPFReport", "Report")"><i class="fa fa-circle-o"></i> CPF</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("LevyReport", "Report")"><i class="fa fa-circle-o"></i> Levy</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("SDLReport", "Report")"><i class="fa fa-circle-o"></i> SDL</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li class="treeview menu-open">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-circle-o"></i> Client
+                                                                        <span class="pull-right-container">
+                                                                            <i class="fa fa-angle-left pull-right"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("ClientReport", "Report")"><i class="fa fa-circle-o"></i> Client</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("ProjectReport", "Report")"><i class="fa fa-circle-o"></i> Project</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li class="treeview menu-open">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-circle-o"></i> GST
+                                                                        <span class="pull-right-container">
+                                                                            <i class="fa fa-angle-left pull-right"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("InvoiceGSTReport", "Report")"><i class="fa fa-circle-o"></i> Sales</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("PurchaseGSTReport", "Report")"><i class="fa fa-circle-o"></i> Purchase</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li class="treeview menu-open">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-circle-o"></i> Profit/Loss
+                                                                        <span class="pull-right-container">
+                                                                            <i class="fa fa-angle-left pull-right"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("ProfitLossReport", "Report")"><i class="fa fa-circle-o"></i> Profit & Loss</a></li>
+                                                                    </ul>
+                                                                    <ul class="treeview-menu">
+                                                                        <li><a href="@Url.Action("ProjectProfitLossReport", "Report")"><i class="fa fa-circle-o"></i> Project Profit & Loss</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- /.sidebar-menu -->
+                                                </section>
+                                                <!-- /.sidebar -->
+                                            </aside> <!-- Content Wrapper. Contains page content -->
+                                                            <div class="content-wrapper">
+                                                                @RenderBody()
+                                                            </div> <!-- /.content-wrapper --> <!-- Main Footer -->
+                                                                            <footer class="main-footer">
+                                                                                <!-- To the right -->
+                                                                                <div class="pull-right hidden-xs">
+                                                                                    Your business in mind
+                                                                                </div>
+                                                                                <!-- Default to the left -->
+                                                                                Powered By <strong>DualGlobe Pte Ltd.</strong>
+                                                                            </footer> <!-- Control Sidebar -->
+                                                                                            <aside class="control-sidebar control-sidebar-dark">
+                                                                                                <!-- Tab panes -->
+                                                                                                <div class="tab-content">
+                                                                                                    <!-- Home tab content -->
+                                                                                                    <div class="tab-pane active" id="control-sidebar-home-tab">
+                                                                                                        <h3 class="control-sidebar-heading">Application Settings</h3>
+                                                                                                        <ul class="control-sidebar-menu">
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","Company")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Company Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("UserDetails","Account")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">User Account Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","Overtime")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">OT Group Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","RestDay")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Restday Group Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","RestDayPay")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Restday Pay Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","WorkingHour")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Working Hours Group Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","PublicHoliday")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Public Holiday Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","PublicHolidayPay")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Public Holiday Pay Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","WorkPermitAddress")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">WorkPermit Address Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","Insurance")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Insurer Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","Supplier")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Supplier Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                            <li>
+                                                                                                                <a href="@Url.Action("Index","ExpenseCategory")">
+                                                                                                                    <i class="menu-icon fa fa-user bg-yellow"></i>
+                                                                                                                    <div class="menu-info">
+                                                                                                                        <h4 class="control-sidebar-subheading">Expense Category Settings</h4>
+                                                                                                                    </div>
+                                                                                                                </a>
+                                                                                                            </li>
+                                                                                                        </ul>
+                                                                                                        <!-- /.control-sidebar-menu -->
+                                                                                                    </div>
+                                                                                                    <!-- /.tab-pane -->
+                                                                                                </div>
+                                                                                            </aside> <!-- /.control-sidebar -->
+                                                                                                            <!-- Add the sidebar's background. This div must be placed
+                                                                                                             immediately after the control sidebar -->
+                                                                                                                            <div class="control-sidebar-bg"></div>}
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery 2.2.3 -->
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- DataTables -->
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <!-- bootstrap timepicker -->
+    <script src="~/Scripts/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Scripts/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Scripts/app.min.js"></script>
+    <!--Export Table as Excel-->
+    <script src="~/Scripts/jquery.base64.js"></script>
+    <script src="~/Scripts/tableExport.js"></script>
+    <!--Loading Overlay-->
+    <script src="~/Scripts/loadingoverlay.min.js"></script>
+
+    @*<script src="~/Scripts/fancyTable.min.js"></script>*@
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    @*<script src="~/Scripts/bootstrap-select.js"></script>*@
+    <!-- Optionally, you can add Slimscroll and FastClick plugins.
+         Both of these plugins are recommended to enhance the
+         user experience. Slimscroll is required when using the
+         fixed layout. -->
+    <!-- page script -->
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#tblQuotation").fancyTable({
+            //    /* Column number for initial sorting*/
+            //    sortColumn:0,
+            //    /* Setting pagination or enabling */
+            //    pagination: true,
+            //    /* Rows per page kept for display */
+            //    perPage:10,
+            //    globalSearch:true
+            //});
+
+            //$("#tblInvoices").fancyTable({
+            //    /* Column number for initial sorting*/
+            //    sortColumn:0,
+            //    /* Setting pagination or enabling */
+            //    pagination: true,
+            //    /* Rows per page kept for display */
+            //    perPage:10,
+            //    globalSearch:true
+            //});
+
+            //$("#tblClient").fancyTable({
+            //    /* Column number for initial sorting*/
+            //    sortColumn: 0,
+            //    /* Setting pagination or enabling */
+            //    pagination: true,
+            //    /* Rows per page kept for display */
+            //    perPage: 10,
+            //    globalSearch: true
+            //});
+
+            $('#tblProject').DataTable({
+                deferRender: true,
+                scrollCollapse: true,
+                scroller: true,
+                order: [[0, 'asc']],
+                pageLength: 10
+            });
+
+            $('#tblQuotation').DataTable({
+                deferRender: true,
+                scrollCollapse: true,
+                scroller: true,
+                order: [[0, 'asc']],
+                pageLength: 10
+            });
+
+            $('#tblInvoices').DataTable({
+                deferRender: true,
+                scrollCollapse: true,
+                scroller: true,
+                order: [[0, 'asc']],
+                pageLength: 10
+            });
+
+            $('#tblClient').DataTable({
+                deferRender: true,
+                scrollCollapse: true,
+                scroller: true,
+                order: [[0, 'asc']],
+                pageLength: 10
+            });
+
+            $('#tblExpense').DataTable({
+                deferRender: true,
+                scrollCollapse: true,
+                scroller: true,
+                order: [[0, 'asc']],
+                pageLength: 10
+            });
+            
+            calculateQuotationValue();
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#employee, #tblAdditions, #tblAttendance, #tblLoanAndAdvance, #salaryDetails, #tblProject, #tblQuotation, #tblInvoices, #tblClient, #tblUserDetails, #tblExpense, #tblTimesheet, #tblEmployeeProject').DataTable();
+        });
+        //Date picker
+        $('.date').datepicker({
+            "setDate": new Date(),
+            "autoclose": true
+        });
+
+        //Date picker for dynamic textbox
+        $('body').on('focus', ".date", function () {
+            $(this).datepicker({
+                "setDate": new Date(),
+                "autoclose": true
+            });
+        });
+        //Timepicker
+        $(".timepicker").timepicker({
+            showInputs: false,
+            showMeridian: false
+        });
+        $(".reset").click(function () {
+            $(this).closest('form').find("input[type=text], input[type=email]").val("");
+        });
+
+        $('input:radio[name="RestDayRecord.RestDayType"]').change(function () {
+            if ($(this).is(':checked')) {
+                if($(this).val() == 'Day')
+                {
+                    $(".date-selection").hide();
+                    $(".day-selection").show();
+                }
+                else if($(this).val() == 'Date')
+                {
+                    $(".date-selection").show();
+                    $(".day-selection").hide();
+                }
+            }
+        });
+
+        $("#txtInvoiceDate").on("change",
+            function () {
+                var date = new Date(this.value);
+                var year = date.getFullYear();
+                var actualAmount = document.getElementById('actualAmountI').value;
+                var gstAmount = 0;
+                if (year >= 2024) {
+                    gstAmount = parseFloat(actualAmount) * (9 / 100);
+                } else {
+                    gstAmount = parseFloat(actualAmount) * (8 / 100);
+                }
+                document.getElementById('gstAmountI').value = gstAmount.toFixed(2);
+                document.getElementById('totalAmountI').value = parseFloat(actualAmount) + gstAmount;
+            });
+
+        $("#ddlIsCompletdCourse").on("change", function () {
+            if ($("#ddlIsCompletdCourse").val().toLowerCase() == "false") {
+                $(".CSOCExpiry").show();
+            }
+            else {
+                $(".CSOCExpiry").hide();
+            }
+        });
+
+        $("#ddlWorkType").on("change", function () {
+            if ($(this).val() == "Workman") {
+                $(".Workman").show();
+            }
+            else {
+                $(".Workman").hide();
+            }
+        });
+
+        $("#ddlWorkStatus").on("change", function () {
+            ManageEmployeeForm($(this).val());
+        });
+
+        $("#ddlNationality").on("change", function () {
+            if ($(this).val() == "SG") {
+                $("#ddlWorkStatus").val("SingaporeCitizen");
+                ManageEmployeeForm("SingaporeCitizen");
+            }
+        });
+
+        function ManageEmployeeForm(selectedVal) {
+            if (selectedVal == "SingaporeCitizen") {
+                $(".SelectStatus").show();
+                $('.SingaporePR').hide();
+                $('.EmploymentPass').hide();
+                $('.SPass').hide();
+                $('.WorkPermit').hide();
+                $('.SingaporeCitizen').show();
+            }
+            else if (selectedVal == "SingaporePR") {
+                $(".SelectStatus").show();
+                $('.SingaporeCitizen').hide();
+                $('.EmploymentPass').hide();
+                $('.SPass').hide();
+                $('.WorkPermit').hide();
+                $('.SingaporePR').show();
+            }
+            else if (selectedVal == "EmploymentPass" || selectedVal == "LOC" || selectedVal == "OtherPass" || selectedVal == "LTVP" ) {
+                $(".SelectStatus").show();
+                $('.SingaporeCitizen').hide();
+                $('.SingaporePR').hide();
+                $('.SPass').hide();
+                $('.WorkPermit').hide();
+                $('.EmploymentPass').show();
+            }
+            else if (selectedVal == "SPass") {
+                $(".SelectStatus").show();
+                $('.SingaporeCitizen').hide();
+                $('.SingaporePR').hide();
+                $('.EmploymentPass').hide();
+                $('.WorkPermit').hide();
+                $('.SPass').show();
+            }
+            else if (selectedVal == "WorkPermit") {
+                $(".SelectStatus").show();
+                $('.SingaporeCitizen').hide();
+                $('.SingaporePR').hide();
+                $('.EmploymentPass').hide();
+                $('.SPass').hide();
+                $('.WorkPermit').show();
+            }
+            else {
+                $(".SelectStatus").hide();
+            }
+            if ($("#ddlWPAddress").closest(".WorkPermit").attr("style") == undefined ||
+                    $("#ddlWPAddress").closest(".WorkPermit").attr("style").indexOf("block") > 0) {
+                $('.address').hide();
+            }
+            else {
+                $('.address').show();
+            }
+        }
+
+        $("#ddlExpenseCategory").on("change", function () {
+            ManageExpenseForm($(this).val());
+        });
+
+        function ManageExpenseForm(selectedVal) {
+            if (selectedVal == "Project") {
+                $(".project").show();
+                $('.operation').hide();
+            }
+            else if (selectedVal == "Operation") {
+                $(".operation").show();
+                $('.project').hide();
+            }
+            else {
+                $(".operation").hide();
+                $('.project').hide();
+            }
+        }
+
+        $("#txtHousingAllowance,#txtTransportAllowance,#txtOtherAllowance").on("change", function () {
+            var housingAllowance = $("#txtHousingAllowance").val();
+            var transportAllowance = $("#txtTransportAllowance").val();
+            var otherAllowance = $("#txtOtherAllowance").val();
+
+            if (housingAllowance == "" || housingAllowance == undefined) {
+                housingAllowance = "0";
+            }
+            if (transportAllowance == "" || transportAllowance == undefined) {
+                transportAllowance = "0";
+            }
+            if (otherAllowance == "" || otherAllowance == undefined) {
+                otherAllowance = "0";
+            }
+            var total = parseFloat(housingAllowance) + parseFloat(transportAllowance) + parseFloat(otherAllowance);
+            $("#txtFixedAllowance").val(total);
+        });
+
+        $("#txtHousingDeduction,#txtTransportDeduction,#txtOtherDeduction").on("change", function () {
+            var housingDeduction = $("#txtHousingDeduction").val();
+            var transportDeduction = $("#txtTransportDeduction").val();
+            var otherDeduction = $("#txtOtherDeduction").val();
+
+            if (housingDeduction == "" || housingDeduction == undefined) {
+                housingDeduction = "0";
+            }
+            if (transportDeduction == "" || transportDeduction == undefined) {
+                transportDeduction = "0";
+            }
+            if (otherDeduction == "" || otherDeduction == undefined) {
+                otherDeduction = "0";
+            }
+            var total = parseFloat(housingDeduction) + parseFloat(transportDeduction) + parseFloat(otherDeduction);
+            $("#txtFixedDeduction").val(total);
+        });
+
+        $("#ddlAllowance").on("change", function () {
+            if ($(this).val() == "false") {
+                $("#txtHousingAllowance,#txtTransportAllowance,#txtOtherAllowance,#txtOADescription").attr("readonly", "readonly");
+            }
+            else {
+                $("#txtHousingAllowance,#txtTransportAllowance,#txtOtherAllowance,#txtOADescription").removeAttr("readonly");
+            }
+        });
+
+        $("#ddlDeduction").on("change", function () {
+            if ($(this).val() == "false") {
+                $("#txtHousingDeduction,#txtTransportDeduction,#txtOtherDeduction,#txtODDescription").attr("readonly", "readonly");
+            }
+            else {
+                $("#txtHousingDeduction,#txtTransportDeduction,#txtOtherDeduction,#txtODDescription").removeAttr("readonly");
+            }
+        });
+
+        $("#ddlBankName").on("change", function () {
+            if ($(this).val() == "Other") {
+                $(".OtherBankName").show();
+            }
+            else {
+                $(".OtherBankName").hide();
+            }
+        });
+
+        $("#ddlMode").on("change", function () {
+            if ($(this).val() == "Month") {
+                $("#duartion").show();
+                $(".amount").hide();
+            }
+            else if ($(this).val() == "Amount") {
+                $(".amount").show();
+                $("#duartion").hide();
+            }
+            else {
+                $(".amount").hide();
+                $("#duartion").hide();
+            }
+        });
+
+        $("#ddlAllowanceType").on("change", function () {
+            if ($(this).val() == "Bonus") {
+                $(".bonus").show();
+                $(".incentive").hide();
+            }
+            else if ($(this).val() == "Incentive") {
+                $(".incentive").show();
+                $(".bonus").hide();
+            }
+            else {
+                $(".bonus").hide();
+                $(".incentive").hide();
+            }
+        });
+        $("#ddlIspresent").on("change", function () {
+            if ($(this).val() == "true") {
+                $("#txtTimeIn, #txtTimeOut, #txtRegularHours, #txtOtHours, #txtTotalHours").val('');
+            }
+        });
+        $(".ddlCategory").on("change", function () {
+            if ($(this).val() == "Other") {
+                $("#txtOtherExpense").removeAttr("readonly");
+            }
+            else {
+                $("#txtOtherExpense").attr("readonly", "readonly");
+            }
+        });
+
+        $("#txtProjectId").on("change", function () {
+            var url = "/Project/GetProjectName?id=" + $("#txtProjectId").val()
+            $.get(url, function (data, status) {
+                if (data == false) {
+                    //TO DO
+                    alert("Project No found");
+
+                }
+                else {
+                    $("#txtProjectName").val(data);
+                }
+
+            });
+
+        });
+
+        //$("#txtEmployeeId").on("change", function () {
+        //    var url = "/Employee/GetEmployeeName?employeeId=" + $("#txtEmployeeId").val()
+        //    $.get(url, function (data, status) {
+        //        $("#txtEmployeeName").val(data);
+        //    });
+        //});
+
+        //$("#txtApprovedByEmployeeId").on("change", function () {
+        //    var url = "/Employee/GetEmployeeName?employeeId=" + $("#txtApprovedByEmployeeId").val()
+        //    $.get(url, function (data, status) {
+        //        $("#txtApproverName").val(data);
+        //    });
+        //});
+
+        $("#ddlWorkInjuryInsuranceNumbers").on("change", function () {
+            var url = "/Employee/GetPolicyStartEndDates?policyNumber=" + $("#ddlWorkInjuryInsuranceNumbers").val()
+            $.get(url, function (data, status) {
+                if (data != false) {
+                    var arr = data.split(':');
+                    $("#workInjuryInsuranceStartDate").val(arr[0]);
+                    $("#workInjuryInsuranceEndDate").val(arr[1]);
+                }
+                else {
+                    $("#workInjuryInsuranceStartDate").val("");
+                    $("#workInjuryInsuranceEndDate").val("");
+                }
+            });
+        });
+
+        $("#ddlSecurityBondNumbers").on("change", function () {
+            var url = "/Employee/GetPolicyStartEndDates?policyNumber=" + $("#ddlSecurityBondNumbers").val()
+            $.get(url, function (data, status) {
+                if (data != false) {
+                    var arr = data.split(':');
+                    $("#bankerInsuranceStartDate").val(arr[0]);
+                    $("#bankerInsuranceEndDate").val(arr[1]);
+                }
+                else {
+                    $("#bankerInsuranceStartDate").val("");
+                    $("#bankerInsuranceEndDate").val("");
+                }
+            });
+        });
+
+        $("#ddlMedicalInsurerNumber").on("change", function () {
+            var url = "/Employee/GetPolicyStartEndDates?policyNumber=" + $("#ddlMedicalInsurerNumber").val()
+            $.get(url, function (data, status) {
+                if (data != false) {
+                    var arr = data.split(':');
+                    $("#mdInsuranceStartDate").val(arr[0]);
+                    $("#mdInsuranceEndDate").val(arr[1]);
+                }
+                else {
+                    $("#mdInsuranceStartDate").val("");
+                    $("#mdInsuranceEndDate").val("");
+                }
+            });
+        });
+
+        $(function () {
+
+
+
+            // add multiple select / deselect functionality
+            $(document).on("click", "#selectall", function () {
+                if (this.checked) {
+                    $(this).prop("checked", true);
+                    $(".employee").prop("checked", true);
+                }
+                else {
+                    $(this).prop("checked", false);
+                    $(".employee").prop("checked", false);
+                }
+            });
+
+            // if all checkbox are selected, check the selectall checkbox
+            // and viceversa
+            $(".employee").click(function () {
+                if (this.checked) {
+                    $(this).prop("checked", true);
+                }
+                else {
+                    $(this).prop("checked", false);
+                }
+                if ($(".employee").length == $(".employee:checked").length) {
+                    $("#selectall").prop("checked", true);
+                } else {
+                    $("#selectall").prop("checked", false);
+                }
+
+            });
+        });
+
+        $(function () {
+
+            // add multiple select / deselect functionality
+            $(document).on("click", "#IsSelectAllEmployee", function () {
+                if (this.checked) {
+                    $(this).prop("checked", true);
+                    $(this).val(true);
+                    $(".public-holiday").prop("checked", true);
+                }
+                else {
+                    $(this).prop("checked", false);
+                    $(this).val(false);
+                    $(".public-holiday").prop("checked", false);
+                }
+            });
+
+            // if all checkbox are selected, check the selectall checkbox
+            // and viceversa
+            $(".public-holiday").click(function () {
+                if (this.checked) {
+                    $(this).prop("checked", true);
+                    $(this).val(true);
+                }
+                else {
+                    $(this).prop("checked", false);
+                    $(this).val(false);
+                }
+                if ($(".employee").length == $(".employee:checked").length) {
+                    $("#IsSelectAllEmployee").prop("checked", true);
+                    $("#IsSelectAllEmployee").val(true);
+                } else {
+                    $("#IsSelectAllEmployee").prop("checked", false);
+                    $("#IsSelectAllEmployee").val(false);
+                }
+
+            });
+
+            $(document).on("click", ".restday-checkbox", function () {
+                if (this.checked) {
+                    $(this).closest(".form-group.day-selection").find("select").removeAttr("disabled");
+                }
+                else {
+                    $(this).closest(".form-group.day-selection").find("select").attr("disabled", "disabled");
+                }
+            });
+        });
+
+        $("#generate-salary").click(function () {
+            $.LoadingOverlay("show", {
+                image: "",
+                fontawesome: "fa fa-spinner fa-spin"
+            });
+            var employeeList = new Array();
+            $('.employee').each(function () {
+                if ($(this).prop("checked")) {
+                    employeeList.push($(this).val());
+                }
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;",
+                data: JSON.stringify({ 'employeeList': employeeList, 'month': $('#ddlMonth').val(), 'year': $('#ddlYear').val() }),
+                url: "/Payroll/GenerateSalary",
+                dataType: 'json',
+                traditional: true,
+                success: function (response) {
+                    $.LoadingOverlay("hide");
+                    var month = response.Month;
+                    var year = response.Year;
+                    window.location.href = "/Payroll/Index?month=" + month + "&year=" + year + "";
+                },
+                error: function (response) {
+                    $.LoadingOverlay("hide");
+                    alert("error")
+                }
+            });
+            return false;
+        })
+
+        $("#re-generate-salary").click(function () {
+            $.LoadingOverlay("show", {
+                image: "",
+                fontawesome: "fa fa-spinner fa-spin"
+            });
+            var employeeList = new Array();
+            $('.employee').each(function () {
+                if ($(this).prop("checked")) {
+                    employeeList.push($(this).val());
+                }
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;",
+                data: JSON.stringify({ 'employeeList': employeeList, 'month': $('#ddlMonth').val(), 'year': $('#ddlYear').val() }),
+                url: "/Payroll/ReGenerateSalary",
+                dataType: 'json',
+                traditional: true,
+                success: function (response) {
+                    $.LoadingOverlay("hide");
+                    var month = response.Month;
+                    var year = response.Year;
+                    window.location.href = "/Payroll/Index?month=" + month + "&year=" + year + "";
+                },
+                error: function (response) {
+                    $.LoadingOverlay("hide");
+                    alert("error")
+                }
+            });
+            return false;
+        })
+
+        $('.updatePayrollStatus').click(function () {
+            $.LoadingOverlay("show", {
+                image: "",
+                fontawesome: "fa fa-spinner fa-spin"
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;",
+                data: JSON.stringify({ 'id': $(this).attr('data-id'), 'status': $(this).closest('td').find('.ddlPayrollStatus').val(), 'month': $(this).attr('data-month'), 'year': $(this).attr('data-year') }),
+                url: "/Payroll/UpdateSalary",
+                dataType: 'json',
+                traditional: true,
+                success: function (response) {
+                    $.LoadingOverlay("hide");
+                    var month = response.Month;
+                    var year = response.Year;
+                    window.location.href = "/Payroll/Index?month=" + month + "&year=" + year + "";
+                },
+                error: function (response) {
+                    $.LoadingOverlay("hide");
+                    alert("error")
+                }
+            });
+            return false;
+        });
+
+        $(document).on("change", ".txtTimeIn,.txtTimeOut", function calculate() {
+            var row = $(this).closest('tr');
+            var time1 = row.find(".txtTimeIn").val().split(':'), time2 = row.find(".txtTimeOut").val().split(':');
+            var hours1 = parseInt(time1[0], 10),
+                hours2 = parseInt(time2[0], 10),
+                mins1 = parseInt(time1[1], 10),
+                mins2 = parseInt(time2[1], 10);
+            var totalHours = hours2 - hours1, mins = 0;
+            if (totalHours < 0) totalHours = 24 + totalHours;
+            if (mins2 >= mins1) {
+                mins = mins2 - mins1;
+            }
+            else {
+                mins = (mins2 + 60) - mins1;
+            }
+            mins = mins / 60; // take percentage in 60
+            totalHours += mins;
+            totalHours = totalHours.toFixed(2);
+            if (totalHours > 0) totalHours = (totalHours - 1).toFixed(2);
+            var regularHours = row.find(".txtRegularHours").val();
+            var overTimeHours = 0;
+            if (parseInt(totalHours) >= parseInt(regularHours)) {
+                overTimeHours = (parseInt(totalHours) - parseInt(regularHours));
+            }
+            //else {
+            //    regularHours = totalHours;
+            //}
+            row.find(".txtTotalHours").val(totalHours);
+            //row.find(".txtRegularHours").val(regularHours);
+            row.find(".txtOtHours").val(overTimeHours);
+        });
+
+        $(document).on("change", "#txtInTime, #txtOutTime", function calculate() {
+            var time1 = $("#txtInTime").val().split(':'), time2 = $("#txtOutTime").val().split(':');
+            //var breaktime = $("#txtBreakTime").val();
+            var hours1 = parseInt(time1[0], 10),
+                hours2 = parseInt(time2[0], 10),
+                mins1 = parseInt(time1[1], 10),
+                mins2 = parseInt(time2[1], 10);
+            var totalHours = hours2 - hours1, mins = 0;
+            if (totalHours < 0) totalHours = 24 + totalHours;
+            if (mins2 >= mins1) {
+                mins = mins2 - mins1;
+            }
+            else {
+                mins = (mins2 + 60) - mins1;
+            }
+            mins = mins / 60; // take percentage in 60
+            totalHours += mins;
+            if (totalHours > 0) totalHours = (totalHours - 1).toFixed(2);
+            //if (breaktime > 0) totalHours = totalHours - breaktime;
+            //var regularHours = 0;
+            //var overTimeHours = 0;
+            //if (totalHours >= 9) {
+            //    regularHours = (9).toFixed(2);
+            //    overTimeHours = (totalHours - 9).toFixed(2);
+            //}
+            //else {
+            //    regularHours = totalHours;
+            //}
+            $("#txtTotalHour").val(totalHours);
+        });
+
+        $(document).on("change", "#startdate, #enddate", function calculate() {
+            var start = $("#startdate").val(), end = $("#enddate").val();
+            if ((start != '' && start != undefined) && (end != '' && end != undefined)) {
+                var empId = $("#txtEmployeeId").val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetEmployeeLeaveCount","Employee")',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "empId": empId, "startdate": start, "enddate": end },
+                    datatype: "json",
+                    success: function (data) {
+                        if ($("#totalDays").length > 0) {
+                            $("#totalDays").val(data);
+                        }
+                    },
+                    error: function () {
+                        alert("Unable to get Employee Leave details.");
+                    }
+                    //});
+                    //var days = daydiff(parseDate(start), parseDate(end)) + 1;
+                    //if ($("#totalDays").length > 0) {
+                    //    $("#totalDays").val(days);
+                    //}
+                })
+            }
+        });
+
+        $(document).on("change", "#txtstartdate, #txtenddate", function calculate() {
+            var start = $("#txtstartdate").val(), end = $("#txtenddate").val();
+            if ((start != '' && start != undefined) && (end != '' && end != undefined)) {
+                var empId = $("#txtEmployeeId").val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetEmployeeLeaveCount","Employee")',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "empId": empId, "startdate": start, "enddate": end },
+                    datatype: "json",
+                    success: function (data) {
+                        if ($("#totalDays").length > 0) {
+                            $("#totalDays").val(data);
+                        }
+                    },
+                    error: function () {
+                        alert("Unable to get Employee Leave details.");
+                    }
+                    //});
+                    //var days = daydiff(parseDate(start), parseDate(end)) + 1;
+                    //if ($("#totalDays").length > 0) {
+                    //    $("#totalDays").val(days);
+                    //}
+                })
+            }
+        });
+
+        $("#leaveSubmit").click(function () {
+            $("#leaveCountError").hide();
+            var paidLeave = $("#txtPaidLeave").val(), unpaidLeave = $("#txtUnPaidLeave").val(), days = $("#totalDays").val();
+            if ((paidLeave != '' && paidLeave != undefined) && (unpaidLeave != '' && unpaidLeave != undefined) && (days != '' && days != undefined)) {
+                if ((parseFloat(paidLeave) + parseFloat(unpaidLeave)) == parseFloat(days)) {
+                        $(this).closest('form').submit();
+                }
+                else {
+                    $("#leaveCountError").show();
+                }
+            }
+            event.preventDefault();
+        });
+
+        function parseDate(str) {
+            var mdy = str.split('/');
+            return new Date(mdy[2], mdy[0] - 1, mdy[1]);
+        }
+
+        function daydiff(first, second) {
+            return Math.round((second - first) / (1000 * 60 * 60 * 24));
+        }
+
+        var LeavePostBackURL = '/Timesheet/ApplyLeave';
+        $(function () {
+            $(".leaveDetails").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: LeavePostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#leaveModalContent').html(data);
+                        $('#leaveModal').modal(options);
+                        $('#leaveModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+        });
+
+        var LoanDetailPostBackURL = '/LoanAndAdvance/ViewDetail';
+        $(function () {
+            $("#emiDetails").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: LoanDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#emiModalContent').html(data);
+                        $('#emiModal').modal(options);
+                        $('#emiModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+        });
+
+        $("#quotationDetails").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("QuotationDetail","Quotation")',
+                contentType: "application/json; charset=utf-8",
+                data: { "id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#quotationModalContent').html(data);
+                    $('#quotationModal').modal(options);
+                    $('#quotationModal').modal('show');
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#progressClaimDetails").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ProgressClaimDetail", "Invoice")',
+                contentType: "application/json; charset=utf-8",
+                data: { "invoiceId": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#progressClaimModalContent').html(data);
+                    $('#progressClaimModal').modal(options);
+                    $('#progressClaimModal').modal('show');
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#invoiceDetails").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("InvoiceDetail", "Invoice")',
+                contentType: "application/json; charset=utf-8",
+                data: { "invoiceId": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#invoiceModalContent').html(data);
+                    $('#invoiceModal').modal(options);
+                    $('#invoiceModal').modal('show');
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $(".payslipDetails").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var month = $buttonClicked.attr('data-month');
+            var year = $buttonClicked.attr('data-year');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ViewPaySlip", "Payroll")',
+                contentType: "application/json; charset=utf-8",
+                data: { "empId": id, "month": month, "year": year },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#payslipModalContent').html('');
+                    $('#payslipModalContent').html(data);
+                    $('#payslipModal').modal(options);
+                    $('#payslipModal').modal('show');
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $(document).on('click', '.add-restdayItem', function () {
+            var rowCount = $("#restdays").find('tbody>tr').length;
+            var restDayId = $("#RestDayRecord_Id").val();
+            $("#restdays").find('tbody').append('<tr><td><button type="button" class="btn-link add-restdayItem"><i class="glyphicon glyphicon-plus"></i> Add</button></td><td><input name="RestDayRecord.RestDates[' + rowCount + '].RestDayId" type="hidden" value="' + restDayId + '"><input class="datepicker form-control" type="date" name="RestDayRecord.RestDates[' + rowCount + '].Date" type="text" value=""></td><td><button type="button" class="btn-link remove-restdayItem"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+        });
+
+        $(document).on('click', '.add-AddressItem', function () {
+            var rowCount = $("#workpermit-address").find('tbody>tr').length;
+            $("#workpermit-address").find('tbody').append('<tr><td><button type="button" class="btn-link add-AddressItem"><i class="glyphicon glyphicon-plus"></i> Add</button></td><td><textarea class="form-control" name="WorkPermitAddressArray[' + rowCount + '].Address" required="required"></textarea></td><td><button type="button" class="btn-link remove-AddressItem"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+        });
+
+        $(document).on('click', '.add-holidayItem', function () {
+            var rowCount = $("#public-holidays").find('tbody>tr').length;
+            $("#public-holidays").find('tbody').append('<tr><td><button type="button" class="btn-link add-holidayItem"><i class="glyphicon glyphicon-plus"></i> Add</button></td><td><input class="form-control" name="PublicHolidayArray[' + rowCount + '].LeaveDescription" required="required" type="text" value=""></td><td><input class="datepicker form-control" type="date" name="PublicHolidayArray[' + rowCount + '].Date" required="required" type="text" value=""></td><td><button type="button" class="btn-link remove-holidayItem"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+        });
+
+        $(document).on('click', '.add-item', function () {
+            var rowCount = $("#quotation-items").find('tbody>tr').length;
+            var quotationId = $("#quotationRecord_Id").val();
+            //$("#quotation-items").find('tbody').append('<tr><td><input class="restday-checkbox form-control" name="quotationRecord.quotationItems[' + rowCount + '].IsHeading" required="required" type="checkbox" value="false"></td> <td><input class="HeadingSortOrder form-control" name="quotationRecord.quotationItems[' + rowCount + '].HeadingSortOrder" required="required" type="text" value="" onkeypress="return isNumber(event)"></td><td><input class="SortOrder form-control" name="quotationRecord.quotationItems[' + rowCount + '].SortOrder" required="required" type="text" value="" onkeypress="return isNumber(event)"></td>  <td><input name="quotationRecord.quotationItems[' + rowCount + '].QuotationId" type="hidden" value="' + quotationId + '"><input class="quantity form-control" name="quotationRecord.quotationItems[' + rowCount + '].Quantity" required="required" type="text" value="" onkeypress="return isNumber(event)"></td><td><textarea class="form-control" name="quotationRecord.quotationItems[' + rowCount + '].Description" required="required"></textarea></td><td><input class="unitPrice form-control" name="quotationRecord.quotationItems[' + rowCount + '].UnitPrice" required="required" type="text" value="" onkeyup="return isNumeric($(this).val())"></td><td><input class="gst-amount form-control" name="quotationRecord.quotationItems[' + rowCount + '].GST" readonly="readonly" type="text" value=""></td><td><input class="amount form-control" name="quotationRecord.quotationItems[' + rowCount + '].Amount" required="required" readonly="readonly" type="text" value=""></td><td><button type="button" class="btn-link remove-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+            //$("#quotation-items").find('tbody').append('<tr><td><input name="quotationRecord.quotationItems[' + rowCount + '].QuotationId" type="hidden" value="' + quotationId + '"><input class="quantity form-control" name="quotationRecord.quotationItems[' + rowCount + '].Quantity" required="required" type="text" value="" onkeypress="return isNumber(event)"></td><td><textarea class="form-control" name="quotationRecord.quotationItems[' + rowCount + '].Description" required="required"></textarea></td><td><input class="unitPrice form-control" name="quotationRecord.quotationItems[' + rowCount + '].UnitPrice" required="required" type="text" value="" onkeyup="return isNumeric($(this).val())"></td><td><input class="gst-amount form-control" name="quotationRecord.quotationItems[' + rowCount + '].GST" readonly="readonly" type="text" value=""></td><td><input class="amount form-control" name="quotationRecord.quotationItems[' + rowCount + '].Amount" required="required" readonly="readonly" type="text" value=""></td><td><button type="button" class="btn-link remove-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+            $("#quotation-items").find('tbody').append('<tr><td><input name="quotationRecord.quotationItems[' + rowCount + '].QuotationId" type="hidden" value="' + quotationId + '"><input class="quantity form-control" name="quotationRecord.quotationItems[' + rowCount + '].Quantity" required="required" type="text" value="" onkeypress="return isNumber(event)"></td><td><textarea class="form-control" name="quotationRecord.quotationItems[' + rowCount + '].Description" required="required"></textarea></td><td><input class="unitPrice form-control" name="quotationRecord.quotationItems[' + rowCount + '].UnitPrice" required="required" type="text" value="" onkeyup="return isNumeric($(this).val())"></td><td><input class="amount form-control" name="quotationRecord.quotationItems[' + rowCount + '].Amount" required="required" readonly="readonly" type="text" value=""></td><td><button type="button" class="btn-link remove-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+
+        });
+
+
+        $(document).on('click', '.add-document-item', function () {
+            var rowCount = $("#document-items").find('tbody>tr').length;
+            $("#document-items").find('tbody').append('<tr><td><button type="button" class="btn-link add-document-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td><td><input class="form-control" name="expenseRecord.Documents[' + rowCount + '].DocumentName" type="text" value=""></td><td><input class="form-control" type="file" name="documents" accept="application/pdf" /></td><td><button type="button" class="btn-link remove-document-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+        });
+
+        $(document).on('click', '.add-employee-document-item', function () {
+            var rowCount = $("#employee-document-items").find('tbody>tr').length;
+            $("#employee-document-items").find('tbody').append('<tr><td><button type="button" class="btn-link add-employee-document-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td><td><input class="form-control" name="employeeRecord.EmployeeDocuments[' + rowCount + '].DocumentName" type="text" value=""></td><td><input class="form-control" type="file" name="documents" accept="application/pdf" /></td><td><button type="button" class="btn-link remove-employee-document-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+        });
+
+        //$(document).on('click', '.add-phase-item', function () {
+        //    var rowCount = $("#tblAddPhase").find('tbody>tr').length;
+        //    var invoiceId = $("#InvoiceRecord_Id").val();
+        //    $("#tblAddPhase").find('tbody').append('<tr><td><button type="button" class="btn-link add-phase-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td><td><input name="InvoiceRecord.InvoicePhaseList[' + rowCount + '].InvoiceId" type="hidden" value="' + invoiceId + '"><input class="form-control" name="InvoiceRecord.InvoicePhaseList[' + rowCount + '].PhaseName" required="required" type="text" value=""></td><td><input class="percentage form-control" name="InvoiceRecord.InvoicePhaseList[' + rowCount + '].Percentage" required="required" type="text" value=""></td><td><input class="amount form-control" name="InvoiceRecord.InvoicePhaseList[' + rowCount + '].Amount" readonly="readonly" type="text" value=""></td><td><button type="button" class="btn-link remove-phase-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td></tr>');
+        //});
+
+        $(document).on('click', '.remove-restdayItem', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/RestDay/RemoveRestDayItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-AddressItem', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/WorkPermitAddress/RemoveAddressItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-holidayItem', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                $.LoadingOverlay("show", {
+                    image: "",
+                    fontawesome: "fa fa-spinner fa-spin"
+                });
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/PublicHoliday/RemoveHolidayItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+                $.LoadingOverlay("hide");
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-LeaveItem', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                $.LoadingOverlay("show", {
+                    image: "",
+                    fontawesome: "fa fa-spinner fa-spin"
+                });
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Leave/CancelLeave',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Cancel error.");
+                    }
+                });
+                $.LoadingOverlay("hide");
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Quotation/RemoveQuotationItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+            calculateQuotationValue();
+        });
+
+        $(document).on('click', '.remove-timesheet-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                $.LoadingOverlay("show", {
+                    image: "",
+                    fontawesome: "fa fa-spinner fa-spin"
+                });
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Timesheet/RemoveTimesheet',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+                $.LoadingOverlay("hide");
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-purchase-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Expense/RemovePurchaseItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+            var total = calculatePurchaseAmount();
+            $("#txtPurchaseItemTotal").val(total);
+        });
+
+        $(document).on('click', '.remove-phase-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Invoice/RemovePhase',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-document-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Expense/RemoveDocument',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-employee-document-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Employee/RemoveDocument',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-allowance-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/Allowance/RemoveItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('click', '.remove-loan-item', function () {
+            if ($(this).attr('data-itemId') != undefined) {
+                var id = $(this).attr('data-itemId');
+                $.ajax({
+                    type: "GET",
+                    url: '/LoanAndAdvance/RemoveItem',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        //removed
+                    },
+                    error: function () {
+                        alert("Remove error.");
+                    }
+                });
+            }
+            $(this).closest('tr').remove();
+        });
+
+        $(document).on('change', '.percentage', function () {
+
+            var isValidPercentage = false;
+            var index = $(this).attr("Id").match(/\d+/);
+            var className = "previous-percentage-" + index;
+            var sum = parseFloat($(this).val());
+            $(".previous-percentage-0").each(function () {
+                sum += parseFloat($(this).val());
+            });
+
+            if (sum <= 100)
+                isValidPercentage = true;
+
+            if (isValidPercentage) {
+
+                var phaseAmount = parseFloat($(this).closest('tr').find('.quotation-amount').val()) * parseFloat($(this).val()) * 0.01;
+                var amount = parseFloat(phaseAmount).toFixed(2);
+
+
+                //var gstVal = $(this).closest('tr').find('.gst-amount').val();
+                //if (gstVal == "") gstVal = "0";
+                //var gstAmount = parseFloat(gstVal) * parseFloat($(this).val()) * 0.01;
+                //gstAmount = gstAmount.toFixed(4);
+                //var phaseAmount = parseFloat($(this).closest('tr').find('.quotation-amount').val()) * parseFloat($(this).val()) * 0.01;
+                //phaseAmount = phaseAmount.toFixed(4);
+                //var amount = (parseFloat(gstAmount) + parseFloat(phaseAmount)).toFixed(4);
+
+                $(this).closest('tr').find('.amount').val(amount);
+
+
+
+
+                //mks
+
+                //$(this).closest('tr').find('.invoice-gst-amount').val(gstAmount);
+                //$(this).closest('tr').find('.invoice-phase-amount').val(phaseAmount);
+
+                //$(this).closest('tr').find('.discount-invoice-gst-amount').val(0);
+                //$(this).closest('tr').find('.discount-invoice-phase-amount').val(0);
+
+                //if ($("#txtDiscountVal").val() != "") {
+                //    if ($("#txtDiscountType").val() == "Percentage") {
+                //        var discountPercentage = parseFloat($("#txtDiscountVal").val());
+                //        discountPercentage = discountPercentage.toFixed(4);
+                //        var discountPhaseAmount = (parseFloat(phaseAmount) - (parseFloat(phaseAmount) * discountPercentage * 0.01)).toFixed(4);
+                //        var discountGstAmount = (parseFloat(gstAmount) - (parseFloat(gstAmount) * discountPercentage * 0.01)).toFixed(4);
+                //        var discountAmount = (parseFloat(discountGstAmount) + parseFloat(discountPhaseAmount)).toFixed(4);
+
+                //        $(this).closest('tr').find('.amount').val(discountAmount);
+                //        $(this).closest('tr').find('.discount-invoice-gst-amount').val(discountGstAmount);
+                //        $(this).closest('tr').find('.discount-invoice-phase-amount').val(discountPhaseAmount);
+                //    }
+                //    else if ($("#txtDiscountType").val() == "Amount") {
+                //        if ($("#txtDiscountPercentage").val() != "" || $("#txtDiscountPercentage").val() != undefined) {
+                //            var discountPercentage = parseFloat($("#txtDiscountPercentage").val());
+                //            discountPercentage = discountPercentage.toFixed(4);
+                //            var discountPhaseAmount = (parseFloat(phaseAmount) - (parseFloat(phaseAmount) * discountPercentage * 0.01)).toFixed(4);
+                //            var discountGstAmount = (parseFloat(gstAmount) - (parseFloat(gstAmount) * discountPercentage * 0.01)).toFixed(4);
+                //            var discountAmount = (parseFloat(discountGstAmount) + parseFloat(discountPhaseAmount)).toFixed(4);
+
+                //            $(this).closest('tr').find('.amount').val(discountAmount);
+                //            $(this).closest('tr').find('.discount-invoice-gst-amount').val(discountGstAmount);
+                //            $(this).closest('tr').find('.discount-invoice-phase-amount').val(discountPhaseAmount);
+                //        }
+                //    }
+                //}
+
+                var invoiceAmount = calculateAmount();
+                $("#txtInvoiceAmount").val(invoiceAmount);
+                $("#subTotalI").val(invoiceAmount);
+
+
+                //var totalCalculatedGSTAmount = calculateDiscountedGSTAmount();
+                //$("#txtDiscountedGSTamount").val(totalCalculatedGSTAmount);
+
+                //var totalPhaseAmount = calculatePhaseInvoiceAmount();
+                //$("#txtTotalPhaseAmount").val(totalPhaseAmount);
+
+                //var txtTotalDiscountedPhaseInvoice = calculateDiscountedPhaseAmount();
+                //$("#txtTotalDiscountedPhaseInvoice").val(txtTotalDiscountedPhaseInvoice);
+
+                //var txtTotalDiscountedGST = (parseFloat(txtTotalDiscountedPhaseInvoice) * 0.07).toFixed(4);
+                //$("#txtTotalDiscountedGST").val(txtTotalDiscountedGST);
+
+                //if ($("#txtDiscountVal").val() != "") {
+                //    invoiceAmount = (parseFloat(txtTotalDiscountedPhaseInvoice) + parseFloat(txtTotalDiscountedGST)).toFixed(4);
+                //    $("#txtInvoiceAmount").val(invoiceAmount);
+                //}
+
+                calculateInvoiceValue();
+
+                var previousPhaseAmount = calculatePreviousPhaseAmount();
+                var txtamount = $("#totalAmountQ").val();
+                if (txtamount == "") txtamount = "0";
+                var quotationAmount = parseFloat(txtamount).toFixed(4);
+                var balance = (quotationAmount - (parseFloat(invoiceAmount) + parseFloat(previousPhaseAmount))).toFixed(2);
+                $("#txtBalanceAmount").val(balance);
+
+
+
+            }
+            else {
+                alert("Total Percentage cannot be greater than 100. Please correct the value");
+            }
+        });
+
+        function calculatePhaseInvoiceAmount() {
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".invoice-phase-amount").each(function () {
+
+                var value = $(this).val();
+                // add only if the value is number
+                if (!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });
+            return sum.toFixed(4);
+        }
+
+        //function calculateGSTAmount() {
+        //    var sum = 0;
+        //    // iterate through each td based on class and add the values
+        //    $(".invoice-gst-amount").each(function () {
+
+        //        var value = $(this).val();
+        //        // add only if the value is number
+        //        if (!isNaN(value) && value.length != 0) {
+        //            sum += parseFloat(value);
+        //        }
+        //    });
+        //    return sum.toFixed(4);
+        //}
+
+        //function calculateDiscountedPhaseAmount() {
+        //    var sum = 0;
+        //    // iterate through each td based on class and add the values
+        //    $(".discount-invoice-phase-amount").each(function () {
+
+        //        var value = $(this).val();
+        //        // add only if the value is number
+        //        if (!isNaN(value) && value.length != 0) {
+        //            sum += parseFloat(value);
+        //        }
+        //    });
+        //    return sum.toFixed(4);
+        //}
+
+        function calculateDiscountedGSTAmount() {
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".discount-invoice-gst-amount").each(function () {
+
+                var value = $(this).val();
+                // add only if the value is number
+                if (!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });
+            return sum.toFixed(4);
+        }
+
+        function calculateAmount() {
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".amount").each(function () {
+
+                var value = $(this).val();
+                // add only if the value is number
+                if (!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });
+            return sum.toFixed(2);
+        }
+
+        function calculatePreviousPhaseAmount() {
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".previous-phase-amount").each(function () {
+
+                var value = $(this).val();
+                // add only if the value is number
+                if (!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });
+            return sum.toFixed(4);
+        }
+
+        function calculatePaidAmount() {
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".paid-amount").each(function () {
+
+                var value = $(this).val();
+                // add only if the value is number
+                if (!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });
+            return sum.toFixed(4);
+        }
+
+        function calculatePurchaseAmount() {
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".totalAmount").each(function () {
+
+                var value = $(this).val();
+                // add only if the value is number
+                if (!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });
+            return sum.toFixed(4);
+        }
+
+        function calculateInvoiceValue() {
+            var amount = calculateAmount();
+            var actualAmount = 0;
+            var finalAmount = 0;
+            var gstAmount = 0;
+            var discountVal = 0;
+            var discountAmount = 0;
+
+            if ($("#ddlDiscountType").val() != "") {
+                if ($("#ddlDiscountType").val() == "Amount") {
+                    if ($("#txtDiscountVal").val() != "") {
+                        discountAmount = parseFloat($("#txtDiscountVal").val());
+                        discountAmount = discountAmount.toFixed(4);
+                        actualAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                        discountVal = discountAmount;
+                    } else {
+                        discountVal = 0;
+                        actualAmount = parseFloat(amount);
+                    }
+                }
+                else if ($("#ddlDiscountType").val() == "Percentage") {
+                    if ($("#txtDiscountVal").val() != "") {
+                        var discountPercentage = parseFloat($("#txtDiscountVal").val()).toFixed(4);
+                        discountAmount = (parseFloat(amount) * discountPercentage) / 100;
+                        discountAmount = discountAmount.toFixed(4);
+                        actualAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                        discountVal = discountPercentage;
+                    } else {
+                        discountVal = 0;
+                        actualAmount = parseFloat(amount);
+                    }
+                }
+            } else {
+                discountVal = 0;
+                actualAmount = parseFloat(amount);
+            }
+
+            if ($("#ddlGSTStatus").val() == "E") {
+                gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                finalAmount = (parseFloat(actualAmount) + parseFloat(gstAmount)).toFixed(4);
+
+            } else if ($("#ddlGSTStatus").val() == "I") {
+                gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                finalAmount = (parseFloat(actualAmount)).toFixed(4);
+                actualAmount = finalAmount / (1 + 0.09);
+            }
+            else {
+                gstAmount = 0;
+                finalAmount = parseFloat(actualAmount);
+            }
+
+            // finally display calculated values
+
+            //$("#txtDiscountVal").val(discountVal)
+            console.log("MKS");
+            console.log(amount);
+
+            $("#txtSubTotal").val(amount);
+            $("#txtDiscountAmount").val(discountAmount);
+            $("#txtActualAmount").val(actualAmount);
+            $("#txtGstAmount").val(gstAmount);
+            $("#txtNetTotal").val(finalAmount);
+
+            $("#txtGSTValue").val(gstAmount);
+            $("#txtQuotationValue").val(finalAmount);
+            $("#txtInvoiceAmount").val(finalAmount);
+
+
+        }
+
+
+        function calculateQuotationValue() {
+            var amount = calculateAmount();
+            var actualAmount = 0;
+            var finalAmount = 0;
+            var gstAmount = 0;
+            var discountVal = 0;
+            var discountAmount = 0;
+            var dateCreated = new Date(document.getElementById("txtDateCreated").value);
+
+            if ($("#ddlDiscountType").val() != "") {
+                if ($("#ddlDiscountType").val() == "Amount") {
+                    if ($("#txtDiscountVal").val() != "") {
+                        discountAmount = parseFloat($("#txtDiscountVal").val());
+                        discountAmount = discountAmount.toFixed(4);
+                        if ($("#ddlGSTStatus").val() == "I") {
+                            finalAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                actualAmount = finalAmount / (1 + 0.09);
+                                gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                            } else {
+                                actualAmount = finalAmount / (1 + 0.08);
+                                gstAmount = parseFloat((actualAmount * 0.08)).toFixed(4);
+                            }
+
+                        } else if ($("#ddlGSTStatus").val() == "E") {
+                            actualAmount = parseFloat(amount) - parseFloat(discountAmount);
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                            } else {
+                                gstAmount = parseFloat((actualAmount * 0.08)).toFixed(4);
+                            }
+                            finalAmount = (parseFloat(actualAmount) + parseFloat(gstAmount));
+                        } else {
+                            actualAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                            finalAmount = actualAmount;
+                        }
+                        //actualAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                        discountVal = discountAmount;
+                    } else {
+                        discountVal = 0;
+                        if ($("#ddlGSTStatus").val() == "I") {
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                actualAmount = parseFloat(amount) / (1 + 0.09);
+                                gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                            } else {
+                                actualAmount = parseFloat(amount) / (1 + 0.08);
+                                gstAmount = parseFloat((actualAmount * 0.08)).toFixed(4);
+                            }
+                            finalAmount = parseFloat(amount);
+                        } else {
+                            actualAmount = parseFloat(amount);
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                            } else {
+                                gstAmount = parseFloat((actualAmount * 0.08)).toFixed(4);
+                            }
+                            finalAmount = parseFloat(actualAmount) + parseFloat(gstAmount);
+                        }
+                    }
+                }
+                else if ($("#ddlDiscountType").val() == "Percentage") {
+                    if ($("#txtDiscountVal").val() != "") {
+                        var discountPercentage = parseFloat($("#txtDiscountVal").val()).toFixed(4);
+                        discountAmount = (parseFloat(amount) * discountPercentage) / 100;
+                        discountAmount = discountAmount.toFixed(4);
+                        actualAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                        discountVal = discountPercentage;
+                        if ($("#ddlGSTStatus").val() == "I") {
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                actualAmount = parseFloat(actualAmount) / (1 + 0.09);
+                                gstAmount = (parseFloat(actualAmount) * 0.09).toFixed(4);
+                            } else {
+                                actualAmount = parseFloat(actualAmount) / (1 + 0.08);
+                                gstAmount = (parseFloat(actualAmount) * 0.08).toFixed(4);
+                            }
+                            finalAmount = (parseFloat(amount) - parseFloat(discountAmount));
+                            //actualAmount = parseFloat(finalAmount) - parseFloat(gstAmount);
+                        }
+                        else if ($("#ddlGSTStatus").val() == "E") {
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                gstAmount = (parseFloat(actualAmount) * 0.09).toFixed(4);
+                            } else {
+                                gstAmount = (parseFloat(actualAmount) * 0.08).toFixed(4);
+                            }
+                            finalAmount = parseFloat(actualAmount) + parseFloat(gstAmount);
+                        } else {
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                gstAmount = (parseFloat(actualAmount) * 0.09).toFixed(4);
+                            } else {
+                                gstAmount = (parseFloat(actualAmount) * 0.08).toFixed(4);
+                            }
+                            finalAmount = parseFloat(actualAmount) + parseFloat(gstAmount);
+                        }
+
+                    } else {
+                        discountVal = 0;
+                        if ($("#ddlGSTStatus").val() == "I") {
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                actualAmount = parseFloat(amount) / (1 + 0.09);
+                                gstAmount = (parseFloat(actualAmount) * 0.09).toFixed(4);
+                            } else {
+                                actualAmount = parseFloat(amount) / (1 + 0.08);
+                                gstAmount = (parseFloat(actualAmount) * 0.08).toFixed(4);
+                            }
+                            finalAmount = parseFloat(actualAmount) + parseFloat(gstAmount);
+                        } else {
+                            actualAmount = parseFloat(amount);
+                            if (dateCreated >= new Date('2024-01-01')) {
+                                gstAmount = (parseFloat(actualAmount) * 0.09).toFixed(4);
+                                finalAmount = parseFloat(actualAmount) + parseFloat(gstAmount);
+                            } else {
+                                gstAmount = (parseFloat(actualAmount) * 0.08).toFixed(4);
+                                finalAmount = parseFloat(actualAmount) + parseFloat(gstAmount);
+                            }
+                        }
+                    }
+                }
+            } else {
+                discountVal = 0;
+                if ($("#ddlGSTStatus").val() == "I") {
+                    if (dateCreated >= new Date('2024-01-01')) {
+                        actualAmount = parseFloat(amount) / (1 + 0.09);
+                    } else {
+                        actualAmount = parseFloat(amount) / (1 + 0.08);
+                    }
+                } else {
+                    actualAmount = parseFloat(amount);
+                }
+                if (dateCreated >= new Date('2024-01-01')) {
+                    gstAmount = parseFloat((actualAmount * 0.09)).toFixed(4);
+                } else {
+                    gstAmount = parseFloat((actualAmount * 0.08)).toFixed(4);
+                }
+                finalAmount = (parseFloat(actualAmount) + parseFloat(gstAmount)).toFixed(4);
+            }
+
+            //if ($("#ddlGSTStatus").val() == "E") {
+            //    gstAmount = parseFloat((actualAmount * 0.07)).toFixed(4);
+            //    finalAmount = (parseFloat(actualAmount) + parseFloat(gstAmount)).toFixed(4);
+
+            //} else if ($("#ddlGSTStatus").val() == "I") {
+            //    gstAmount = parseFloat((actualAmount * 0.07)).toFixed(4);
+            //    finalAmount = (parseFloat(actualAmount) + parseFloat(gstAmount)).toFixed(4);
+            //}
+            //else {
+            //    gstAmount = 0;
+            //    finalAmount = parseFloat(actualAmount);
+            //}
+
+            // finally display calculated values
+
+            //$("#txtDiscountVal").val(discountVal)
+
+            $("#txtSubTotal").val(amount);
+            $("#txtSubTotal").change();
+            $("#txtDiscountAmount").val(discountAmount);
+            $("#txtDiscountAmount").change();
+            $("#txtActualAmount").val(actualAmount);
+            $("#txtActualAmount").change();
+            $("#txtGstAmount").val(gstAmount);
+            $("#txtGstAmount").change();
+            $("#txtNetTotal").val(finalAmount);
+            $("#txtNetTotal").change();
+
+            $("#txtGSTValue").val(gstAmount);
+            $("#txtGSTValue").change();
+            $("#txtQuotationValue").val(finalAmount);
+            $("#txtQuotationValue").change();
+            $("#txtInvoiceAmount").val(finalAmount);
+            $("#txtInvoiceAmount").change();
+        }
+
+        $(document).on('change', '.unitPrice', function () {
+            var amount = parseFloat($(this).closest('tr').find('.quantity').val()) * parseFloat($(this).val());
+            $(this).closest('tr').find('.amount').val(amount);
+            calculateQuotationValue();
+        });
+
+        $(document).on('change', '.quantity', function () {
+            if ($(this).closest('tr').find('.unitPrice').val() != undefined && $(this).closest('tr').find('.unitPrice').val() > 0) {
+                var amount = parseFloat($(this).closest('tr').find('.unitPrice').val()) * parseFloat($(this).val());
+                $(this).closest('tr').find('.amount').val(amount);
+                calculateQuotationValue();
+            }
+        });
+
+        $(document).on('change', '#ddlGSTStatus', function () {
+            calculateQuotationValue();
+        });
+
+        $(document).on('change', '#ddlDiscountType', function () {
+            calculateQuotationValue();
+        });
+
+        $(document).on('change', '#txtDiscountVal', function () {
+            calculateQuotationValue();
+        });
+
+        $(document).on('change', '#ddlMPGSTStatus', function () {
+            var amount = $("#txtExpenseValue").val();
+            if (amount == "") {
+                amount = "0";
+            }
+            if ($(this).val() == "true") {
+                var gstAmount = 0;
+                var dateCreated = new Date(document.getElementById("txtDateCreated").value);
+                if (dateCreated >= new Date('2024-01-01')) {
+                    gstAmount = parseFloat((amount * 0.09)).toFixed(2);
+                } else {
+                    gstAmount = parseFloat((amount * 0.08)).toFixed(2);
+                }
+                $("#txtGSTValue").val(gstAmount);
+                var totalAmount = 0;
+                if (dateCreated >= new Date('2024-01-01')) {
+                    totalAmount = (parseFloat(amount) + parseFloat(amount * 0.09)).toFixed(2);
+                } else {
+                    totalAmount = (parseFloat(amount) + parseFloat(amount * 0.08)).toFixed(2);
+                }
+                $("#txtExpenseTotalValue").val(totalAmount);
+            }
+            else {
+                $("#txtGSTValue").val("");
+                $("#txtExpenseTotalValue").val(amount);
+            }
+        });
+
+        $('#txtExpenseValue').focusout( function(){
+            var amount = $("#txtExpenseValue").val();
+            if (amount == "") {
+                amount = "0";
+            }
+            if ($('#ddlMPGSTStatus').val() == "true") {
+                var gstPercent = 0.08;
+                if (document.getElementById("txtDate") != null && document.getElementById("txtDate") != undefined) {
+                    var dateCreated = new Date(document.getElementById("txtDate").value);
+                    if (dateCreated.getFullYear() < 2024) {
+                        gstPercent = 0.08;
+                    }
+                    else {
+                        gstPercent = 0.09;
+                    }
+                }
+                var gstAmount = parseFloat((amount * gstPercent)).toFixed(2);
+
+                $("#txtGSTValue").val(gstAmount);
+                var totalAmount = (parseFloat(amount) + parseFloat(amount * gstPercent)).toFixed(2);
+                $("#txtExpenseTotalValue").val(totalAmount);
+            }
+            else {
+                $("#txtGSTValue").val("");
+                $("#txtExpenseTotalValue").val(amount);
+            }
+        });
+
+        $(document).on('change', '.materialUnitPrice', function () {
+            var dateCreated = new Date(document.getElementById("txtDateCreated").value);
+            var amount = parseFloat($(this).closest('tr').find('.quantity').val()) * parseFloat($(this).val());
+            var gstValue = 0;
+            if (dateCreated >= new Date('2024-01-01')) {
+                gstValue = amount * 0.09;
+            } else {
+                gstValue = amount * 0.08;
+            }
+            var gst = parseFloat(gstValue);
+            $(this).closest('tr').find('.gst').val(gst);
+            $(this).closest('tr').find('.totalAmount').val(parseFloat(amount + gstValue));
+            var total = calculatePurchaseAmount();
+            $("#txtPurchaseItemTotal").val(total);
+        });
+
+        $(document).on('change', '#ddlQuotation', function () {
+            $.LoadingOverlay("show", {
+                image: "",
+                fontawesome: "fa fa-spinner fa-spin"
+            });
+
+            console.log("MKS");
+
+            var url = '@Url.Action("GetQuotationDetails", "Quotation")';
+            $.getJSON(url + '/' + $(this).val(), function (data) {
+                if (data != '') {
+                    var myJSON = JSON.stringify(data);
+                    console.log(myJSON);
+
+                    $("#txtAddress").val(data.Address);
+                    $("#txtAttention").val(data.Attention);
+                    $("#txtProjectId").val(data.ProjectId);
+                    $("#txtEmail").val(data.Email);
+
+                    var dateSplit = data.FromDate.split('/');
+                    let day = '';
+                    if (dateSplit[0].length == 1) {
+
+                        day = '0' + dateSplit[0];
+                    }
+                    else {
+                        day = dateSplit[0];
+                    }
+
+                    let month = '';
+                    if (dateSplit[1].length == 1) {
+
+                        month = '0' + dateSplit[1];
+                    }
+                    else {
+                        month = dateSplit[1];
+                    }
+
+                    let year = dateSplit[2];
+                    var formattedFromDate = year + "-" + (month) + "-" + (day);
+
+                    $('#txtFromDate').val(formattedFromDate);
+
+                    var now = new Date();
+
+                    var nowDay = ("0" + now.getDate()).slice(-2);
+                    var nowMonth = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                    var today = now.getFullYear() + "-" + (nowMonth) + "-" + (nowDay);
+
+                    $('#txtInvoiceDate').val(today);
+
+
+                    //$("#txtDateCreated").val(data.FromDate);
+                    $("#ddlDiscountType").val(data.DiscountType);
+                    $("#txtDiscountVal").val(data.DiscountValue);
+                    $("#txtDiscountAmount").val(data.DiscountAmoount);
+                    $("#txtActualAmount").val(data.ActualAmount);
+                    $("#gstAmountQ").val(data.TotalGSTAmount);
+                    $("#totalAmountQ").val(data.Amount);
+                    $("#subTotalQ").val(data.SubTotal);
+                    $("#discountTypeQ").val(data.DiscountType);
+                    $("#discountAmountQ").val(data.DiscountAmoount);
+
+                    
+
+                    //var res = data.FromDate.split("/");
+                    //var res1 = res[2] + "-" + res[1] + "-" + res[0];
+
+                    //console.log(data.DateCreated.toISOString());
+
+                    //$("#txtFromDate").val(data.FromDate);
+                    //$("#txtToDate").val(data.ToDate);
+
+                    if (data.SubTotal != undefined && data.SubTotal != null) {
+                        $("#subTotalQ").val(data.SubTotal.toFixed(2));
+                    }
+
+                    $("#discountTypeQ").val(data.DiscountType);
+                    if (data.DiscountValue != null && data.DiscountValue != undefined) {
+                        $("#discountValueQ").val(data.DiscountValue.toFixed(2));
+                    }
+
+                    if (data.DiscountAmount != null && data.DiscountAmount != undefined) {
+                    $("#discountAmountQ").val(data.DiscountAmount.toFixed(2));
+                    }
+
+                    if (data.ActualAmount != null && data.ActualAmount != undefined) {
+                    $("#actualAmountQ").val(data.ActualAmount.toFixed(2));
+                    }
+
+                    if (data.GSTType == "E")
+                        $("#gstTypeQ").val("Exlusive GST")
+                    else if (data.GSTType == "I")
+                        $("#gstTypeQ").val("Inclusive GST")
+                    else
+                        $("#gstTypeQ").val("No GST");
+
+                    //$("#gstAmountQ").val(data.GST.toFixed(2));
+
+                    //$("#totalAmountQ").val(data.QuotationValue.toFixed(2));
+
+                    var qlink = '<h4>Quotation Details <a href="/Quotation/Quotation?quotationId=' + data.Id + '&pageMode=View" target="_blank" class="btn-link pull-right"><i class="glyphicon glyphicon-eye-open"></i> View Quotation</a></h4>';
+                    $('#quotation-link').html(qlink);
+
+
+                    $("#ddlDiscountType").val(data.DiscountType);
+                    $("#txtDiscountVal").val(data.DiscountValue);
+                    $("#discountAmountI").val(data.DiscountAmoount);
+                    $("#actualAmountI").val(data.ActualAmount);
+                    $("#gstAmountI").val(data.TotalGSTAmount);
+                    $("#totalAmountI").val(data.Amount);
+                    $("#subTotalI").val(data.SubTotal);
+
+                    if (data.GSTType == "E")
+                        $("#gstTypeI").val("Exlusive GST")
+                    else if (data.GSTType == "I")
+                        $("#gstTypeI").val("Inclusive GST")
+                    else
+                        $("#gstTypeI").val("No GST");
+                    $("#discountAmountI").val(data.DiscountAmoount);
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetInvoicePhaseDetails","Invoice")',
+                contentType: "application/json; charset=utf-8",
+                data: { "id": $(this).val(), "isClaimRequired": $("#ddlClaim").val() },
+                datatype: "json",
+                success: function (data) {
+                    $('#invoice-phase').html('')
+                    $('#invoice-phase').html(data);
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+
+            });
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetExistingInvoiceDetails", "Invoice")',
+                contentType: "application/json; charset=utf-8",
+                data: { "id": $(this).val() },
+                datatype: "json",
+                success: function (data) {
+                    $('#added-phase').html('')
+                    $('#added-phase').html(data);
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+
+            console.log("MKS");
+
+            calculateInvoiceValue();
+
+            $.LoadingOverlay("hide");
+            @*$('.existing-phase').remove();
+            var url = '@Url.Action("GetInvoicePhaseDetails", "Invoice")';
+            $.getJSON(url + '/' + $(this).val(), function (invoice) {
+                if (invoice != '' && invoice.length > 0) {
+                    $.each(invoice, function (index, value) {
+                        $("#tblAddPhase").find('tbody').append('<tr class="existing-phase"><td><input class="form-control" readonly="readonly" type="text" value="' + value.PhaseName + '"></td><td><input class="existing-percentage form-control" readonly="readonly" type="text" value="' + value.Percentage + '"></td><td><input class="form-control" readonly="readonly" type="text" value="' + value.Amount + '"></td></tr>');
+                    })
+                }
+            });*@
+        });
+
+        $(document).on("click", "#exportClient", function () {
+            $("#tblClient").tableExport({ type: 'excel', escape: 'false', tableName: 'ClientList', elementId: 'exportClient' });
+        });
+
+        $('#ddlClient').change(function () {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetProject","Quotation")",
+                data: { clientId: $('#ddlClient').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var project = '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        project = project + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlProject').html(project);
+                }
+            });
+        });
+
+        $('#ddlClientList').change(function () {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetProject","Quotation")",
+                data: { clientId: $('#ddlClientList').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var project = '<option value>--Select--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    project = project + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                $('#ddlProjectList').html(project);
+            }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetClientBasedEmployee", "EmployeeProject")",
+                data: { clientId: $('#ddlClientList').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var employee = '<option value="">--Select--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    employee = employee + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                $('#ddlEmployeeList').html(employee);
+            }
+        });
+        });
+
+        $('#ddlClientQuotation').change(function () {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetProjectForQuotation","Quotation")",
+                data: { clientId: $('#ddlClientQuotation').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var project = '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        project = project + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlProjectQuotation').html(project);
+                }
+            });
+        });
+
+        $('#ddlProjectList').change(function () {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetEmployee","EmployeeProject")",
+                data: { projectId: $('#ddlProjectList').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var employee = '<option value="">--Select--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    employee = employee + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                $('#ddlEmployeeList').html(employee);
+            }
+        });
+        });
+
+        $('#ddlInvoiceClient').change(function () {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetQuotation", "Invoice")",
+                data: { clientId: $('#ddlInvoiceClient').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var project = '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        project = project + '<option value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                    }
+                    $('#ddlQuotation').html(project);
+                }
+            });
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#client_logo').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function showImage(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#employee_Photo').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        function isNumeric(val) {
+            return $.isNumeric(val);
+        }
+
+        function TextAreaOnKeyChange() {
+            var key = window.event.keyCode;
+
+            // If the user has pressed enter
+            if (key === 13) {
+                document.getElementById("txtNotes").value = document.getElementById("txtNotes").value + "\n";
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        $(document).ready(function () {
+            $("#regenerate, #re-generate-salary").hide();
+            if ($('#tblProject').length > 0 && $('#tblProject tbody tr[role="row"]').length > 0)
+            {
+                $("#regenerate, #re-generate-salary").show();
+                $("#addcpf").hide();
+            }
+            if ($('#salaryDetails').length > 0 && $('#salaryDetails tbody tr[role="row"] td button').length > 0) {
+                $("#re-generate-salary").show();
+            }
+            var isViewOnly = getParameterByName("pageMode") == "View" ? true : false;
+            if (isViewOnly) {
+                $('input,textarea,select').each(function () { $(this).attr('readonly', true); $(this).addClass('input-disabled'); })
+            }
+            var set_delay = 180000,
+            callout = function () {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SessionAlive", "Home")',
+                    contentType: "application/json; charset=utf-8",
+                    data: { "delayTime": set_delay },
+                    datatype: "json",
+                })
+                .done(function (response) {
+                    console.log(response);
+                })
+                .always(function () {
+                    setTimeout(callout, set_delay);
+                });
+            };
+
+            // initial call
+            callout();
+
+            $("#startdate").datepicker({
+                todayBtn: 1,
+                autoclose: true,
+            }).on('changeDate', function (selected) {
+                var minDate = new Date(selected.date.valueOf());
+                $('#enddate').datepicker('setStartDate', minDate);
+            });
+
+            $("#enddate").datepicker()
+                .on('changeDate', function (selected) {
+                    var minDate = new Date(selected.date.valueOf());
+                    $('#startdate').datepicker('setEndDate', minDate);
+                });
+
+            if ($('input:radio[name="RestDayRecord.RestDayType"]').length > 0) {
+                $(".date-selection").hide();
+                $(".day-selection").hide();
+                $('input:radio[name="RestDayRecord.RestDayType"]').each(function () {
+                    if ($(this).is(":checked")) {
+                        if ($(this).val() == 'Day') {
+                            $(".date-selection").hide();
+                            $(".day-selection").show();
+                            $(".restday-checkbox").each(function () {
+                                if (this.checked) {
+                                    $(this).closest(".form-group.day-selection").find("select").removeAttr("disabled");
+                                }
+                                else {
+                                    $(this).closest(".form-group.day-selection").find("select").attr("disabled", "disabled");
+                                }
+                            });
+                        }
+                        else if ($(this).val() == 'Date') {
+                            $(".date-selection").show();
+                            $(".day-selection").hide();
+                        }
+                    }
+                });
+            }
+
+            if ($("#ddlWorkType").length > 0 && ($("#ddlWorkType").val() == '' || $("#ddlWorkType").val() == undefined)) {
+                $(".Workman").hide();
+            }
+            if ($("#txtOtherBankName").length > 0 && ($("#txtOtherBankName").val() == '' || $("#txtOtherBankName").val() == undefined)) {
+                $(".OtherBankName").hide();
+            }
+            if ($("#csocExpiryDate").length > 0 && ($("csocExpiryDate").val() == '' || $("csocExpiryDate").val() == undefined)) {
+                $(".CSOCExpiry").hide();
+            }
+            if ($("#txtPurchaseItemTotal").length > 0) {
+                var total = calculatePurchaseAmount();
+                $("#txtPurchaseItemTotal").val(total);
+            }
+
+            if ($("#txtOtherExpense").length > 0 && $("#txtOtherExpense").val() != "") {
+                $(this).removeAttr("readonly");
+            }
+
+            if($("#ddlExpenseCategory").length > 0) {
+                ManageExpenseForm($("#ddlExpenseCategory").val());
+            }
+
+            var isEditView = getParameterByName("pageMode") == "Edit" || getParameterByName("pageMode") == "View" ? true : false;
+            if ($(".SelectStatus").length > 0) {
+                if (isEditView) {
+                    ManageEmployeeForm($("#ddlWorkStatus").val());
+                }
+                else {
+                    $(".SelectStatus").hide();
+                }
+            }
+            if ($("#txtBalanceInvoiceAmount").length > 0) {
+                var invoiceAmount = parseFloat($("#txtBalanceInvoiceAmount").val());
+                var paidAmount = calculatePaidAmount();
+                if (paidAmount > 0)
+                    $("#txtBalanceInvoiceAmount").val(invoiceAmount - paidAmount);
+            }
+
+            if (isEditView)
+                $("#ddlClaim").attr("disabled", "disabled");
+
+            if ($("#ddlClient, #ddlInvoiceClient, #ddlQuotation, #ddlProject").length > 0) {
+                $("#ddlClient, #ddlInvoiceClient, #ddlQuotation, #ddlProject").removeAttr("disabled");
+                if (isEditView)
+                    $("#ddlClient, #ddlInvoiceClient, #ddlQuotation, #ddlProject").attr("disabled", "disabled");
+            }
+
+            if ($("#ddlAllowance").length > 0 && $("#ddlAllowance").val() != '' &&$("#ddlAllowance").val() != 'false') {
+                $("#txtHousingAllowance,#txtTransportAllowance,#txtOtherAllowance,#txtOADescription").removeAttr("readonly");
+            }
+
+            if ($("#ddlDeduction").length > 0 && $("#ddlDeduction").val() != '' && $("#ddlDeduction").val() != 'false') {
+                $("#txtHousingDeduction,#txtTransportDeduction,#txtOtherDeduction,#txtODDescription").removeAttr("readonly");
+            }
+
+            if ($("#txtRepaymentDuration").length > 0 && $("#txtRepaymentDuration").val() == '') {
+                $("#duartion").hide();
+            }
+            if ($("#txtAmount").length > 0 && $("#txtAmount").val() == '') {
+                $(".amount").hide();
+            }
+
+            if ($("#txtBonus").length > 0 && $("#txtBonus").val() == '') {
+                $(".bonus").hide();
+            }
+            if ($("#txtIncentive").length > 0 && $("#txtIncentive").val() == '') {
+                $(".incentive").hide();
+            }
+
+            if ($("#ddlWorkInjuryInsuranceNumbers").length > 0 && $("#ddlWorkInjuryInsuranceNumbers").val() != '') {
+                var url = "/Employee/GetPolicyStartEndDates?policyNumber=" + $("#ddlWorkInjuryInsuranceNumbers").val()
+                $.get(url, function (data, status) {
+                    if (data != false) {
+                        var arr = data.split(':');
+                        $("#workInjuryInsuranceStartDate").val(arr[0]);
+                        $("#workInjuryInsuranceEndDate").val(arr[1]);
+                    }
+                    else {
+                        $("#workInjuryInsuranceStartDate").val("");
+                        $("#workInjuryInsuranceEndDate").val("");
+                    }
+                });
+            }
+
+            if ($("#ddlSecurityBondNumbers").length > 0 && $("#ddlSecurityBondNumbers").val() != '') {
+                var url = "/Employee/GetPolicyStartEndDates?policyNumber=" + $("#ddlSecurityBondNumbers").val()
+                $.get(url, function (data, status) {
+                    if (data != false) {
+                        var arr = data.split(':');
+                        $("#bankerInsuranceStartDate").val(arr[0]);
+                        $("#bankerInsuranceEndDate").val(arr[1]);
+                    }
+                    else {
+                        $("#bankerInsuranceStartDate").val("");
+                        $("#bankerInsuranceEndDate").val("");
+                    }
+                });
+            }
+
+            if ($("#ddlMedicalInsurerNumber").length > 0 && $("#ddlMedicalInsurerNumber").val() != '') {
+                var url = "/Employee/GetPolicyStartEndDates?policyNumber=" + $("#ddlMedicalInsurerNumber").val()
+                $.get(url, function (data, status) {
+                    if (data != false) {
+                        var arr = data.split(':');
+                        $("#mdInsuranceStartDate").val(arr[0]);
+                        $("#mdInsuranceEndDate").val(arr[1]);
+                    }
+                    else {
+                        $("#mdInsuranceStartDate").val("");
+                        $("#mdInsuranceEndDate").val("");
+                    }
+                });
+            }
+
+            //if ($("#txtEmployeeId").length > 0 && $("#txtEmployeeId").val() != '') {
+            //    var url = "/Employee/GetEmployeeName?employeeId=" + $("#txtEmployeeId").val()
+            //    $.get(url, function (data, status) {
+            //        $("#txtEmployeeName").val(data);
+            //    });
+            //}
+
+            //if ($("#txtApprovedByEmployeeId").length > 0 && $("#txtApprovedByEmployeeId").val() != '') {
+            //    var url = "/Employee/GetEmployeeName?employeeId=" + $("#txtApprovedByEmployeeId").val()
+            //    $.get(url, function (data, status) {
+            //        $("#txtApproverName").val(data);
+            //    });
+            //}
+            var url = window.location.href;
+            if (url.indexOf('Report') > 0) {
+                $('.report').addClass('active');
+            } else if (url.indexOf('Invoice') > 0) {
+                $('.invoices').addClass('active');
+            } else if (url.indexOf('Quotation') > 0) {
+                $('.quotation').addClass('active');
+            } else if (url.indexOf('Project') > 0) {
+                $('.project').addClass('active');
+            } else if (url.indexOf('Employee') > 0) {
+                $('.employee').addClass('active');
+            } else if (url.indexOf('Client') > 0) {
+                $('.client').addClass('active');
+            } else if (url.indexOf('Expense') > 0 || url.indexOf('Income') > 0) {
+                $('.expense').addClass('active');
+            } else if (url.indexOf('Payroll') > 0 || url.indexOf('Timesheet') > 0 ||
+            url.indexOf('Allowance') > 0 || url.indexOf('LoanAndAdvance') > 0 ||
+            url.indexOf('CPF') > 0 || url.indexOf('Leave') > 0) {
+                $('.payroll').addClass('active');
+            }
+
+        });
+    </script>
+</body>
+</html>

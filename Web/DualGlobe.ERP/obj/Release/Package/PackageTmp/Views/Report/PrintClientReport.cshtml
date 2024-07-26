@@ -1,0 +1,65 @@
+﻿@model List<DualGlobe.ERP.Models.ClientReportModel>
+    
+@{
+    ViewBag.Title = "Client Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Client Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seriol No</th>
+                            <th>Client Id</th>
+                            <th>Company Name</th>
+                            <th>Client Name</th>
+                            <th>Ongoing Projects</th>
+                            <th>Completed Projects</th>
+                            <th>Draft Projects</th>
+                            <th>Total Value</th>
+                            <th>Payment Received</th>
+                            <th>Outstanding Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(++i)</td>
+                                    <td>@item.ClientID</td>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.ClientName</td>
+                                    <td>@item.OngoingProjects</td>
+                                    <td>@item.CompletedProjects</td>
+                                    <td>@item.DraftProjects</td>
+                                    <td style="text-align:right;">@item.TotalValue.Value</td>
+                                    <td style="text-align:right;">@item.ReceivedPayment.Value</td>
+                                    <td style="text-align:right;">@item.OutstandingAmount.Value</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

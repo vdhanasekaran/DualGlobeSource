@@ -1,0 +1,63 @@
+﻿@model DualGlobe.ERP.Models.EmployeeModel
+    
+@{
+    ViewBag.Title = "Project Employee Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Project Employee Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblProject" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seriol No</th>
+                            <th>Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Work Status</th>
+                            <th>Designation</th>
+                            <th>Date of Appointment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.employeeList != null && Model.employeeList.Length > 0)
+                            {
+                                int i = 0;
+                                foreach (var item in Model.employeeList)
+                                {
+                                <tr>
+                                    <td>@(++i)</td>
+                                    <td>@item.Id</td>
+                                    <td>@item.FirstName @item.LastName</td>
+                                    <td>@item.WorkStatus</td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.AppointmentDate.ToShortDateString()</td>
+                                </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

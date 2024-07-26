@@ -1,0 +1,147 @@
+﻿@model DualGlobe.ERP.Models.CompanyModel
+
+@{
+    ViewBag.Title = "Company";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Company
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Company")">Company</a></li>
+        <li class="active">Add Company</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.companyRecord.Id)
+                            @Html.LabelFor(model => Model.companyRecord.CompanyName, "Company Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.companyRecord.CompanyName, new { @id = "txtCompanyName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.CompanyNumber, "Company Number") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.companyRecord.CompanyNumber, new { @id = "txtCompanyNumber", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.IncorporationDate, "Incorporation Date")
+
+                            @*@Html.TextBoxFor(model => Model.companyRecord.IncorporationDate, new { @Value = Model.companyRecord != null && Model.companyRecord.IncorporationDate != null ? Model.companyRecord.IncorporationDate.Value.ToString("d") : "", @id = "txtIncorporationDate", @class = "form-control date" })*@
+
+                            @Html.TextBoxFor(
+                                              model => model.companyRecord.IncorporationDate,
+                                              new
+                                              {
+                                                  @Value = Model.companyRecord != null ? Model.companyRecord.IncorporationDate.Value.ToString("yyyy-MM-dd") : "",
+                                                  @id = "txtIncorporationDate",
+                                                  @class = "form-control datepicker",
+                                                  @required = "required",
+                                                  @autocomplete = "off",
+                                                  @type = "date"
+                                              }
+                                              )
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.PhoneNumber, "Phone Number")
+                            @Html.TextBoxFor(model => Model.companyRecord.PhoneNumber, new { @id = "txtPhoneNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.FaxNumber, "Fax Number")
+                            @Html.TextBoxFor(model => Model.companyRecord.FaxNumber, new { @id = "txtFaxNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.Email, "Email") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.companyRecord.Email, new { @id = "txtEmail", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.Address, "Address")
+                            @Html.TextBoxFor(model => Model.companyRecord.Address, new { @id = "txtAddress", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.Country, "Country") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.companyRecord.Country, new SelectList(Model.CountryList, "Value", "Text"), "--Select--", new { @id = "ddlCountry", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.Currency, "Currency") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.companyRecord.Currency, new SelectList(Model.CurrencyList, "Value", "Text"), "--Select--", new { @id = "ddlCurrency", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.CompanyLogo, "Company Logo Url")
+                            <input type="file" id="txtLogo" name="upload" class="form-control" accept="image/*" onchange="show(this)" />
+                        </div>
+                        @if (Model.companyRecord != null && !string.IsNullOrEmpty(Model.companyRecord.CompanyLogo))
+                        {
+                            <div class="form-group"><img id="client_logo" src="@Model.companyRecord.CompanyLogo" height="80" width="70" /></div>
+                        }
+                        else
+                        {
+                            <div class="form-group"><img id="client_logo" height="80" width="70" /></div>
+                        }
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.IndustryClassification, "Industry Classification")
+                            @Html.TextBoxFor(model => Model.companyRecord.IndustryClassification, new { @id = "txtIndustryClassification", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.CompanyType, "Company Type")
+                            @Html.TextBoxFor(model => Model.companyRecord.CompanyType, new { @id = "txtCompanyType", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.IsGSTRegistered, "Is GST Registered") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.companyRecord.IsGSTRegistered, new SelectList(Model.StatusList, "Value", "Text"), "--Select--", new { @id = "ddlIsGSTRegistered", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.GSTNumber, "GST Number")
+                            @Html.TextBoxFor(model => Model.companyRecord.GSTNumber, new { @id = "txtGSTNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.GSTType, "GST Type")
+                            @Html.TextBoxFor(model => Model.companyRecord.GSTType, new { @id = "txtGSTType", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.Status, "Is Active") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.companyRecord.Status, new SelectList(Model.StatusList, "Value", "Text"), "--Select--", new { @id = "ddlStatus", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.GSTRegisterDate, "GST Register Date")
+                            @Html.TextBoxFor(model => Model.companyRecord.GSTRegisterDate, new { @Value = Model.companyRecord != null && Model.companyRecord.GSTRegisterDate != null ? Model.companyRecord.GSTRegisterDate.Value.ToString("yyyy-MM-dd") : "", @id = "txtGSTRegisterDate", @class = "form-control datepicker", @type="date" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.AccountingYearFromDate, "Accounting Year From Date")
+                            @Html.TextBoxFor(model => Model.companyRecord.AccountingYearFromDate, new { @Value = Model.companyRecord != null && Model.companyRecord.AccountingYearFromDate != null ? Model.companyRecord.AccountingYearFromDate.Value.ToString("yyyy-MM-dd") : "", @id = "txtAccountingYearFromDate", @class = "form-control datepicker", @type="date" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.companyRecord.AccountingYearToDate, "Accounting Year To Date")
+                            @Html.TextBoxFor(model => Model.companyRecord.AccountingYearToDate, new { @Value = Model.companyRecord != null && Model.companyRecord.AccountingYearToDate != null ? Model.companyRecord.AccountingYearToDate.Value.ToString("yyyy-MM-dd") : "", @id = "txtAccountingYearToDate", @class = "form-control datepicker", @type="date" })
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("Index","Company")" class="btn btn-primary">Back</a>
+                @if (Model.companyRecord == null || Model.PageMode == "Edit")
+                {
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+< !-- /.content -->

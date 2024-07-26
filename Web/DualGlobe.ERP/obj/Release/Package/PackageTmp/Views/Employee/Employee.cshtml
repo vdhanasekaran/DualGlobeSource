@@ -1,0 +1,444 @@
+﻿@model DualGlobe.ERP.Models.EmployeeModel
+@{
+    ViewBag.Title = "Employee";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Employee
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Employee")">Employee</a></li>
+        <li class="active">Add Employee</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <h4><i class="icon fa fa-warning"></i> Exceeds Limit!</h4>
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    @using (Html.BeginForm("Submit", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <!-- form start -->
+        <div class="box">
+            <div class="box-header">
+                <h4><b>Basic Details</b></h4>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.employeeRecord.Id)
+                            @Html.LabelFor(model => Model.employeeRecord.FirstName, "First Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.FirstName, new { @id = "txtFirstName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.LastName, "Last Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.LastName, new { @id = "txtLastName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.DateOfBirth, "Date Of Birth") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.DateOfBirth, new { @Value = Model.employeeRecord != null ? Model.employeeRecord.DateOfBirth.ToString("yyyy-MM-dd") : "", @id = "dateofBirth", @class = "form-control datepicker", @type = "date", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Gender, "Gender") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.Gender, Model.GenderList, "--Select--", new { @id = "ddlGender", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.BloodGroup, "Blood Group")
+                            @Html.TextBoxFor(model => Model.employeeRecord.BloodGroup, new { @id = "txtBloodGroup", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Religion, "Religion")
+                            @Html.DropDownListFor(model => Model.employeeRecord.Religion, Model.ReligionList, "--Select--", new { @id = "ddlReligion", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Nationality, "Nationality")
+                            @Html.DropDownListFor(model => Model.employeeRecord.Nationality, Model.NationalityList, "--Select--", new { @id = "ddlNationality", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.MaritalStatus, "Marital Status") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.MaritalStatus, Model.MaritalStatusList, "--Select--", new { @id = "ddlMaritalStatus", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkStatus, "Work Status") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.WorkStatus, Model.EmployeeStatusList, "--Select--", new { @id = "ddlWorkStatus", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.EmailId, "Email Id")
+                            @Html.TextBoxFor(model => Model.employeeRecord.EmailId, new { @id = "txtEmailId", @class = "form-control", @type = "email" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PhoneNumber, "Phone Number")
+                            @Html.TextBoxFor(model => Model.employeeRecord.PhoneNumber, new { @id = "txtPhoneNumber", @class = "form-control" })
+                        </div>
+                        <div class="address form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Address, "Address")
+                            @Html.TextAreaFor(model => Model.employeeRecord.Address, new { @id = "txtAddress", @class = "form-control" })
+                        </div>
+                        <div class="SelectStatus WorkPermit form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkPermitAddress, "Work Permit Address")
+                            @Html.DropDownListFor(model => Model.employeeRecord.WorkPermitAddress, Model.WorkPermitAddressList, "--Select--", new { @id = "ddlWPAddress", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="SelectStatus box">
+            <div class="box-header">
+                <h4><b>Employment Details</b></h4>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.AppointmentDate, "Date Of Appointment") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.AppointmentDate, new { @Value = Model.employeeRecord != null ? Model.employeeRecord.AppointmentDate.ToString("yyyy-MM-dd") : "", @id = "dateofAppointment", @class = "form-control datepicker", @type = "date", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.YearsofExperience, "Experience") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.YearsofExperience, new { @id = "txtExperience", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Designation, "Designation") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.Designation, new { @id = "txtDesignation", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="SingaporeCitizen form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.ICNumber, "IC Number")
+                            @Html.TextBoxFor(model => Model.employeeRecord.ICNumber, new { @id = "txtICNumber", @class = "form-control" })
+                        </div>
+                        <div class="EmploymentPass SPass form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.FINNumber, "FIN Number")
+                            @Html.TextBoxFor(model => Model.employeeRecord.FINNumber, new { @id = "txtFINNumber", @class = "form-control" })
+                        </div>
+                        <div class="WorkPermit form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkPermitNumber, "Work Permit Number")
+                            @Html.TextBoxFor(model => Model.employeeRecord.WorkPermitNumber, new { @id = "txtWorkPermitNo", @class = "form-control" })
+                        </div>
+                        <div class="SingaporePR form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.NRICNumber, "NRIC Number")
+                            @Html.TextBoxFor(model => Model.employeeRecord.NRICNumber, new { @id = "txtNRICNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkType, "Work Type")
+                            @Html.DropDownListFor(model => Model.employeeRecord.WorkType, Model.WorkTypeList, new { @id = "ddlWorkType", @class = "form-control" })
+                        </div>
+                        <div class="SingaporePR form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PREffectiveDate, "PR Effective Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.PREffectiveDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.PREffectiveDate != null ? Model.employeeRecord.PREffectiveDate.Value.ToString("yyyy-MM-dd") : "", @id = "prEffectiveDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.OTGroup, "OT Group") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.OTGroup, Model.OTGroupList, "--Select--", new { @id = "ddlOTGroupList", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.RestDay, "Rest Day Group") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.RestDay, Model.RestDayList, "--Select--", new { @id = "ddlRestDayList", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkingHours, "Working Hours Group") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.WorkingHours, Model.WorkingHoursList, "--Select--", new { @id = "ddlWorkingHours", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.BasicSalary, "Basic Salary") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.BasicSalary, new { @id = "txtBasicSalary", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.IsHavingAllowance, "Is Having Allowance") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.IsHavingAllowance, Model.StatusList, "--Select--", new { @id = "ddlAllowance", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.HousingAllowance, "Housing Allowance")
+                            @Html.TextBoxFor(model => Model.employeeRecord.HousingAllowance, new { @id = "txtHousingAllowance", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.TransportAllowance, "Transport Allowance")
+                            @Html.TextBoxFor(model => Model.employeeRecord.TransportAllowance, new { @id = "txtTransportAllowance", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.OtherAllowance, "Other Allowance")
+                            @Html.TextBoxFor(model => Model.employeeRecord.OtherAllowance, new { @id = "txtOtherAllowance", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.OADescription, "Other Allowance Description")
+                            @Html.TextBoxFor(model => Model.employeeRecord.OADescription, new { @id = "txtOADescription", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.FixedAllowance, "Fixed Allowance")
+                            @Html.TextBoxFor(model => Model.employeeRecord.FixedAllowance, new { @id = "txtFixedAllowance", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="SingaporeCitizen SingaporePR form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.EmploymentType, "Employment Type")
+                            @Html.DropDownListFor(model => Model.employeeRecord.EmploymentType, Model.EmploymentTypeList, new { @id = "ddlEmploymentType", @class = "form-control" })
+                        </div>
+
+                        <div class="WorkPermit form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Skill, "Skill")
+                            @Html.DropDownListFor(model => Model.employeeRecord.Skill, Model.SkillList, "--Select--", new { @id = "ddlSkill", @class = "form-control" })
+                        </div>
+                        <div class="SPass form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.TierType, "Tier Type")
+                            @Html.DropDownListFor(model => Model.employeeRecord.TierType, Model.TierTypes, "--Select--", new { @id = "ddlTierType", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.IsHavingDeduction, "Is Having Deduction") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.IsHavingDeduction, Model.StatusList, "--Select--", new { @id = "ddlDeduction", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.HousingDeduction, "Housing Allowance")
+                            @Html.TextBoxFor(model => Model.employeeRecord.HousingDeduction, new { @id = "txtHousingDeduction", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.TransportDeduction, "Transport Allowance")
+                            @Html.TextBoxFor(model => Model.employeeRecord.TransportDeduction, new { @id = "txtTransportDeduction", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.OtherDeduction, "Other Deduction")
+                            @Html.TextBoxFor(model => Model.employeeRecord.OtherDeduction, new { @id = "txtOtherDeduction", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.ODDescription, "Other Deduction Description")
+                            @Html.TextBoxFor(model => Model.employeeRecord.ODDescription, new { @id = "txtODDescription", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.FixedDeduction, "Fixed Deduction")
+                            @Html.TextBoxFor(model => Model.employeeRecord.FixedDeduction, new { @id = "txtFixedDeduction", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="WorkPermit form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.MYE, "MYE")
+                            @Html.DropDownListFor(model => Model.employeeRecord.MYE, Model.StatusList, "--Select--", new { @id = "ddlMye", @class = "form-control" })
+                        </div>
+                        <div class="SingaporeCitizen SingaporePR form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.CPFDonationType, "CPF Donation Type")
+                            @Html.DropDownListFor(model => Model.employeeRecord.CPFDonationType, Model.DonationTypeList, new { @id = "ddlDonationType", @class = "form-control" })
+                        </div>
+                        @*<div class="SingaporeCitizen SingaporePR form-group">
+                                @Html.LabelFor(model => Model.employeeRecord.EmployeeCPF, "Employee CPF")
+                                @Html.TextBoxFor(model => Model.employeeRecord.EmployeeCPF, new { @id = "txtEmployeeCPF", @class = "form-control"})
+                            </div>
+                            <div class="SingaporeCitizen SingaporePR form-group">
+                                @Html.LabelFor(model => Model.employeeRecord.EmployerCPF, "Employer CPF")
+                                @Html.TextBoxFor(model => Model.employeeRecord.EmployerCPF, new { @id = "txtEmployerCPF", @class = "form-control"})
+                            </div>*@
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PublicHolidayPay, "Public Holiday Pay")
+                            @Html.DropDownListFor(model => Model.employeeRecord.PublicHolidayPay, Model.PublicHolidayPayList, "--Select--", new { @id = "ddlPublicHolidayPay", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.IsPublicHolidayConsideredNormalDay, "Is PublicHoliday Considered as Normal Working day")
+                            @Html.DropDownListFor(model => Model.employeeRecord.IsPublicHolidayConsideredNormalDay, Model.StatusList.OrderBy(i => i.Text), new { @id = "ddlph", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="SelectStatus box">
+            <div class="box-header">
+                <h4><b>Personal Details</b></h4>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PaymentMethod, "Payment Method") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.PaymentMethod, Model.PaymentTypeList, "--Select--", new { @id = "ddlPaymentType", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.BankName, "Bank Name") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.employeeRecord.BankName, Model.BankNameList, "--Select--", new { @id = "ddlBankName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="OtherBankName form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.OtherBankName, "Other Bank Name")
+                            @Html.TextBoxFor(model => Model.employeeRecord.OtherBankName, new { @id = "txtOtherBankName", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.BankAccountNumber, "Account Number") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.employeeRecord.BankAccountNumber, new { @id = "txtBankAccountNumber", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PassportNumber, "Passport Number")
+                            @Html.TextBoxFor(model => Model.employeeRecord.PassportNumber, new { @id = "txtPassportNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PassportExpiryDate, "Passport Expiry Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.PassportExpiryDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.PassportExpiryDate != null ? Model.employeeRecord.PassportExpiryDate.Value.ToString("yyyy-MM-dd") : "", @id = "passportExpiryDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.DrivingLicense, "Driving License Type")
+                            @Html.DropDownListFor(model => Model.employeeRecord.DrivingLicense, Model.LicenceTypeList, "--Select--", new { @id = "ddlLicenceType", @class = "form-control" })
+                        </div>
+                        <div class="EmploymentPass form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.EPExpiryDate, "EP Expiry Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.EPExpiryDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.EPExpiryDate != null ? Model.employeeRecord.EPExpiryDate.Value.ToString("yyyy-MM-dd") : "", @id = "epExpiryDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                        <div class="SPass form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.SPassExpiryDate, "SPass Expiry Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.SPassExpiryDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.SPassExpiryDate != null ? Model.employeeRecord.SPassExpiryDate.Value.ToString("yyyy-MM-dd") : "", @id = "sPassExpiryDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                        <div class="WorkPermit form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkPermitExpiryDate, "Work Permit Expiry Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.WorkPermitExpiryDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.WorkPermitExpiryDate != null ? Model.employeeRecord.WorkPermitExpiryDate.Value.ToString("yyyy-MM-dd") : "", @id = "wpExpiryDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.InsurerName, "Medical Insurer Name")
+                            @Html.DropDownListFor(model => Model.employeeRecord.InsurerName, Model.MedicalInsuranceList, "--Select--", new { @id = "ddlMedicalInsurerName", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.InsurancePolicyNumber, "Medical Insurance Policy Number")
+                            @Html.DropDownListFor(model => Model.employeeRecord.InsurancePolicyNumber, Model.MedicalInsuranceNumbers, "--Select--", new { @id = "ddlMedicalInsurerNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.InsuranceStartDate, "Medical Insurance Start Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.InsuranceStartDate, new { @id = "mdInsuranceStartDate", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.InsuranceEndDate, "Medical Insurance End Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.InsuranceEndDate, new { @id = "mdInsuranceEndDate", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.Status, "Is Active")
+                            @Html.DropDownListFor(model => Model.employeeRecord.Status, Model.StatusList, new { @id = "ddlIsActive", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.LastWorkingDate, "Last Working Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.LastWorkingDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.LastWorkingDate != null ? Model.employeeRecord.LastWorkingDate.Value.ToString("yyyy-MM-dd") : "", @id = "lastWorkingDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.PhotoImagePath, "Photo")
+                            <input type="file" id="txtPhoto" name="upload" class="form-control" accept="image/*" onchange="showImage(this)" />
+                        </div>
+                        @if (Model.employeeRecord != null && !string.IsNullOrEmpty(Model.employeeRecord.PhotoImagePath))
+                        {
+                            <div class="form-group"><img id="employee_Photo" src="@Model.employeeRecord.PhotoImagePath" height="130" width="120" /></div>
+                        }
+                        else
+                        {
+                            <div class="form-group"><img id="employee_Photo" height="130" width="120" /></div>
+                        }
+                    </div>
+                    <div class="WorkPermit col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.FinishedSafetySupervisorCource, "Finished Safety Supervisor Cource")
+                            @Html.DropDownListFor(model => Model.employeeRecord.FinishedSafetySupervisorCource, Model.StatusList, "--Select--", new { @id = "ddlIsCompletdCourse", @class = "form-control" })
+                        </div>
+                        <div class="CSOCExpiry form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.CSOCExpiryDate, "Construction Safety Oriented Course Expiry Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.CSOCExpiryDate, new { @Value = Model.employeeRecord != null && Model.employeeRecord.CSOCExpiryDate != null ? Model.employeeRecord.CSOCExpiryDate.Value.ToString("yyyy-MM-dd") : "", @id = "csocExpiryDate", @class = "form-control datepicker", @type = "date" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.SecurityBondBankerName, "Security Bond Provider Name")
+                            @Html.DropDownListFor(model => Model.employeeRecord.SecurityBondBankerName, Model.SecurityBondList, "--Select--", new { @id = "ddlSecurityBondBankers", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.SecurityBondPolicyNumber, "Security Bond Policy Number")
+                            @Html.DropDownListFor(model => Model.employeeRecord.SecurityBondPolicyNumber, Model.SecurityBondNumbers, "--Select--", new { @id = "ddlSecurityBondNumbers", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.BankerInsuranceStartDate, "Security Bond Start Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.BankerInsuranceStartDate, new { @id = "bankerInsuranceStartDate", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.BankerInsuranceEndDate, "Security Bond End Date")
+                            @Html.TextBoxFor(model => Model.employeeRecord.BankerInsuranceEndDate, new { @id = "bankerInsuranceEndDate", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="Workman form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkInjuryInsurerName, "Work Injury Insurer Name")
+                            @Html.DropDownListFor(model => Model.employeeRecord.WorkInjuryInsurerName, Model.WorkInjuryInsuranceList, "--Select--", new { @id = "ddlWorkInjuryInsuranceList", @class = "form-control" })
+                        </div>
+                        <div class="Workman form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkInjuryInsurancePolicyNumber, "Work Injury Insurance Policy Number")
+                            @Html.DropDownListFor(model => Model.employeeRecord.WorkInjuryInsurancePolicyNumber, Model.WorkInjuryInsuranceNumbers, "--Select--", new { @id = "ddlWorkInjuryInsuranceNumbers", @class = "form-control" })
+                        </div>
+                        <div class="Workman form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkInjuryInsuranceStartDate, "Work Injury Insurance StartDate")
+                            @Html.TextBoxFor(model => Model.employeeRecord.WorkInjuryInsuranceStartDate, new { @id = "workInjuryInsuranceStartDate", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="Workman form-group">
+                            @Html.LabelFor(model => Model.employeeRecord.WorkInjuryInsuranceEndDate, "Work Injury Insurance EndDate")
+                            @Html.TextBoxFor(model => Model.employeeRecord.WorkInjuryInsuranceEndDate, new { @id = "workInjuryInsuranceEndDate", @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <h3>
+            Employee Certificates/Documents
+        </h3>
+        <div class="box">
+            <div class="box-body">
+                <table id="employee-document-items" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:10%">  </th>
+                            <th style="width:40%">Document Name</th>
+                            <th style="width:40%">Document Url</th>
+                            <th style="width:10%">  </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.employeeRecord != null && Model.employeeRecord.EmployeeDocuments != null && Model.employeeRecord.EmployeeDocuments.Count > 0)
+                        {
+                            for (int i = 0; i < Model.employeeRecord.EmployeeDocuments.Count; i++)
+                            {
+                                <tr>
+                                    <td><button type="button" class="btn-link add-employee-document-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td>
+                                    <td>
+                                        @Html.HiddenFor(model => Model.employeeRecord.EmployeeDocuments[i].Id)
+                                        @Html.TextBoxFor(model => Model.employeeRecord.EmployeeDocuments[i].DocumentName, new { @class = "form-control" })
+                                        Click <a href="@Model.employeeRecord.EmployeeDocuments[i].DocumentUrl" target="_blank">here</a> to View the document
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => Model.employeeRecord.EmployeeDocuments[i].DocumentUrl, new { @class = "form-control", @readonly = "readonly" })
+                                    </td>
+                                    <td><button type="button" data-itemId="@Model.employeeRecord.EmployeeDocuments[i].Id" class="btn-link remove-employee-document-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td><button type="button" class="btn-link add-employee-document-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td>
+                                <td>
+                                    <input class="form-control" name="employeeRecord.EmployeeDocuments[0].DocumentName" type="text" value="">
+                                </td>
+                                <td>
+                                    <input class="form-control" type="file" name="documents" accept="application/pdf" />
+                                </td>
+                                <td><button type="button" class="btn-link remove-employee-document-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <a href="@Url.Action("Index", "Employee")" class="btn btn-primary">Back</a>
+                @if (Model == null || Model.PageMode == "Edit")
+                {
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        </div>
+    }
+    <!-- /.box -->
+</section>
+<!-- /.content -->

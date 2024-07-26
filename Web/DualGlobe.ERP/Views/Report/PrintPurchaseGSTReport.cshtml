@@ -1,0 +1,89 @@
+﻿@using DualGlobe.ERP.Utility;
+@model DualGlobe.ERP.Models.ExpenseModel
+              
+@{
+    ViewBag.Title = "Purchase Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Purchase Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seriol No</th>
+                            <th>Date</th>
+                            <th>Bill Ref No</th>
+                            <th>Supplier Name</th>
+                            <th>Sub Total</th>
+                            <th>GST</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    @if (Model.expenseArray != null)
+                    {
+                    <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var item in Model.expenseArray)
+                            {
+                            <tr>
+                                <td>@(++i)</td>
+                                <td>@item.Date.ToString("d")</td>
+                                <td>@item.BillRefNo</td>
+                                <td>@Utilities.GetSupplierName(item.Supplier)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.ExpenseValue.GetValueOrDefault())</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.GST.GetValueOrDefault()) </td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.ExpenseTotalValue.GetValueOrDefault())</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total</b></td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.expenseArray.AsEnumerable().Sum(j => j.ExpenseValue.GetValueOrDefault(0)))</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.expenseArray.AsEnumerable().Sum(j => j.GST.GetValueOrDefault(0)))</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.expenseArray.AsEnumerable().Sum(j => j.ExpenseTotalValue.GetValueOrDefault(0)))</td>
+                            </tr>
+                        </tfoot>
+                            }
+                </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

@@ -1,0 +1,102 @@
+﻿@using DualGlobe.ERP.Utility;
+@model DualGlobe.ERP.Models.EmployeeModel
+
+@{
+    ViewBag.Title = "Project Employee Report";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Project Employee Report
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Project Employee Report</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box">
+        <div class="box-body">
+            @using (Html.BeginForm("ProjectEmployeeReport", "Report", FormMethod.Post))
+            {
+            <div class="row">
+                <div class="col-xs-1">
+                    <div class="form-group">
+                        @Html.Label("Filter By Project: ")
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <select id="projectId" name="projectId" class="form-control">
+                            <option value="">All</option>
+                            @foreach (var item in DropdownBuilder.GetAllProjects())
+                            {
+                                if (ViewBag.ProjectId != null && ViewBag.ProjectId == item.Value)
+                                {
+                                <option selected value="@item.Value">@item.Text</option>
+                                }
+                                else {
+                                <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-primary pull-right">Search</button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="tblProject" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Seriol No</th>
+                                <th>Employee Id</th>
+                                <th>Employee Name</th>
+                                <th>Work Status</th>
+                                <th>Designation</th>
+                                <th>Date of Appointment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model.employeeList != null && Model.employeeList.Length > 0)
+                                {
+                                    int i = 0;
+                                    foreach (var item in Model.employeeList)
+                                    {
+                                    <tr>
+                                        <td>@(++i)</td>
+                                        <td>@item.Id</td>
+                                        <td>@item.FirstName @item.LastName</td>
+                                        <td>@item.WorkStatus</td>
+                                        <td>@item.Designation</td>
+                                        <td>@item.AppointmentDate.ToShortDateString()</td>
+                                    </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <a href="@Url.Action("PrintProjectEmployeeReport","Report", new {@projectId = ViewBag.ProjectId})" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</a>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!-- /.content -->

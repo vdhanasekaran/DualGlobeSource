@@ -1,0 +1,64 @@
+﻿@model DualGlobe.ERP.Models.CPFModel
+
+@{
+    ViewBag.Title = "CPF Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            CPF Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Employee IC</th>
+                            <th>Employee Name</th>
+                            <th>Ordinary Wages</th>
+                            <th>Additional Wages</th>
+                            <th>Donation Type</th>
+                            <th>Employee CPF</th>
+                            <th>Employer CPF</th>
+                            <th>CPF Donation</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CPFArray != null && Model.CPFArray.Length > 0)
+                        {
+                            for (int i = 0; i < Model.CPFArray.Count(); i++)
+                            {
+                            <tr>
+                                <td>@Model.CPFArray[i].EmployeeIC</td>
+                                <td>@DualGlobe.ERP.Utility.Utilities.GetEmployeeName(@Model.CPFArray[i].EmployeeId)</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.CPFArray[i].TotalWages)</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.CPFArray[i].AdditionalWages)</td>
+                                <td>@Model.CPFArray[i].DonationType</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.CPFArray[i].EmployeeCPF)</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.CPFArray[i].EmployerCPF)</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.CPFArray[i].CPFDonation)</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

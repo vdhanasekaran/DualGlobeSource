@@ -1,0 +1,81 @@
+﻿@model DualGlobe.ERP.Models.OperationExpenseModel
+       
+
+@{
+    ViewBag.Title = "Operation Expense";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Operation Expense
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("OperationExpense", "Expense")">Operation Expenses</a></li>
+        <li class="active">Add Operation Expense</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("ExpenseSubmit", "Expense", FormMethod.Post))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.operationExpenseRecord.Id)
+                            @Html.LabelFor(model => Model.operationExpenseRecord.Date, "Date") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.operationExpenseRecord.Date, new { @Value = Model.operationExpenseRecord != null ? Model.operationExpenseRecord.Date.ToString("yyyy-MM-dd") : "", @id = "txtDate", @class = "form-control datepicker", @type="date", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.ExpenseCategory, "Expense Category") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.operationExpenseRecord.ExpenseCategory, new SelectList(Model.ExpenseCategories, "Value", "Text"), "--Select--", new { @id = "ddlCategory", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.BillRefNo, "Bill Ref No")
+                            @Html.TextBoxFor(model => Model.operationExpenseRecord.BillRefNo, new { @id = "txtBillRefNo", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.Amount, "Amount") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.operationExpenseRecord.Amount, new { @id = "txtAmount", @class = "form-control", @required="required" })
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.TransRefNo, "Transaction Ref No")
+                            @Html.TextBoxFor(model => Model.operationExpenseRecord.TransRefNo, new { @id = "txtTransRefNo", @class = "form-control"})
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.PaymentMethod, "Payment Method") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.operationExpenseRecord.PaymentMethod, new SelectList(Model.PaymentMethods, "Value", "Text"), "--Select--", new { @id = "ddlPaymentmethods", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.PaymentStatus, "Payment Status") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.operationExpenseRecord.PaymentStatus, new SelectList(Model.PaymentStatus, "Value", "Text"), "--Select--", new { @id = "ddlPaymentStatus", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.operationExpenseRecord.OtherExpense, "Other Expense Description")
+                            @Html.TextBoxFor(model => Model.operationExpenseRecord.OtherExpense, new { @id = "txtOtherExpense", @class = "form-control", @readonly="readonly", @required="required" })
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("OperationExpense","Expense")" class="btn btn-primary">Back</a>
+                @if (Model.operationExpenseRecord == null || Model.PageMode == "Edit")
+                {
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+        @*</form>*@
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

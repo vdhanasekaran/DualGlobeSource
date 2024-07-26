@@ -1,0 +1,187 @@
+﻿@using DualGlobe.ERP.Utility
+@model DualGlobe.ERP.Models.InvoiceModel
+
+@{
+    ViewBag.Title = "View Progress Claim";
+}
+
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Progress Claim Details</h4>
+</div>
+<div class="modal-body">
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div style="text-align:center;" class="col-xs-12">
+                <img src="~/Content/Logo/Company_Logo.png" height="35" width="250" />
+            </div>
+            <div style="text-align:center;" class="col-xs-12">
+                <span>
+                    @System.Configuration.ConfigurationManager.AppSettings["AddressLine1"] |
+                    @System.Configuration.ConfigurationManager.AppSettings["AddressLine2"] <br />
+                    @System.Configuration.ConfigurationManager.AppSettings["Email"] |
+                    @System.Configuration.ConfigurationManager.AppSettings["Phone"]
+                </span>
+            </div>
+            @* <div class="col-xs-3">
+                    <span class="pull-right">
+                        @System.Configuration.ConfigurationManager.AppSettings["CompanyReg"]<br />
+                        <b>Date:</b> @DateTime.Today.ToString("dd/MM/yyyy")
+                    </span>
+                </div>*@
+            <!-- /.col -->
+        </div>
+        <hr />
+        <!-- info row -->
+        <div class="row invoice-info">
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                To
+                <address>
+                    <strong>@Utilities.GetClientName(Model.InvoiceRecord.ClientId.Value)</strong><br>
+                    @Model.InvoiceRecord.Address
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                <span class="pull-right">
+                    <br>
+                    <b>Progress Claim Id #@Model.InvoiceRecord.Id</b>
+                    <br>
+                    <b>Quotation Id #@Model.InvoiceRecord.QuotationId</b>
+                    <br>
+                    @if (Utilities.GetProjectByQuotationId(Model.InvoiceRecord.QuotationId.GetValueOrDefault()) > 0)
+                    {
+                        <b>Project Name:</b> @Utilities.GetProjectName(Utilities.GetProjectByQuotationId(Model.InvoiceRecord.QuotationId.GetValueOrDefault()))<br>
+                    }
+                    @if (!string.IsNullOrEmpty(Utilities.GetRefNumberByQuotationId(Model.InvoiceRecord.QuotationId.GetValueOrDefault())))
+                    {
+                        <b>Reference Number:</b> @Utilities.GetRefNumberByQuotationId(Model.InvoiceRecord.QuotationId.GetValueOrDefault())<br>
+                    }
+                    @if (!string.IsNullOrEmpty(Utilities.GetPONumberByQuotationId(Model.InvoiceRecord.QuotationId.GetValueOrDefault())))
+                    {
+                        <b>PO Number:</b> @Utilities.GetPONumberByQuotationId(Model.InvoiceRecord.QuotationId.GetValueOrDefault())<br>
+                    }
+                    <b>Date Created:</b> @Model.InvoiceRecord.InvoiceDate.Value.ToString("dd/MM/yyyy")
+                </span>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- .row -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Subject: </b>@Model.InvoiceRecord.PhaseName</p>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:10%">Serial #</th>
+                            <th style="width:60%">Item Description</th>
+                            <th style="text-align:right;width:10%">Amount</th>
+                            <th style="text-align:right;width:10%">Percentage</th>
+                            <th style="text-align:right;width:10%">Phase Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.InvoiceRecord.InvoicePhases.Count; i++)
+                        {
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@Html.Raw(Model.InvoiceRecord.InvoicePhases[i].Description)</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceRecord.InvoicePhases[i].QuotationAmount.GetValueOrDefault(0))</td>
+                                <td style="text-align:right;">@Model.InvoiceRecord.InvoicePhases[i].Percentage</td>
+                                @*<th>@Model.InvoiceRecord.InvoicePhases[i].GST</th>*@
+                                <td style="text-align:right;">S$@String.Format("{0:n}", @Model.InvoiceRecord.InvoicePhases[i].PhaseAmount.GetValueOrDefault(0))</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            @* <th></th>*@
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th style="text-align:right;">SubTotal: </th>
+                            <th style="text-align:right;">S$@(String.Format("{0:n}", (Model.InvoiceRecord.TotalPhaseAmount).GetValueOrDefault(0)))</th>
+                        </tr>
+                        @if (Model.InvoiceRecord.DiscountValue.GetValueOrDefault(0) > 0)
+                        {
+                            if (Model.InvoiceRecord.DiscountType == "Percentage")
+                            {
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th style="text-align:right;">Discount Percentage:</th>
+                                    <th style="text-align:right;">@Model.InvoiceRecord.DiscountValue.GetValueOrDefault().ToString("#0") %</th>
+                                </tr>
+                            }
+
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="text-align:right;">Discount Amount:</th>
+                                <th style="text-align:right;">
+                                    S$@(String.Format("{0:n}", (Model.InvoiceRecord.DiscountAmount.GetValueOrDefault(0))))
+                                </th>
+                            </tr>
+                        }
+
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th style="text-align:right;">Actual Amount:</th>
+                            <th style="text-align:right;">S$@(String.Format("{0:n}", (Model.InvoiceRecord.ActualAmount.GetValueOrDefault(0))))</th>
+                        </tr>
+
+                        @if (Model.InvoiceRecord.TotalGSTAmount.GetValueOrDefault(0) > 0)
+                        {
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="text-align:right;">GST (9%): </th>
+                                <th style="text-align:right;">S$@(String.Format("{0:n}", (Model.InvoiceRecord.TotalGSTAmount).GetValueOrDefault(0))) </th>
+                            </tr>
+                        }
+
+                        <tr>
+                            @*  <th></th>*@
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th style="text-align:right;">Total: </th>
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceRecord.InvoiceAmount.GetValueOrDefault(0))</th>
+                        </tr>
+
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /Table row -->
+    </section>
+</div>
+<div class="modal-footer">
+    <div class="row no-print">
+        <div class="col-xs-12">
+            <a href="@Url.Action("PrintProgressClaim","Invoice", new { @invoiceId = Model.InvoiceRecord.Id})" target="_blank" class="btn btn-success"><i class="fa fa-print"></i> Print</a>
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+

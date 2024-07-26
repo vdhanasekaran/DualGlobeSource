@@ -1,0 +1,128 @@
+﻿@model DualGlobe.ERP.Models.ClientModel
+
+@{
+    ViewBag.Title = "Client";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Client
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Client")">Client</a></li>
+        <li class="active">Add Client</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "Client", FormMethod.Post, new { enctype = "multipart/form-data"}))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.clientRecord.Id)
+                            @Html.LabelFor(model => Model.clientRecord.FirstName, "First Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.clientRecord.FirstName, new { @id = "txtFirstName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.LastName, "Last Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.clientRecord.LastName, new { @id = "txtLastName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.CompanyName, "Company Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.clientRecord.CompanyName, new { @id = "txtCompanyName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.EmailAddress, "Email Id")
+                            @Html.TextBoxFor(model => Model.clientRecord.EmailAddress, new { @id = "txtEmailId", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.PhoneNumber, "Phone Number")
+                            @Html.TextBoxFor(model => Model.clientRecord.PhoneNumber, new { @id = "txtPhoneNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.FaxNumber, "Fax Number")
+                            @Html.TextBoxFor(model => Model.clientRecord.FaxNumber, new { @id = "txtFaxNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.BusinessRegistrationNumber, "Business Registration Number")
+                            @Html.TextBoxFor(model => Model.clientRecord.BusinessRegistrationNumber, new { @id = "txtBRNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.NRICNumber, "NRICNumber")
+                            @Html.TextBoxFor(model => Model.clientRecord.NRICNumber, new { @id = "txtNRICNumber", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.Country, "Country") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.clientRecord.Country, new SelectList(Model.CountryList, "Text", "Text"), "--Select--", new { @id = "ddlCountry", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.Currency, "Currency") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.clientRecord.Currency, new SelectList(Model.CurrencyList, "Value", "Text"), "--Select--", new { @id = "ddlCurrency", @class = "form-control", @required = "required" })
+                        </div>
+
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.AddressLine1, "Address Line 1")
+                            @Html.TextBoxFor(model => Model.clientRecord.AddressLine1, new { @id = "txtAddress1", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.AddressLine2, "Address Line 2")
+                            @Html.TextBoxFor(model => Model.clientRecord.AddressLine2, new { @id = "txtAddress2", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.City, "City")
+                            @Html.TextBoxFor(model => Model.clientRecord.City, new { @id = "txtCity", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.State, "State")
+                            @Html.TextBoxFor(model => Model.clientRecord.State, new { @id = "txtState", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.Zip, "Post Code")
+                            @Html.TextBoxFor(model => Model.clientRecord.Zip, new { @id = "txtPostCode", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.Status, "Is Active") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.clientRecord.Status, new SelectList(Model.StatusList, "Value", "Text"), "--Select--", new { @id = "ddlStatus", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.Comments, "Comments")
+                            @Html.TextAreaFor(model => Model.clientRecord.Comments, new { @id = "txtComments", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.clientRecord.LogoUrl, "Logo Url")
+                            <input type="file" id="txtLogo" name="upload" class="form-control" accept="image/*" onchange="show(this)" />
+                        </div>
+                        @if (Model.clientRecord != null && !string.IsNullOrEmpty(Model.clientRecord.LogoUrl))
+                        {
+                            <div class="form-group"><img id="client_logo" src="@Model.clientRecord.LogoUrl" height="80" width="70" /></div>
+                        }
+                        else
+                        {
+                            <div class="form-group"><img id="client_logo" height="80" width="70" /></div>
+                        }
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("Index","Client")" class="btn btn-primary">Back</a>
+                @if (Model.clientRecord == null || Model.PageMode == "Edit")
+                {
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

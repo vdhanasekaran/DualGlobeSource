@@ -1,0 +1,86 @@
+﻿@model DualGlobe.ERP.Models.InsuranceModel
+              
+@{
+    ViewBag.Title = "Insurance Details";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Insurance List
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Insurance List</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    @if (User.IsInRole("Admin"))
+    {
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <a href="@Url.Action("Insurance", "Insurance")" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Insurance Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="tblEmployeeProject" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Insurer Name</th>
+                                <th>Insurance Type</th>
+                                <th>Policy Number</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th style="width:120px; text-align:left;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.InsuranceArray != null && Model.InsuranceArray.Count() > 0)
+                            {
+                                foreach (var m in Model.InsuranceArray)
+                                {
+                                <tr>
+                                    <td>@m.InsuranceProviderName</td>
+                                    <td>@m.InsuranceType</td>
+                                    <td>@m.InsurancePolicyNumber</td>
+                                    <td>@m.StartDate.GetValueOrDefault().ToString("d")</td>
+                                    <td>@m.EndDate.GetValueOrDefault().ToString("d")</td>
+                                    <td style="width:120px; text-align:left;">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                        <a href="@Url.Action("Insurance", "Insurance", new { @insuranceId = m.Id, @pageMode = "Edit" })" class="btn-link"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                        <a href="@Url.Action("Insurance", "Insurance", new { @insuranceId = m.Id, @pageMode = "View" })" class="btn-link pull-right"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                        }
+                                        else
+                                        {
+                                        <a href="@Url.Action("Insurance", "Insurance", new { @insuranceId = m.Id, @pageMode = "View" })" class="btn-link"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                        }
+                                    </td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+</section>
+<!-- /.content -->

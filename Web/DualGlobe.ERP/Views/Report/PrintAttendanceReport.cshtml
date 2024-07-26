@@ -1,0 +1,81 @@
+﻿@using DualGlobe.ERP.Utility;
+@model DualGlobe.ERP.Models.TimesheetModel
+
+@{
+    ViewBag.Title = "Attendance Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Attendance Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblAttendance" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Serial No</th>
+                            <th>Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Project Name</th>
+                            <th>Timesheet Date</th>
+                            <th>Regular Hours</th>
+                            <th>OT Hours</th>
+                            <th>Is Absent</th>
+                        </tr>
+                    </thead>
+                    @if (Model.timesheetArray != null)
+                    {
+                    <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var item in Model.timesheetArray)
+                            {
+                            <tr>
+                                <td>@(++i)</td>
+                                <td>@item.EmployeeId</td>
+                                <td>@Utilities.GetEmployeeName(item.EmployeeId)</td>
+                                <td>@Utilities.GetProjectName(item.ProjectId.Value)</td>
+                                <td>@item.TimesheetDate.ToShortDateString()</td>
+                                <td>@item.RegularHours </td>
+                                <td>@item.OTHours</td>
+                                @if (item.IsLeave)
+                                {
+                                <td>Yes</td>
+                                }
+                                else
+                                {
+                                <td>No</td>
+                                }
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="text-align:right" colspan="5"><b>Total Hours</b></td>
+                            <td>@String.Format("{0:n}", Model.timesheetArray.AsEnumerable().Sum(j => j.RegularHours.GetValueOrDefault(0)))</td>
+                            <td>@String.Format("{0:n}", Model.timesheetArray.AsEnumerable().Sum(j => j.OTHours.GetValueOrDefault(0)))</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                            }
+                </table>
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

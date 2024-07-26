@@ -1,0 +1,7 @@
+http://www.c-sharpcorner.com/article/deploying-your-asp-net-mvc-5-app-to-iis-8/
+
+http://www.c-sharpcorner.com/UploadFile/4b0136/getting-started-with-iis-host-and-publish-in-mvc-5/
+
+http://www.c-sharpcorner.com/uploadfile/8ef97c/how-to-publish-asp-net-mvc-on-iis-mvc-5-0-part-3/
+
+https://www.asp.net/mvc/overview/deployment/visual-studio-web-deployment/deploying-to-iis

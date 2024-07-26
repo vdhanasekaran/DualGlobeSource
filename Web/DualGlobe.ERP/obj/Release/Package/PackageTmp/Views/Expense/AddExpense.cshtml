@@ -1,0 +1,178 @@
+﻿@model DualGlobe.ERP.Models.ExpenseModel
+
+@{
+    ViewBag.Title = "Add Expense";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Expense
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Expense")">Expenses</a></li>
+        <li class="active">Add Expense</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- form start -->
+    @using (Html.BeginForm("Submit", "Expense", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <div class="box box-default">
+
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.HiddenFor(model => Model.expenseRecord.Id)
+                        @Html.LabelFor(model => Model.expenseRecord.Date, "Date") <span class="required">*</span>
+                        @Html.TextBoxFor(model => Model.expenseRecord.Date, new { @Value = Model.expenseRecord != null ? Model.expenseRecord.Date.ToString("yyyy-MM-dd") : "", @id = "txtDate", @class = "form-control datepicker", @type="date", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.BillRefNo, "Bill Ref No") <span class="required">*</span>
+                        @Html.TextBoxFor(model => Model.expenseRecord.BillRefNo, new { @id = "txtBillRefNo", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.Supplier, "Supplier") <span class="required">*</span>
+                        @Html.DropDownListFor(model => Model.expenseRecord.Supplier, new SelectList(Model.SupplierList, "Value", "Text"), "--Select--", new { @id = "ddlSupplier", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.ExpenseCategory, "Expense Type") <span class="required">*</span>
+                        @Html.DropDownListFor(model => Model.expenseRecord.ExpenseCategory, new SelectList(Model.Categories, "Value", "Text"), "--Select--", new { @id = "ddlExpenseCategory", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="project form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.ClientId, "Client Name")
+                        @Html.DropDownListFor(model => Model.expenseRecord.ClientId, new SelectList(Model.ClientList, "Value", "Text"), "--Select--", new { @id = "ddlClient", @class = "form-control"})
+                        @Html.HiddenFor(model => Model.expenseRecord.ClientId)
+                    </div>
+                    <div class="project form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.ProjectId, "Project Name")
+                        @if (Model.PageMode == "Edit")
+                        {
+                        @Html.DropDownListFor(model => Model.expenseRecord.ProjectId, new SelectList(Model.ProjectList, "Value", "Text"), "--Select--", new { @id = "ddlProject", @class = "form-control" })
+                            @Html.HiddenFor(model => Model.expenseRecord.ProjectId)
+                        }
+                        else
+                        {
+                        @Html.DropDownListFor(model => Model.expenseRecord.ProjectId, new SelectList(new List<SelectListItem>(), "Value", "Text"), "--Select--", new { @id = "ddlProject", @class = "form-control" })
+                        }
+                    </div>
+                    <div class="project form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.MaterialPurchseCategory, "Expense Category")
+                        @Html.DropDownListFor(model => Model.expenseRecord.MaterialPurchseCategory, new SelectList(Model.ExpenseCategories, "Value", "Text"), "--Select--", new { @id = "ddlMPCategory", @class = "ddlCategory form-control" })
+                    </div>
+                    <div class="operation form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.OperationExpenseCategory, "Expense Category")
+                        @Html.DropDownListFor(model => Model.expenseRecord.OperationExpenseCategory, new SelectList(Model.ExpenseCategories, "Value", "Text"), "--Select--", new { @id = "ddlOECategory", @class = "ddlCategory form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.OtherExpense, "Other Expense Description")
+                        @Html.TextBoxFor(model => Model.expenseRecord.OtherExpense, new { @id = "txtOtherExpense", @class = "form-control", @readonly = "readonly", @required = "required" })
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.TransRefNo, "Transaction Ref No") <span class="required">*</span>
+                        @Html.TextBoxFor(model => Model.expenseRecord.TransRefNo, new { @id = "txtTransRefNo", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.PaymentMethod, "Payment Method") <span class="required">*</span>
+                        @Html.DropDownListFor(model => Model.expenseRecord.PaymentMethod, new SelectList(Model.PaymentMethods, "Value", "Text"), "--Select--", new { @id = "ddlPaymentmethods", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.PaymentStatus, "Payment Status") <span class="required">*</span>
+                        @Html.DropDownListFor(model => Model.expenseRecord.PaymentStatus, new SelectList(Model.PaymentStatus, "Value", "Text"), "--Select--", new { @id = "ddlPaymentStatus", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.IncludeGST, "Include GST") <span class="required">*</span>
+                        @Html.DropDownListFor(model => Model.expenseRecord.IncludeGST, Model.GSTStatus, new { @id = "ddlMPGSTStatus", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.GST, "GST Value")
+                        @Html.TextBoxFor(model => Model.expenseRecord.GST, new { @id = "txtGSTValue", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.ExpenseValue, "Expense Value") <span class="required">*</span>
+                        @Html.TextBoxFor(model => Model.expenseRecord.ExpenseValue, new { @id = "txtExpenseValue", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.ExpenseTotalValue, "Expense Total Value") <span class="required">*</span>
+                        @Html.TextBoxFor(model => Model.expenseRecord.ExpenseTotalValue, new { @id = "txtExpenseTotalValue", @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.expenseRecord.Description, "Description")
+                        @Html.TextAreaFor(model => Model.expenseRecord.Description, new { @id = "txtDescription", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+
+    <h3>
+        Supporting Documents
+    </h3>
+    <div class="box">
+        <div class="box-body">
+            <table id="document-items" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:10%">  </th>
+                        <th style="width:40%">Document Name</th>
+                        <th style="width:40%">Document Url</th>
+                        <th style="width:10%">  </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.expenseRecord != null && Model.expenseRecord.Documents != null && Model.expenseRecord.Documents.Count > 0)
+                    {
+                        for (int i = 0; i < Model.expenseRecord.Documents.Count; i++)
+                        {
+                        <tr>
+                            <td><button type="button" class="btn-link add-document-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td>
+                            <td>
+                                @Html.HiddenFor(model => Model.expenseRecord.Documents[i].Id)
+                                @Html.TextBoxFor(model => Model.expenseRecord.Documents[i].DocumentName, new { @class = "form-control" })
+                                Click <a href="@Model.expenseRecord.Documents[i].DocumentUrl" target="_blank">here</a> to View the document
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.expenseRecord.Documents[i].DocumentUrl, new { @class = "form-control", @readonly = "readonly" })
+                            </td>
+                            <td><button type="button" data-itemId="@Model.expenseRecord.Documents[i].Id" class="btn-link remove-document-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td>
+                        </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr>
+                        <td><button type="button" class="btn-link add-document-item"><i class="glyphicon glyphicon-plus"></i> Add</button></td>
+                        <td>
+                            <input class="form-control" name="expenseRecord.Documents[0].DocumentName" type="text" value="">
+                        </td>
+                        <td>
+                            <input class="form-control" type="file" name ="documents" accept="application/pdf" />
+                        </td>
+                        <td><button type="button" class="btn-link remove-document-item"><i class="glyphicon glyphicon-remove"></i> Remove</button></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <a href="@Url.Action("Index", "Expense")" class="btn btn-primary">Back</a>
+
+            @if (Model.expenseRecord == null || Model.PageMode == "Edit")
+                {
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            }
+        </div>
+    </div>
+    <!-- /.box -->
+    }
+</section>
+<!-- /.content -->

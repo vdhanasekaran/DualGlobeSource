@@ -1,0 +1,60 @@
+﻿@model DualGlobe.ERP.Models.OvertimeModel
+
+@{
+    ViewBag.Title = "Over time";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Overtime
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Overtime")">Overtime</a></li>
+        <li class="active">Add Overtime</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "Overtime", FormMethod.Post))
+        {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.OvertimeRecord.Id)
+                            @Html.LabelFor(model => Model.OvertimeRecord.GroupName, "Group Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.OvertimeRecord.GroupName, new { @id = "txtGroupName", @class = "form-control", @required="required" })
+                            @*@Html.DropDownListFor(model => Model.OvertimeRecord.GroupName, new SelectList(new List<SelectListItem>(), "Value", "Text"), "--Select--", new { @id = "ddlGroupList", @class = "form-control", @required = "required" })*@
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.OvertimeRecord.OTType, "OT Type") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.OvertimeRecord.OTType, Model.OTTypeList, "--Select--", new { @id = "ddlOTType", @class = "form-control", @required = "required" })
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.OvertimeRecord.OTValue, "OT Value")
+                            @Html.TextBoxFor(model => Model.OvertimeRecord.OTValue, new { @id = "txtOTValue", @class = "form-control" })
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("Index","Overtime")" class="btn btn-primary">Back</a>
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

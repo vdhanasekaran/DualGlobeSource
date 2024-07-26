@@ -1,0 +1,150 @@
+﻿@using DualGlobe.ERP.Utility;
+@model List<DualGlobe.ERP.Models.ClientReportModel>
+
+@{
+    ViewBag.Title = "Client Report";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Client Report
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Client Report</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box">
+        <div class="box-body">
+            @using (Html.BeginForm("ClientReport", "Report", FormMethod.Post))
+            {
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("Filter By Client: ")
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <select id="clientId" name="clientId" class="form-control">
+                            <option value="">All</option>
+                            @foreach (var item in DropdownBuilder.GetAllClients())
+                            {
+                                if (ViewBag.CientId != null && ViewBag.CientId == item.Value)
+                                {
+                                <option selected value="@item.Value">@item.Text</option>
+                                }
+                                else {
+                                <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.Label("Filter By Project Status: ")
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <select id="projectStatus" name="projectStatus" class="form-control">
+                            <option value="">All</option>
+                            @foreach (var item in DropdownBuilder.GetProjectStatus())
+                            {
+                                if (ViewBag.ProjectStatus != null && ViewBag.ProjectStatus == item.Value)
+                                {
+                                <option selected value="@item.Value">@item.Text</option>
+                                }
+                                else {
+                                <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-primary pull-right">Search</button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="tblClient" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Seriol No</th>
+                                <th>Client Id</th>
+                                <th>Company Name</th>
+                                <th>Client Name</th>
+                                <th>Ongoing Projects</th>
+                                <th>Completed Projects</th>
+                                <th>Draft Projects</th>
+                                <th>Total Value</th>
+                                <th>Payment Received</th>
+                                <th>Outstanding Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
+                                foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@(++i)</td>
+                                    <td>@item.ClientID</td>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.ClientName</td>
+                                    @if (item.OngoingProjects > 0)
+                                    {
+                                    <td><a href="@Url.Action("ProjectReport", "Report", new { @clientId = item.ClientID, @projectStatus = "Ongoing" })" target="_blank">@item.OngoingProjects</a></td>
+                                    }
+                                    else
+                                    {
+                                    <td>@item.OngoingProjects</td>
+                                    }
+                                    @if (item.CompletedProjects > 0)
+                                    {
+                                    <td><a href="@Url.Action("ProjectReport", "Report", new { @clientId = item.ClientID, @projectStatus = "Completed" })" target="_blank">@item.CompletedProjects</a></td>
+                                    }
+                                    else
+                                    {
+                                    <td>@item.CompletedProjects</td>
+                                    }
+                                    @if (item.DraftProjects > 0)
+                                    {
+                                    <td><a href="@Url.Action("ProjectReport", "Report", new { @clientId = item.ClientID, @projectStatus = "Draft" })" target="_blank">@item.DraftProjects</a></td>
+                                    }
+                                    else
+                                    {
+                                    <td>@item.DraftProjects</td>
+                                    }
+                                    <td style="text-align:right;">@item.TotalValue.Value</td>
+                                    <td style="text-align:right;">@item.ReceivedPayment.Value</td>
+                                    <td style="text-align:right;">@item.OutstandingAmount.Value</td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <a href="@Url.Action("PrintClientReport","Report", new { @clientId = ViewBag.CientId, @projectStatus=ViewBag.ProjectStatus})" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Report</a>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!-- /.content -->

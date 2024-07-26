@@ -1,0 +1,125 @@
+﻿@model DualGlobe.ERP.Models.EmployeeModel
+
+@{
+    ViewBag.Title = "Salary Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Salary Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seriol No</th>
+                            <th>Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Work Status</th>
+                            <th>Basic Salary</th>
+                            <th>Fixed Allowance</th>
+                            @*<th>Other Allowance</th>*@
+                            <th>Bonous Allowance</th>
+                            <th>Incentive Allowance</th>
+                            <th>Total Deduction</th>
+                            <th>Net Salary</th>
+                            <th>Payment Status</th>
+                        </tr>
+                    </thead>
+
+                    @if (Model.SalaryArray != null)
+                    {
+                    <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var item in Model.SalaryArray)
+                            {
+                            <tr>
+                                <td>@(++i)</td>
+                                <td>@item.EmployeeId</td>
+                                <td>@item.EmployeeName</td>
+                                <td>@item.WorkStatus</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.BasicSalary)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.FixedAllowance.Value)</td>
+                                @*<td>S$@item.OtherAllowance.Value</td>*@
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.BonusAllowance.Value)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.IncentiveAllowance.Value)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.TotalDetectSalary.Value)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", item.GrossSalary)</td>
+                                <td>@item.Status</td>
+                            </tr>
+                            }
+                                }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>Total</b></td>
+                            <td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.BasicSalary)</td>
+                            <td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.FixedAllowance.Value)</td>
+                            @*<td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.OtherAllowance.Value)</td>*@
+                            <td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.BonusAllowance.Value)</td>
+                            <td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.IncentiveAllowance.Value)</td>
+                            <td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.TotalDetectSalary.Value)</td>
+                            <td>S$@Model.SalaryArray.AsEnumerable().Sum(j => j.GrossSalary)</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                            }
+                </table>
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+        <div class="box">
+            @if (Model.SalaryArray != null)
+            {
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        @{
+                            <tr>
+                                <th>Paid Amount</th>
+                                <td>S$@Model.SalaryArray.AsEnumerable().Where(s => s.Status.ToLowerInvariant() == "paid").Sum(j => j.GrossSalary)</td>
+                            </tr>
+                            <tr>
+                                <th>Unpaid Amount</th>
+                                <td>S$@Model.SalaryArray.AsEnumerable().Where(s => s.Status.ToLowerInvariant() == "unpaid").Sum(j => j.GrossSalary)</td>
+                            </tr>
+                                <tr>
+                                    <th>Outstanding Amount</th>
+                                    <td>S$@Model.SalaryArray.AsEnumerable().Where(s => s.Status.ToLowerInvariant() == "outstanding").Sum(j => j.GrossSalary)</td>
+                                </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.box -->
+</div>
+
+
+
+<!-- /.row -->

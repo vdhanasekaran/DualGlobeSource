@@ -1,0 +1,121 @@
+﻿@model DualGlobe.ERP.Models.LoanAndAdvanceModel
+
+
+@{
+    ViewBag.Title = "Loan And Advance";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Loan And Advance
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "LoanAndAdvance")">Loan And Advance</a></li>
+        <li class="active">Add Loan/Advance</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "LoanAndAdvance", FormMethod.Post))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.LoanDate, "Loan Date") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.loanAndAdvanceRecord.LoanDate, new { @Value = Model.loanAndAdvanceRecord != null ? Model.loanAndAdvanceRecord.LoanDate.ToString("yyyy-MM-dd") : "", @id = "txtLoanDate", @class = "form-control datepicker", @type="date", @required = "required" })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.loanAndAdvanceRecord.Id)
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.LoanAmount, "Loan Amount") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.loanAndAdvanceRecord.LoanAmount, new { @id = "txtLoanAmount", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.EmployeeId, "Employee") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.loanAndAdvanceRecord.EmployeeId, Model.EmployeeList, "--Select--", new { @id = "txtEmployeeId", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.ApprovedByEmployeeId, "Approved By Employee") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.loanAndAdvanceRecord.ApprovedByEmployeeId, Model.EmployeeList, "--Select--", new { @id = "txtApprovedByEmployeeId", @class = "form-control", @required = "required" })
+                        </div>
+                        
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.LoanRepaymentStartDate, "Repayment Start Date") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.loanAndAdvanceRecord.LoanRepaymentStartDate, new { @Value = Model.loanAndAdvanceRecord != null ? Model.loanAndAdvanceRecord.LoanRepaymentStartDate.ToString("yyyy-MM-dd") : "", @id = "txtRepaymentStartDate", @class = "form-control datepicker", @type="date", @required = "required" })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.Mode, "Repayment Mode") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.loanAndAdvanceRecord.Mode, new SelectList(new List<SelectListItem> {
+                                                                                                new SelectListItem { Value = "Month", Text = "By Month"},
+                                                                                                new SelectListItem { Value = "Amount", Text = "By Amount"}
+                                                                                       }, "Value", "Text"), "--Select--", new { @id = "ddlMode", @class = "form-control", @required = "required" })
+
+
+                        </div>
+                        <div class="form-group" id="duartion">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.RepaymentDuration, "Duration")
+                            @Html.TextBoxFor(model => Model.loanAndAdvanceRecord.RepaymentDuration, new { @id = "txtRepaymentDuration", @class = "form-control" })
+                        </div>
+                        <div class="form-group amount">
+                            @Html.LabelFor(model => Model.loanAndAdvanceRecord.RepaymentAmount, "Minimum Due Amount")
+                            @Html.TextBoxFor(model => Model.loanAndAdvanceRecord.RepaymentAmount, new { @id = "txtAmount", @class = "form-control" })
+                        </div>
+                        <div class="form-group hide">
+                            <label>Employee Name</label>
+                            <input class="form-control" id="txtEmployeeName" readonly="readonly" type="text">
+                        </div>
+                        <div class="form-group hide">
+                            <label>Approved By Employee Name</label>
+                            <input class="form-control" id="txtApproverName" readonly="readonly" type="text">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                @*<button type="button" class="reset btn btn-default">Back</button>*@
+                <a href="@Url.Action("Index","LoanAndAdvance")" class="btn btn-primary">Back</a>
+                @if (Model != null && Model.loanAndAdvanceRecord != null &&
+                  Model.loanAndAdvanceRecord.loanAndAdvanceDetails != null && Model.loanAndAdvanceRecord.loanAndAdvanceDetails.Count > 0)
+                {
+                <button type="button" id="emiDetails" data-id="@Model.loanAndAdvanceRecord.Id" class="btn btn-info btn-flat">View EMI Details</button>
+                    if (User.IsInRole("Admin"))
+                    {
+                    <a href="@Url.Action("LoanDetails", "LoanAndAdvance", new { @id = Model.loanAndAdvanceRecord.Id })" class="btn btn-primary">Edit EMI</a>
+                    }
+                }
+                @if (Model.loanAndAdvanceRecord == null || Model.PageMode == "Edit")
+                {
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+    {
+    <div class="alert alert-success alert-dismissible">
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        @ViewBag.SuccessMessage
+    </div>
+    }
+    <!-- /.box -->
+</section>
+
+<div id='emiModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='emiModalContent'></div>
+        </div>
+    </div>
+</div>
+<!-- /.content -->

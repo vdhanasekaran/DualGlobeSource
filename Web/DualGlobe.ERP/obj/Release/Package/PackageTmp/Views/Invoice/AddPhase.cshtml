@@ -1,0 +1,69 @@
+﻿
+@model DualGlobe.ERP.Models.InvoiceModel
+
+
+@{
+    if (Model != null && Model.InvoiceArray != null && Model.InvoiceArray.Length > 0
+    && Model.InvoiceArray.Any(i => i.InvoicePhases.Count > 0))
+    {
+        <!-- /.box-body -->
+        <h3>
+            Previous Phase Items
+        </h3>
+        <div class="box">
+            @for (int i = 0; i < Model.InvoiceArray.Length; i++)
+            {
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => Model.InvoiceArray[i].PhaseName, "Phase Name")
+                                @Html.TextBoxFor(model => Model.InvoiceArray[i].PhaseName, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => Model.InvoiceArray[i].InvoiceAmount, "Invoice Amount")
+                                @Html.TextBoxFor(model => Model.InvoiceArray[i].InvoiceAmount, new { @class = "previous-phase-amount form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h4><a href="@Url.Action("Invoice", "Invoice", new { @invoiceId = Model.InvoiceArray[i].Id, @pageMode = "View" })" target="_blank" class="btn-link"><i class="glyphicon glyphicon-eye-open"></i> View Invoice</a></h4>
+                        </div>
+
+                    </div>
+
+
+                    <table class="tbl-added-phase table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th>Percentage</th>
+                                <th>Quotation Amount</th>
+                                <th>Invoice Phase Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int j = 0; j < Model.InvoiceArray[i].InvoicePhases.Count; j++)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @Html.TextAreaFor(model => Model.InvoiceArray[i].InvoicePhases[j].Description, new { @class = "form-control", @readonly = "readonly" })
+                                    </td>
+                                    @{ var className = "previous-percentage-" + j;}
+                                    <td>@Html.TextBoxFor(model => Model.InvoiceArray[i].InvoicePhases[j].Percentage, new { @readonly = "readonly", @class = className + " form-control pull-right", @dir = "rtl" })</td>
+                                    <td>@Html.TextBoxFor(model => Model.InvoiceArray[i].InvoicePhases[j].QuotationAmount, new { @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(model => Model.InvoiceArray[i].InvoicePhases[j].PhaseAmount, new { @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- /.box-body -->
+            }
+        </div>
+    }
+}

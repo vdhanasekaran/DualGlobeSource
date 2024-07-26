@@ -1,0 +1,222 @@
+﻿@model DualGlobe.ERP.Models.ProjectProfitLossReportModel
+
+@{
+    ViewBag.Title = "Project Profit and Loss Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Project Profit and Loss Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <b>For Period  From: </b>  @Model.StartDate.GetValueOrDefault(DateTime.Now).ToShortDateString() <b>To: </b>  @Model.EndDate.GetValueOrDefault(DateTime.Now).ToShortDateString()<br />
+                <b>Client Name: </b>  @Model.ClientName <br />
+                <b>Project Name: </b>  @Model.ProjectName
+            </div>
+            <div class="box-body">
+                <div class="table table-striped">
+                    <table class="table">
+                        <tr>
+                            <th style="width:60%">Description</th>
+                            <th>Amount (S$)</th>
+                        </tr>
+                        @if (Model.GrossSale.GetValueOrDefault(0) > 0 && Model.ProjectExpense.GetValueOrDefault(0) > 0)
+                        {
+                        <tr>
+                            <td>Gross Sales <b>(a)</b></td>
+                            <td style="text-align:right;">@Model.GrossSale.GetValueOrDefault(0)</td>
+                        </tr>
+
+                        <tr>
+                            @{
+                                decimal revenue = Model.GrossSale.GetValueOrDefault(0);
+                            <td><b>Revenue = (a) </b></td>
+                            <td style="text-align:right;">@revenue</td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td>Cost of goods(Materials) Purchased <b>(b)</b></td>
+                            <td style="text-align:right;">@Model.ProjectExpense.GetValueOrDefault(0)</td>
+                        </tr>
+                        <tr>
+                            @{
+                                decimal grossProfit = revenue - Model.ProjectExpense.GetValueOrDefault(0);
+                                    <td><b>Gross Profit (c) = (b) - (a)</b></td>
+                                    <td style="text-align:right;">@grossProfit</td>
+                            }
+                        </tr>
+
+                                <tr>
+                                    <td colspan="2" style="text-align:center"><b>Allowable Business Expenses</b></td>
+                                </tr>
+                                if (Model.AccountingAndLegalFee.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Accounting and Legal Fee</td>
+                                    <td style="text-align:right;">@Model.AccountingAndLegalFee.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.Advertising.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Advertising</td>
+                                    <td style="text-align:right;">@Model.Advertising.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.Utilitiy.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Utilities</td>
+                                    <td style="text-align:right;">@Model.Utilitiy.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.Insurance.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Insurance</td>
+                                    <td style="text-align:right;">@Model.Insurance.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.InterestAndBankCharge.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Interest and Bank Charges</td>
+                                    <td style="text-align:right;">@Model.InterestAndBankCharge.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.Postage.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Postage</td>
+                                    <td style="text-align:right;">@Model.Postage.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.PrintingAndStationary.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Printing and Stationary</td>
+                                    <td style="text-align:right;">@Model.PrintingAndStationary.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.ProfessionalMembership.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Professional Memberships</td>
+                                    <td style="text-align:right;">@Model.ProfessionalMembership.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.PremiseRent.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Rent for Premises</td>
+                                    <td style="text-align:right;">@Model.PremiseRent.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.RepairAndMaintenance.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Repair and Maintenance</td>
+                                    <td style="text-align:right;">@Model.RepairAndMaintenance.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.Training.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Training</td>
+                                    <td style="text-align:right;">@Model.Training.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.VehicleOperatingCost.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Vehicle Operating Costs</td>
+                                    <td style="text-align:right;">@Model.VehicleOperatingCost.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.WorkerCompensation.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Worker Compensation</td>
+                                    <td style="text-align:right;">@Model.WorkerCompensation.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.Depreciation.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Depreciation</td>
+                                    <td style="text-align:right;">@Model.Depreciation.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.WagesAndSalary.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Wages and Salaries</td>
+                                    <td style="text-align:right;">@Model.WagesAndSalary.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.EmployerCPF.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Employer's CPF Contibution</td>
+                                    <td style="text-align:right;">@Model.EmployerCPF.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.WorkerLevy.GetValueOrDefault(0) > 0)
+                                {
+                                <tr>
+                                    <td>Foreign Worker Levy (FWL)</td>
+                                    <td style="text-align:right;">@Model.WorkerLevy.GetValueOrDefault(0)</td>
+                                </tr>
+                                }
+                                if (Model.otherExpense != null && Model.otherExpense.Count > 0)
+                                {
+                                    foreach (var expense in Model.otherExpense)
+                                    {
+                                    <tr>
+                                        <td>@expense.ExpenseDescription</td>
+                                        <td style="text-align:right;">@expense.ExpenseAmount.GetValueOrDefault(0)</td>
+                                    </tr>
+                                    }
+                                }
+                                <tr>
+                                    <td colspan="2"></td>
+                                </tr>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Revenue (a)</b></td>
+                                            <td style="text-align:right;">@revenue</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Gross Profit/Loss (c)</b></td>
+                                            <td style="text-align:right;">@grossProfit</td>
+                                        </tr>
+                                }
+                    </table>
+                </div>
+
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- /.row -->

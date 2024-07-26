@@ -1,0 +1,226 @@
+@using DualGlobe.ERP.Utility
+@model DualGlobe.ERP.Models.QuotationModel
+
+@{
+    ViewBag.Title = "View Quotation";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+<style>
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 2px !important;
+    }
+</style>
+
+<!-- info row -->
+<div class="row invoice-info">
+    <!-- /.col -->
+    <div style="text-align:center;" class="col-xs-12">
+
+        <span style="font-weight:bold; font-size:14px;">QUOTATION</span>
+    </div>
+    @*<div class="col-sm-8 invoice-col">
+            To
+            <address>
+                <strong>@Model.quotationRecord.To</strong><br>
+                @Utilities.GetClientName(Model.quotationRecord.ClientId)<br />
+                @Html.Raw(Utilities.GetClientAddressHtml(Model.quotationRecord.ClientId))
+            </address>
+        </div>*@
+    <div class="col-xs-8">
+        <b>To</b>
+        <address style="margin-bottom:10px !important;">
+            <strong><b>@Utilities.GetClientName(Model.quotationRecord.ClientId)</b></strong><br />
+            @Html.Raw(Utilities.GetClientAddressHtml(Model.quotationRecord.ClientId, Model.quotationRecord.Id))
+        </address>
+    </div>
+    <!-- /.col -->
+    <div style="float:right !important;" class="col-sm-4 invoice-col">
+        <span class="pull-right">
+            <br>
+            <b>Quotation No: @Model.quotationRecord.Id</b>
+            <br>
+            @* <b>Project Name:</b> @Utilities.GetProjectName(Model.quotationRecord.ProjectId)<br> *@
+            @if (!string.IsNullOrEmpty(Model.quotationRecord.ReferenceNumber))
+            {
+                <b>Reference No:</b> @Model.quotationRecord.ReferenceNumber<br>
+            }
+            @*   @if (!string.IsNullOrEmpty(Model.quotationRecord.PONumber))
+                {
+                <b>PO Number:</b> @Model.quotationRecord.PONumber<br>
+                } *@
+            <b>Date:</b> @Model.quotationRecord.DateCreated.Value.ToString("dd/MM/yyyy")<br>
+            @if (Model.quotationRecord.ValidUntil != null)
+            {
+                <b>Valid Until:</b> @Model.quotationRecord.ValidUntil.Value.ToString("dd/MM/yyyy")
+            }
+        </span>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!-- .row -->
+<div class="row">
+    <div class="col-xs-12">
+        <p><b>ATTN: </b>@Model.quotationRecord.To</p>
+        <p><b>SUB: </b>@Model.quotationRecord.Subject</p>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12 table-responsive">
+        <table style="margin-bottom:0px !important;" class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:6%; text-align:center;">Sl No.</th>
+                    <th style="width:59%; text-align:center;">Description</th>
+                    <th style="width:5%; text-align:right;">Qty</th>
+                    <th style="width:10%; text-align:right;">Unit Price</th>
+                    @*@if (Model.quotationRecord.GSTType == "E")
+                        {
+                            <th style="width:10%; text-align:right;">GST</th>
+                        }
+                        @if (Model.quotationRecord.GSTType == "I")
+                        {
+                            <th style="width:15%; text-align:right;">Amount</th>
+                        }
+                        else
+                        {
+                            <th style="width:15%; text-align:right;">Subtotal</th>
+                        }*@
+
+                    <th style="width:15%; text-align:right;">Subtotal</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.quotationRecord.quotationItems.Count; i++)
+                {
+                    <tr>
+                        <td style="text-align:center;">@(i + 1)</td>
+                        <td>@Html.Raw(Model.quotationRecord.quotationItems[i].Description)</td>
+                        <td style="text-align:right;">@Model.quotationRecord.quotationItems[i].Quantity</td>
+                        <td style="text-align:right;">@String.Format("{0:n}", Model.quotationRecord.quotationItems[i].UnitPrice.GetValueOrDefault(0))</td>
+                        <td style="text-align:right;">@String.Format("{0:n}", Model.quotationRecord.quotationItems[i].Amount.GetValueOrDefault(0))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table style="margin-bottom:2px !important;" class="table table-striped">
+            <tr>
+                <td style="width:20%"></td>
+                <td style="width:20%"></td>
+                <td style="width:20%"></td>
+                <td style="text-align:right;width:30%;"><strong><b>SubTotal (S$): </b></strong></td>
+                <td style="text-align:right;width:10%;">@String.Format("{0:n}", Model.quotationRecord.SubTotal)</td>
+            </tr>
+            @if (Model.quotationRecord.DiscountValue.GetValueOrDefault(0) > 0)
+            {
+                if (Model.quotationRecord.DiscountType == "Amount")
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><strong><b>Discount (S$): </b></strong></td>
+                        <td style="text-align:right;">@String.Format("{0:n}", Model.quotationRecord.DiscountAmount.GetValueOrDefault(0))</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><strong><b>Actual Amount (S$): </b></strong></td>
+                        <td style="text-align:right;">@(String.Format("{0:n}", (Model.quotationRecord.ActualAmount)))</td>
+                    </tr>
+                }
+                else if (Model.quotationRecord.DiscountType == "Percentage")
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><strong><b>Discount (@Model.quotationRecord.DiscountValue.GetValueOrDefault().ToString("0.00") %): </b></strong></td>
+                        <td style="text-align:right;">@(String.Format("{0:n}", (Model.quotationRecord.DiscountAmount)))</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><strong><b>Actual Amount (S$): </b></strong></td>
+                        <td style="text-align:right;">@(String.Format("{0:n}", (Model.quotationRecord.ActualAmount)))</td>
+                    </tr>
+                }
+            }
+            @if (Model.quotationRecord.GST.GetValueOrDefault(0) > 0)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;"><strong><b>GST:<br />(9% from 1st Jan 2024, 8% until 31st Dec 2023) (S$) </b></strong></td>
+                    <td style="text-align:right;">@String.Format("{0:n}", Model.quotationRecord.GST.GetValueOrDefault(0))</td>
+                </tr>
+            }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="text-align:right;"><strong><b>Total (S$): </b></strong></td>
+            <td style="text-align:right;">@String.Format("{0:n}", Model.quotationRecord.QuotationValue.GetValueOrDefault())</td>
+        </tr>
+
+
+
+        </table>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /Table row -->
+<!-- .row -->
+<div class="row">
+    <div class="col-xs-12">
+        <p>@*<b>Terms & Conditions: </b><br />*@ @Html.Raw(Model.quotationRecord.TermsAndCondtions)</p>
+    </div>
+    <!-- /.col -->
+</div>
+@if (!string.IsNullOrEmpty(Model.quotationRecord.Notes))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <p>
+                <b>Notes: </b><br /> @Html.Raw(Model.quotationRecord.Notes) <br />
+
+
+
+            </p>
+        </div>
+        <!-- /.col -->
+    </div>
+}
+<p>This is a system generated quotation and does not require any signature.</p>
+<br />
+<br />
+<div class="row">
+    <div class="col-xs-6">
+        @*<p>
+                <br />-------------------------------<br />
+                <b>Company Stamp: </b>
+            </p>*@
+    </div>
+    <div class="col-xs-6">
+        <p class="pull-right">
+            <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmed &amp; accepted by</b><br /><br /><br /><br /><br />
+            -------------------------------------------------<br />
+            <b>Signature / Company Stamp / Date </b>
+        </p>
+    </div>
+    @* <div class="row">
+            <div style="text-align:center;" class="col-xs-12">
+                <br />
+                <span>This is computer generated report as no signature required.</span>
+            </div>
+        </div> *@
+    <!-- /.col -->
+</div>
+<!-- /.row -->

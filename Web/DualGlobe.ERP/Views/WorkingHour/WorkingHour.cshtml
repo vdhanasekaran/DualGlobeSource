@@ -1,0 +1,78 @@
+﻿@model DualGlobe.ERP.Models.WorkingHourModel
+
+@{
+    ViewBag.Title = "Working Hour";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Working Hour
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "WorkingHour")">Working Hour</a></li>
+        <li class="active">Add Working Hour</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "WorkingHour", FormMethod.Post))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.WorkingHourRecord.Id)
+                            @Html.LabelFor(model => Model.WorkingHourRecord.GroupName, "Group Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.WorkingHourRecord.GroupName, new { @id = "txtGroupName", @class = "form-control", @required = "required" })
+                            @*@Html.DropDownListFor(model => Model.WorkingHourRecord.GroupName, new SelectList(new List<SelectListItem>(), "Value", "Text"), "--Select--", new { @id = "ddlGroupList", @class = "form-control", @required = "required" })*@
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.WorkingHourRecord.WeeklyAvgWorkingDays, "Weekly Avg Working Days") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.WorkingHourRecord.WeeklyAvgWorkingDays, new { @id = "txtWeeklyAvgWorkingDays", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                @Html.LabelFor(model => Model.WorkingHourRecord.InTime, "In Time") <span class="required">*</span>
+                                @Html.TextBoxFor(model => Model.WorkingHourRecord.InTime, new { @id = "txtInTime", @class = "form-control timepicker", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                @Html.LabelFor(model => Model.WorkingHourRecord.OutTime, "Out Time") <span class="required">*</span>
+                                @Html.TextBoxFor(model => Model.WorkingHourRecord.OutTime, new { @id = "txtOutTime", @class = "form-control timepicker", @required = "required" })
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => Model.WorkingHourRecord.BreakTime, "Break Time") 
+                            @Html.TextBoxFor(model => Model.WorkingHourRecord.BreakTime, new { @id = "txtBreakTime", @class = "form-control" })
+                        </div>*@
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.WorkingHourRecord.TotalHour, "Total Hour")
+                            @Html.TextBoxFor(model => Model.WorkingHourRecord.TotalHour, new { @id = "txtTotalHour", @class = "txtTotalHours form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.WorkingHourRecord.WeeklyAvgWorkingHour, "Weekly Avg Working Hour") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.WorkingHourRecord.WeeklyAvgWorkingHour, new { @id = "txtWeeklyAvgWorkingHour", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+                                            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("Index","WorkingHour")" class="btn btn-primary">Back</a>
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

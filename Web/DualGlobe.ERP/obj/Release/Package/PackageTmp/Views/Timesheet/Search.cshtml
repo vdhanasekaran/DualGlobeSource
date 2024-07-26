@@ -1,0 +1,79 @@
+﻿@model DualGlobe.ERP.Models.TimesheetModel
+
+<div class="box">
+    <div class="box-body">
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.TimesheetDate, "Select Date: ") <span class="required">*</span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.EmployeeStatus, "Select Employee Status: ")
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.ClientName, "Select Client: ")
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.ProjectName, "Select Project: ")
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.TextBoxFor(
+                                            model => Model.TimesheetDate,
+                                            new
+                                            {
+                                                @Value = Model.TimesheetDate != null ? Model.TimesheetDate.ToString("yyyy-MM-dd") : "",
+                                                @id = "txtTimesheetDate",
+                                                @class = "form-control datepicker",
+                                                @required = "required",
+                                                @type = "date"
+                                            }
+                                        )
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.EmployeeStatus, new SelectList(Model.employeeStatusList, "Value", "Text"), "ALL", new { @id = "ddlEmployeeStatus", @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.ClientName, new SelectList(Model.clientList, "Value", "Text"), "--Select--", new { @id = "ddlClient", @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.ProjectName, new SelectList(Model.projectList, "Value", "Text"), "--Select--", new { @id = "ddlProject", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" name="action:Search" class="btn btn-primary pull-right">Find Timesheet</button>
+                    @*<a href="@Url.Action("Search", "Timesheet", new { @projectId = Model.ProjectName, @timesheetDate = Model.TimesheetDate, @status = Model.EmployeeStatus})" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Find Timesheet</a>*@
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" name="action:Add" class="btn btn-primary pull-right">Add Timesheet</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

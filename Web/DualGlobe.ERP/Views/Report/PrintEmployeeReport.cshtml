@@ -1,0 +1,69 @@
+﻿@model DualGlobe.ERP.Models.EmployeeModel
+    
+@{
+    ViewBag.Title = "Employee Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Employee Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Serial No</th>
+                            <th>Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Work Status</th>
+                            <th>Date of Appointment</th>
+                            <th>Designation</th>
+                            <th>Basic Salary</th>
+                            <th>Fixed Allowance</th>
+                            <th>
+                                Passport Number/
+                                Passport ExpiryDate
+                            </th>
+                            <th>Insurance Policy Number / Insurance End Date </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var item in Model.employeeList)
+                            {
+                            <tr>
+                                <td>@(++i)</td>
+                                <td>@item.Id</td>
+                                <td>@item.FirstName @item.LastName</td>
+                                <td>@item.WorkStatus</td>
+                                <td>@item.AppointmentDate.ToString("d")</td>
+                                <td>@item.Designation</td>
+                                <td>@item.BasicSalary</td>
+                                <td>@item.FixedAllowance</td>
+                                <td>@item.PassportNumber / @item.PassportExpiryDate</td>
+                                <td>@item.InsurancePolicyNumber / @item.InsuranceEndDate</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

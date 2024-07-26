@@ -1,0 +1,318 @@
+@using DualGlobe.ERP.Utility
+@model DualGlobe.ERP.Models.InvoiceModel
+
+@{
+    ViewBag.Title = "View Quotation";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+<style>
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 2px !important;
+    }
+</style>
+<!-- info row -->
+<div class="row invoice-info">
+    <!-- /.col -->
+    <div style="text-align:center;" class="col-xs-12">
+
+        <span style="font-weight:bold; font-size:14px;">TAX INVOICE</span>
+    </div>
+    <div class="col-xs-8">
+        <strong>To</strong>
+        <address style="margin-bottom:10px !important;">
+            <strong><b>@Utilities.GetClientName(Model.InvoiceArray[0].ClientId.Value)</b></strong><br>
+            @Html.Raw(Utilities.GetClientAddressHtml(Model.InvoiceArray[0].ClientId.Value, Model.InvoiceArray[0].QuotationId.Value))
+        </address>
+    </div>
+    <!-- /.col -->
+    <div style="float:right !important;" class="col-xs-4">
+        <span class="pull-left">
+            <br />
+            <b>Invoice No: @Model.InvoiceArray[0].Id</b><br>
+            <b>Quotation No:</b> @Model.InvoiceArray[0].QuotationId<br>
+
+            @*   @if (Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()) > 0)
+                {
+                <b>Project Name:</b> @Utilities.GetProjectName(Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()))<br>
+                } *@
+            @if (!string.IsNullOrEmpty(Utilities.GetRefNumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
+            {
+                <b>Reference Number:</b> @Utilities.GetRefNumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())<br>
+            }
+            @if (!string.IsNullOrEmpty(Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
+            {
+                <b>PO Number:</b> @Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())<br>
+            }
+            <b>Date:</b> @Model.InvoiceArray[0].InvoiceDate.Value.ToString("dd/MM/yyyy")
+        </span>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!-- .row -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <p><b>ATTN: </b>@Model.InvoiceArray[0].Attention</p>
+    </div>
+    <!-- /.col -->
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @*  <p><b>SUB: </b>Sub Contract Claim for the Month @Model.InvoiceArray[0].InvoiceDate.Value.ToString("MMMM")</p> *@
+        @*  <p><b>SUB: </b>@Model.InvoiceArray[0].PhaseName</p> *@
+        <p><b>SUB: </b>@Utilities.GetSubjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())</p>
+    </div>
+    <!-- /.col -->
+</div>
+
+
+<!-- /.row -->
+<!-- Table row -->
+@if (Model.InvoiceArray[0].IsProgressClaimRequired == "true")
+{
+    <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;width:6%;">Sl No.</th>
+                        <th style="text-align:center;width:74%;">Description</th>
+                        <th style="text-align:right;width:20%;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>@Model.InvoiceArray[0].PhaseName</td>
+                        <td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].InvoiceAmount.GetValueOrDefault())</td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th style="text-align:right;">Total (S$): </th>
+                        <th style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].InvoiceAmount.GetValueOrDefault())</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+}
+<!-- /Table row -->@*
+    @if (Model.InvoiceArray.Any(i => i.Payments != null && i.Payments.Count > 0))
+    {
+        var paidInvoices = Model.InvoiceArray.Where(i => i.Payments != null && i.Payments.Count > 0).ToList();
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Previous Invoice Claim Details</b></p>
+            </div>
+            <!-- /.col -->
+        </div>
+        for (int j = 0; j < paidInvoices.Count; j++)
+        {
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Invoice Description: @paidInvoices[j].PhaseName</b></p>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- Table row -->
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Invoice Id</th>
+                                <th>Payment Date</th>
+                                <th>Payment Mode</th>
+                                <th>Paid Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in paidInvoices[j].Payments)
+                            {
+                            <tr>
+                                <td>@paidInvoices[j].Id</td>
+                                <td>@payment.PaymentDate</td>
+                                <td>@payment.PaymentMethod</td>
+                                <td>$$@payment.Amount</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+        <!-- /Table row -->
+        }
+    }
+*@
+<br />
+@if (Model.InvoiceArray[0].IsProgressClaimRequired != "true")
+{
+    @* <div class="row">
+            <div class="col-xs-12">
+                <p>Invoice Item Details</p>
+            </div>
+            <!-- /.col -->
+        </div> *@
+
+    <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:6%; text-align:center;">Sl No.</th>
+                        <th style="width:69%; text-align:center;">Description</th>
+                        <th style="text-align:right;width:5%">Qty</th>
+                        <th style="text-align:right;width:10%">Unit Price</th>
+                        @*<th style="text-align:right;width:10%">GST</th>*@
+                        <th style="text-align:right;width:10%">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.InvoiceArray[0].InvoicePhases.Count; i++)
+                    {
+                        <tr>
+                            <td style="text-align:center;">@(i + 1)</td>
+                            <td>@Html.Raw(Model.InvoiceArray[0].InvoicePhases[i].Description)</td>
+                            <td style="text-align:right;">@Model.InvoiceArray[0].InvoicePhases[i].Quantity</td>
+                            <td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].InvoicePhases[i].UnitPrice.GetValueOrDefault(0))</td>
+                            @*<td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].InvoicePhases[i].GSTAmount.GetValueOrDefault())</td>*@
+                            <td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].InvoicePhases[i].PhaseAmount.GetValueOrDefault())</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <table style="margin-bottom:2px !important;" class="table table-striped">
+                <tr>
+                    <td style="width:20%"></td>
+                    <td style="width:20%"></td>
+                    <td style="width:20%"></td>
+                    <td style="text-align:right;width:30%;"><b>SubTotal (S$): </b></td>
+                    <td style="text-align:right;width:10%;">@String.Format("{0:n}", Model.InvoiceArray[0].TotalPhaseAmount.GetValueOrDefault())</td>
+                </tr>
+                @if (Model.InvoiceArray[0].DiscountValue.GetValueOrDefault(0) > 0)
+                {
+                    if (Model.InvoiceArray[0].DiscountType == "Percentage")
+                    {
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="text-align:right;"><b>Discount Percentage:</b></td>
+                            <td style="text-align:right;">@Model.InvoiceArray[0].DiscountValue.GetValueOrDefault(0).ToString("#0") %</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><b>Discount Amount (S$):</b></td>
+                        <td style="text-align:right;">@(String.Format("{0:n}", (Model.InvoiceArray[0].DiscountAmount.GetValueOrDefault(0))))</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;"><b>Actual Amount (S$):</b></td>
+                    <td style="text-align:right;">@(String.Format("{0:n}", (Model.InvoiceArray[0].ActualAmount).GetValueOrDefault()))</td>
+                </tr>
+
+
+                @if (Model.InvoiceArray[0].TotalGSTAmount.GetValueOrDefault() > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right;"><b>GST:<br />(9% from 1st Jan 2024, 8% until 31st Dec 2023) (S$)</b></td>
+                        <td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].TotalGSTAmount.GetValueOrDefault())</td>
+                    </tr>
+                }
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;"><b>Total (S$): </b></td>
+                    <td style="text-align:right;">@String.Format("{0:n}", Model.InvoiceArray[0].InvoiceAmount.GetValueOrDefault())</td>
+                </tr>
+
+            </table>
+
+        </div>
+        <!-- /.col -->
+    </div>
+}
+
+
+<br />
+<br />
+@{
+    if (Model.InvoiceArray != null && Model.InvoiceArray.Any())
+    {
+        string notes = Utilities.GetNotesByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault());
+        if (!string.IsNullOrEmpty(notes))
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    @*   <p>
+                            <b>Notes: </b><br /> @Html.Raw(notes) <br />
+
+                            This is a system generated quotation and does not require any signature.
+
+                        </p>*@
+                </div>
+                <!-- /.col -->
+            </div>
+        }
+    }
+}
+
+<div class="row">
+
+    <div class="col-xs-6">
+        <span style="text-align:left;">Cheque should be made payable to <span style="text-transform:uppercase;">“@System.Configuration.ConfigurationManager.AppSettings["CompanyName"]”.</span></span><br><br><br>
+    </div>
+    <!-- /.col -->
+    <div style="float:left !important;" class="col-xs-6">
+        <span style="text-align:left; vertical-align:top; font-family:'Courier New'">@Html.Raw(Model.InvoiceArray[0].PaymentInformation)</span>
+    </div>
+</div>
+<div class="row"
+
+    <div class="col-xs-6">
+        <p>
+            <br />
+            <br />--------------------------------------------------------------
+            <br />
+            @*<div class="col-xs-6">
+                <span><span style="text-transform:uppercase;">For @System.Configuration.ConfigurationManager.AppSettings["CompanyName"].</span></span><br><br><br>
+            </div>
+			*@
+            <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For <span style="text-transform:uppercase;">@System.Configuration.ConfigurationManager.AppSettings["CompanyName"]</span></b>
+        </p>
+    </div>
+    @*   <div class="col-xs-6">
+            <p class="pull-right">
+                -------------------------------<br />
+                <b>Authority Signature / Date </b>
+            </p>
+        </div> *@
+    <!-- /.col -->
+
+</div>
+
+
+@* <div class="row">
+        <div style="text-align:center;" class="col-xs-12">
+            <br />
+            <span>This is computer generated report as no signature required.</span>
+        </div>
+    </div>*@

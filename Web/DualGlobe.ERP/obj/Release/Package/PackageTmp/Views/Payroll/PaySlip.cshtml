@@ -1,0 +1,151 @@
+﻿@model Library.DualGlobe.ERP.Models.SalaryDetail
+
+@{
+    ViewBag.Title = "PaySlip";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+<table cellpadding="0" cellspacing="0">
+    <tr class="top">
+        <td colspan="2">
+            <table>
+                <tr>
+                    <td>
+                        <b>Dual Globe</b>
+                    </td>
+
+                    <td>
+                        <b>Payslip For the Month:</b> @DateTime.Today.AddMonths(-1).ToString("MMMM")<br>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr class="information">
+        <td colspan="2">
+            <table>
+                <tr>
+                    <td>
+                        <b>Name:</b> @Model.EmployeeName<br>
+                        <b>Employee Id:</b> @Model.EmployeeId<br>
+                    </td>
+                    <td>
+                        <b>Net Pay:</b> S$@Model.GrossSalary<br>
+                        <b>Payable on:</b> @DateTime.Today.ToShortDateString()<br>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="heading">
+        <td colspan="2">
+            Ordinary Wages (A)
+        </td>
+    </tr>
+    <tr class="item">
+        <td>
+            Description
+        </td>
+        <td>
+            Amount
+        </td>
+    </tr>
+    <tr class="item">
+        <td>
+            Monthly Base Pay
+        </td>
+        <td>
+            S$@Model.BasicSalary
+        </td>
+    </tr>
+    @if (Model.OTHourAllowance != null && Model.OTHourAllowance.Value > 0)
+    {
+    <tr class="item">
+        <td>
+            Overtime Wages
+        </td>
+        <td>
+            S$@Model.OTHourAllowance
+        </td>
+    </tr>
+    }
+    @if (Model.FixedAllowance != null && Model.FixedAllowance.Value > 0)
+    {
+    <tr class="item">
+        <td>
+            Fixed Allowance
+        </td>
+        <td>
+            S$@Model.FixedAllowance
+        </td>
+    </tr>
+    }
+    <tr class="item last">
+        <td>
+            <b>Total Wages:</b>
+        <td>
+            S$@Model.TotalAdditions
+        </td>
+    </tr>
+
+    <tr class="heading">
+        <td colspan="2">
+            <br />
+            Detections (B)
+        </td>
+    </tr>
+    @if (Model.loanAmountDetected != null && Model.loanAmountDetected.Value > 0)
+    {
+    <tr class="item">
+        <td>
+            Loan Detection:
+        </td>
+        <td>
+            S$@Model.loanAmountDetected
+        </td>
+    </tr>
+    }
+    @if (Model.EmployeeCPF != null && Model.EmployeeCPF.Value > 0)
+    {
+    <tr class="item">
+        <td>
+            Employee CPF
+        </td>
+        <td>
+            S$@Model.EmployeeCPF
+        </td>
+    </tr>
+    }
+    @if (Model.Donation != null && Model.Donation.Value > 0)
+    {
+    <tr class="item">
+        <td>
+            Donations
+        </td>
+        <td>
+            S$@Model.Donation
+        </td>
+    </tr>
+    }
+    <tr class="item last">
+        <td>
+            <b>Total Detections :</b>
+        <td>
+            S$@Model.TotalDetectSalary
+        </td>
+    </tr>
+    <tr class="heading">
+        <td colspan="2">
+            <br />
+            Net
+        </td>
+    </tr>
+    <tr class="item last">
+        <td>
+            <b>Total (A - B):</b>
+        <td>
+            S$@Model.GrossSalary
+        </td>
+    </tr>
+</table>

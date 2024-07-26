@@ -1,0 +1,237 @@
+﻿@using DualGlobe.ERP.Utility
+@model DualGlobe.ERP.Models.QuotationModel
+
+@{
+    ViewBag.Title = "View Quotation";
+}
+
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Quotation Details</h4>
+</div>
+<div class="modal-body">
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div style="text-align:center;" class="col-xs-12">
+                <img src="~/Content/Logo/Company_Logo.png" height="35" width="250" /><br />
+            </div>
+            <div style="text-align:center;" class="col-xs-12">
+                <span>
+
+                    @System.Configuration.ConfigurationManager.AppSettings["AddressLine1"] |
+                    @System.Configuration.ConfigurationManager.AppSettings["AddressLine2"] <br />
+                    @System.Configuration.ConfigurationManager.AppSettings["Email"] |
+                    @System.Configuration.ConfigurationManager.AppSettings["Phone"]
+                </span>
+            </div>
+            @*<div class="col-xs-3">
+                    <span class="pull-right">
+                        @System.Configuration.ConfigurationManager.AppSettings["CompanyReg"]<br />
+                        <b>Date:</b> @DateTime.Today.ToString("dd/MM/yyyy")
+                    </span>
+                </div>*@
+            <!-- /.col -->
+        </div>
+        <hr />
+        <!-- info row -->
+        <div class="row invoice-info">
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                To
+                <address>
+                    <strong>@Model.quotationRecord.To</strong><br>
+                    @Utilities.GetClientName(Model.quotationRecord.ClientId)
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                <span class="pull-right">
+                    <b>Quotation #@Model.quotationRecord.Id</b><br>
+                    <br>
+                    <b>Project Name:</b> @Utilities.GetProjectName(Model.quotationRecord.ProjectId)<br>
+                    @if (!string.IsNullOrEmpty(Model.quotationRecord.ReferenceNumber))
+                    {
+                        <b>Reference No:</b> @Model.quotationRecord.ReferenceNumber<br>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.quotationRecord.PONumber))
+                    {
+                        <b>PO Number:</b> @Model.quotationRecord.PONumber<br>
+                    }
+                    <b>Date Created:</b> @Model.quotationRecord.DateCreated.Value.ToString("dd/MM/yyyy")<br>
+                    @if (Model.quotationRecord.ValidUntil != null)
+                    {
+                        <b>Valid Until:</b> @Model.quotationRecord.ValidUntil.Value.ToString("dd/MM/yyyy")
+                    }
+                </span>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- .row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Subject: </b>@Model.quotationRecord.Subject</p>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Serial #</th>
+                            <th>Description</th>
+                            <th style="text-align:right;">Qty</th>
+                            <th style="text-align:right;">Unit Price</th>
+
+                            @*@if (Model.quotationRecord.GSTType == "E")
+                                {
+                                    <th style="text-align:right;">GST</th>
+                                }
+                                @if (Model.quotationRecord.GSTType == "I")
+                                {
+                                    <th style="text-align:right;">Amount</th>
+                                }
+                                else
+                                {
+                                    <th style="text-align:right;">Subtotal</th>
+                                }*@
+
+                            <th style="text-align:right;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.quotationRecord.quotationItems.Count; i++)
+                        {
+                            <tr>
+                                <td style="text-align:center;">@(i + 1)</td>
+                                <td>@Html.Raw(Model.quotationRecord.quotationItems[i].Description)</td>
+                                <td style="text-align:right;">@Model.quotationRecord.quotationItems[i].Quantity</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", Model.quotationRecord.quotationItems[i].UnitPrice.GetValueOrDefault(0))</td>
+
+                                @*@if (Model.quotationRecord.GSTType == "E")
+                                    {
+                                        <td style="text-align:right;">S$@String.Format("{0:n}", Model.quotationRecord.quotationItems[i].GST.GetValueOrDefault())</td>
+                                    }
+
+                                    @if (Model.quotationRecord.GSTType == "I")
+                                    {
+                                        <td style="text-align:right;">S$@(String.Format("{0:n}", Model.quotationRecord.quotationItems[i].Amount.GetValueOrDefault(0)))</td>
+                                    }
+                                    else
+                                    {
+                                        <td style="text-align:right;">S$@String.Format("{0:n}", Model.quotationRecord.quotationItems[i].Amount.GetValueOrDefault(0))</td>
+                                    }*@
+
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.quotationRecord.quotationItems[i].Amount.GetValueOrDefault(0))</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="width:20%"></td>
+                            <td style="width:20%"></td>
+                            <td style="width:20%"></td>
+                            <td style="text-align:right;width:10%;">SubTotal: </td>
+                            <td style="text-align:right;width:10%;">S$@String.Format("{0:n}", Model.quotationRecord.SubTotal.GetValueOrDefault(0))</td>
+                        </tr>
+                        @if (Model.quotationRecord.DiscountValue.GetValueOrDefault(0) > 0)
+                        {
+                            if (Model.quotationRecord.DiscountType == "Amount")
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;">Discount:</td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", Model.quotationRecord.DiscountAmount.GetValueOrDefault(0))</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;">Actual Amount:</td>
+                                    <td style="text-align:right;">S$@(String.Format("{0:n}", Model.quotationRecord.ActualAmount)) </td>
+                                </tr>
+                            }
+                            else if (Model.quotationRecord.DiscountType == "Percentage")
+                            {
+                                @* <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="text-align:right;">Discount:</td>
+                                        <td style="text-align:right;">@Model.quotationRecord.DiscountValue.GetValueOrDefault(0) %</td>
+                                    </tr> *@
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;">Discount (@Model.quotationRecord.DiscountValue.GetValueOrDefault().ToString("0.00") %):</td>
+                                    <td style="text-align:right;">S$@(String.Format("{0:n}", Model.quotationRecord.DiscountAmount)) </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;">Actual Amount:</td>
+                                    <td style="text-align:right;">S$@(String.Format("{0:n}", Model.quotationRecord.ActualAmount)) </td>
+                                </tr>
+                            }
+                        }
+                        @if (Model.quotationRecord.GST.GetValueOrDefault(0) > 0)
+                        {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right;">GST:<br />(9% from 1st Jan 2024, 8% until 31st Dec 2023) (S$)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.quotationRecord.GST.GetValueOrDefault(0))</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="text-align:right;">Total: </td>
+                            <td style="text-align:right;">S$@String.Format("{0:n}", Model.quotationRecord.QuotationValue.GetValueOrDefault())</td>
+                        </tr>
+
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /Table row -->
+        <!-- .row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Terms & Conditions: </b>@Html.Raw(Model.quotationRecord.TermsAndCondtions)</p>
+            </div>
+            <!-- /.col -->
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Notes: </b>@Html.Raw(Model.quotationRecord.Notes)</p>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+</div>
+<div class="modal-footer">
+    <div class="row no-print">
+        <div class="col-xs-12">
+            <a href="@Url.Action("PrintQuotation","Quotation", new { @id = Model.quotationRecord.Id})" target="_blank" class="btn btn-success"><i class="fa fa-print"></i> Print</a>
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+

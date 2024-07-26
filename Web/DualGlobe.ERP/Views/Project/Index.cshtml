@@ -1,0 +1,105 @@
+﻿@model DualGlobe.ERP.Models.ProjectModel
+
+@{
+    ViewBag.Title = "Project Details";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Project List
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Project List</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box">
+        <div class="box-body">
+            @using (Html.BeginForm("Search", "Project", FormMethod.Post))
+            {
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.ClientId, "Select Client: ") <span class="required">*</span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.ClientId, new SelectList(Model.ClientList, "Value", "Text"), "--Select--", new { @id = "ddlClient", @class = "form-control", @required = "required" })
+                        @Html.HiddenFor(model => Model.ClientId)
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-primary pull-right">Search</button>
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <a href="@Url.Action("EmployeeProject", "EmployeeProject")" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Employee to Project</a>
+                    </div>
+                </div>
+                    <div class="col-xs-3">
+                        <div class="form-group">
+                            <a href="@Url.Action("Project", "Project")" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Project</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="tblProject" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Project Id</th>
+                                <th>Project Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th style="width:120px; text-align:left;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.projectArray != null && Model.projectArray.Length > 0)
+                            {
+                                foreach (var m in Model.projectArray)
+                                {
+                                <tr>
+                                    <td>@m.Id</td>
+                                    <td>@m.ProjectName</td>
+                                    <td>@m.StartDate.Date.ToShortDateString()</td>
+                                    <td>@m.EndDate.ToShortDateString()</td>
+                                    <td style="width:120px; text-align:left;">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                        <a href="@Url.Action("Project", "Project", new { @projectId = m.Id, @pageMode = "Edit" })" class="btn-link"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                        <a href="@Url.Action("Project", "Project", new { @projectId = m.Id, @pageMode = "View" })" class="btn-link pull-right"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                        }
+                                        else
+                                        {
+                                        <a href="@Url.Action("Project", "Project", new { @projectId = m.Id, @pageMode = "View" })" class="btn-link"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                        }
+                                    </td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

@@ -1,0 +1,106 @@
+﻿@model DualGlobe.ERP.Models.ProjectModel
+
+@{
+    ViewBag.Title = "Project";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Project
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Project")">Project</a></li>
+        <li class="active">Add Project</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "Project", FormMethod.Post))
+        {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.projectRecord.Id)
+                            @Html.LabelFor(model => Model.projectRecord.ClientId, "Client Name") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.projectRecord.ClientId, new SelectList(Model.ClientList, "Value", "Text"), "--Select--", new { @id = "ddlClient", @class = "form-control", @required = "required" })
+                            @Html.HiddenFor(model => Model.projectRecord.ClientId)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.projectRecord.ProjectName, "Project Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.projectRecord.ProjectName, new { @id = "txtProjectName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.projectRecord.ProjectDescription, "Project Description")
+                            @Html.TextAreaFor(model => Model.projectRecord.ProjectDescription, new { @id = "txtProjectDes", @class = "form-control" })
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.projectRecord.StartDate, "Start Date") <span class="required">*</span>
+
+                            @Html.TextBoxFor(
+                                                model => model.projectRecord.StartDate,
+                                                new
+                                                {
+                                                    @Value = Model.projectRecord != null ? Model.projectRecord.StartDate.ToString("yyyy-MM-dd") : "",
+                                                    @id = "txtStartDate",
+                                                    @class = "form-control datepicker",
+                                                    @required = "required",
+                                                    @autocomplete = "off",
+                                                    @type = "date"
+                                                }
+                                                )
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.projectRecord.EndDate, "End Date") <span class="required">*</span>
+
+                            @Html.TextBoxFor(
+                                             model => model.projectRecord.EndDate,
+                                             new
+                                             {
+                                                 @Value = Model.projectRecord != null ? Model.projectRecord.EndDate.ToString("yyyy-MM-dd") : "",
+                                                 @id = "txtEndDate",
+                                                 @class = "form-control datepicker",
+                                                 @required = "required",
+                                                 @autocomplete = "off",
+                                                 @type = "date"
+                                             }
+                                             )
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.projectRecord.Status, "Project Status") <span class="required">*</span>
+                            @if (Model.PageMode == "Edit")
+                            {
+                                @Html.DropDownListFor(model => Model.projectRecord.Status, new SelectList(Model.StatusList, "Value", "Text"), new { @id = "ddlStatus", @class = "form-control", @required = "required" })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => Model.projectRecord.Status, new SelectList(Model.StatusList, "Value", "Text"), new { @id = "ddlStatus", @class = "form-control", @required = "required", @readonly = "readonly" })
+                            }
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                @*<button type="button" class="reset btn btn-default">Back</button>*@
+                <a href="@Url.Action("Index","Project")" class="btn btn-primary">Back</a>
+                @if (Model.projectRecord == null || Model.PageMode == "Edit")
+                {
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

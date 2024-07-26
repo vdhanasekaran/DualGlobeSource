@@ -1,0 +1,70 @@
+﻿@model DualGlobe.ERP.Models.AccountModel
+
+@{
+    ViewBag.Title = "Account";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Users
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("UserDetails", "Account")">User Account</a></li>
+        <li class="active">Add User</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("SubmitUser", "Account", FormMethod.Post))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.userRecord.Id)
+                            @Html.LabelFor(model => Model.userRecord.EmployeeId, "Employee Id") 
+                            @Html.DropDownListFor(model => Model.userRecord.EmployeeId, Model.EmployeeList, "--Select--",new { @id = "txtEmployeeId", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.EmployeeName, "Employee Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.EmployeeName, new { @id = "txtEmployeeName", @class = "form-control", @required = "required" })
+                        </div>
+                        
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.userRecord.UserId, "User Name") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.userRecord.UserId, new { @id = "txtUserName", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">                          
+                            @Html.LabelFor(model => Model.userRecord.Password, "Password") <span class="required">*</span>
+                            @Html.PasswordFor(model => Model.userRecord.Password, new { @id = "txtPassword", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.userRecord.Role, "Role") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.userRecord.Role, Model.UserGroupList, "--Select--", new { @id = "ddlGroup", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                <a href="@Url.Action("UserDetails","Account")" class="btn btn-primary">Back</a>
+                @if (Model == null || Model.PageMode == "Edit")
+                {
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

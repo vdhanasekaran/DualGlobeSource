@@ -1,0 +1,64 @@
+﻿@model DualGlobe.ERP.Models.OtherIncomeModel
+
+@{
+    ViewBag.Title = "Income";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Add Income
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("OtherIncome", "Income")">Other Incomes</a></li>
+        <li class="active">Add Income</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="box box-default">
+        <!-- form start -->
+        @using (Html.BeginForm("Submit", "Income", FormMethod.Post))
+            {
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.otherIncomeRecord.Id)
+                            @Html.LabelFor(model => Model.otherIncomeRecord.IncomeDate, "Income Date") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.otherIncomeRecord.IncomeDate, new { @Value = Model.otherIncomeRecord != null ? Model.otherIncomeRecord.IncomeDate.ToString("yyyy-MM-dd") : "", @id = "txtIncomeDate", @class = "form-control datepicker", @type="date", @required = "required" })
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.otherIncomeRecord.Description, "Description") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.otherIncomeRecord.Description, new { @id = "txtDescription", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.otherIncomeRecord.TotalAmount, "Total Amount") <span class="required">*</span>
+                            @Html.TextBoxFor(model => Model.otherIncomeRecord.TotalAmount, new { @id = "txtTotalAmount", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+
+            <div class="box-footer">
+                @*<button type="button" class="reset btn btn-default">Back</button>*@
+                <a href="@Url.Action("OtherIncome","Income")" class="btn btn-primary">Back</a>
+                @if (Model.otherIncomeRecord == null || Model.PageMode == "Edit")
+                {
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+        }
+    </div>
+    <!-- /.box -->
+</section>
+<!-- /.content -->

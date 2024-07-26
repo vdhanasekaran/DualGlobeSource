@@ -1,0 +1,406 @@
+﻿@model DualGlobe.ERP.Models.InvoiceModel
+
+@{
+    ViewBag.Title = "Progress Claim/Invoice";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Progress Claim/Invoice
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Invoice")">Invoice</a></li>
+        <li class="active">Progress Claim/Invoice</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- form start -->
+    @using (Html.BeginForm("Submit", "Invoice", FormMethod.Post))
+    {
+        <div class="box box-default">
+            <div class="box-body">
+                <div class="row">
+
+                    <!-- Left Column-->
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.InvoiceRecord.IsProgressClaimRequired, "Is Progress Claim Required") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.InvoiceRecord.IsProgressClaimRequired, Model.ClaimRequiredStatus.OrderBy(i => i.Text), new { @id = "ddlClaim", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.HiddenFor(model => Model.InvoiceRecord.Id)
+                            @Html.LabelFor(model => Model.InvoiceRecord.ClientId, "Client Name") <span class="required">*</span>
+                            @Html.DropDownListFor(model => Model.InvoiceRecord.ClientId, Model.ClientList, "--Select--", new { @id = "ddlInvoiceClient", @class = "form-control", @required = "required" })
+                            @Html.HiddenFor(model => Model.InvoiceRecord.ClientId)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.InvoiceRecord.QuotationId, "Quotation") <span class="required">*</span>
+                            @if (Model.PageMode == "Edit")
+                            {
+                                @Html.DropDownListFor(model => Model.InvoiceRecord.QuotationId, Model.QuotationList, new { @id = "ddlQuotation", @class = "form-control", @required = "required" })
+                                @Html.HiddenFor(model => Model.InvoiceRecord.QuotationId)
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => Model.InvoiceRecord.QuotationId, new List<SelectListItem>(), "--Select--", new { @id = "ddlQuotation", @class = "form-control", @required = "required" })
+                            }
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => Model.InvoiceRecord.InvoiceDate, "Invoice Date") <span class="required">*</span>
+                                    @Html.TextBoxFor(model => Model.InvoiceRecord.InvoiceDate, new { @Value = Model.InvoiceRecord != null ? Model.InvoiceRecord.InvoiceDate.Value.ToString("yyyy-MM-dd") : "", @id = "txtInvoiceDate", @class = "form-control datepicker", @type = "date", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => Model.InvoiceRecord.FromDate, "From Date") <span class="required">*</span>
+                                    @Html.TextBoxFor(model => Model.InvoiceRecord.FromDate, new { @Value = Model.InvoiceRecord != null ? Model.InvoiceRecord.FromDate.Value.ToString("yyyy-MM-dd") : "", @id = "txtFromDate", @class = "form-control datepicker", @type = "date", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => Model.InvoiceRecord.ToDate, "To Date")
+                                    @Html.TextBoxFor(model => Model.InvoiceRecord.ToDate, new { @Value = Model.InvoiceRecord != null && Model.InvoiceRecord.ToDate != null ? Model.InvoiceRecord.ToDate.Value.ToString("yyyy-MM-dd") : "", @id = "txtToDate", @class = "form-control datepicker", @type = "date" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.InvoiceRecord.Address, "Address")
+                            @Html.TextAreaFor(model => Model.InvoiceRecord.Address, new { @id = "txtAddress", @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.InvoiceRecord.Attention, "Attention")
+                            @Html.TextBoxFor(model => Model.InvoiceRecord.Attention, new { @id = "txtAttention", @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.InvoiceRecord.PaymentInformation, "Payment Information")
+                            @Html.TextAreaFor(model => Model.InvoiceRecord.PaymentInformation, new { @id = "txtPaymentInformation", @class = "form-control" })
+                        </div>
+
+                    </div>
+                    <!-- /.Left Column-->
+                    <!-- Right Column-->
+                    <div class="col-md-6">
+                        <!--      -->
+                        <div class="col-md-12 btn-warning">
+                            @if (Model.PageMode == "Edit" || Model.PageMode == "View")
+                            {
+                                <h4>
+                                    Quotation Details
+                                    <a href="@Url.Action("Quotation", "Quotation", new { @quotationId = Model.InvoiceRecord != null && Model.InvoiceRecord.QuotationId != null? Model.InvoiceRecord.QuotationId : 0 , @pageMode = "View" })" target="_blank" class="btn-link pull-right"><i class="glyphicon glyphicon-eye-open"></i> View Quotation</a>
+                                </h4>
+                            }
+                            else
+                            {
+                                <h4 id="quotation-link">
+                                    Quotation Details
+                                </h4>
+                            }
+                        </div>
+
+
+
+                        <div>
+                            @* QuotationRecord *@
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => Model.QuotationRecord.Email, "Email")
+                                    @Html.TextBoxFor(model => Model.QuotationRecord.Email, new { @id = "txtEmail", @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-12">
+                                    <table id="quotation-Summary" class="table table-bordered table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    Discount Type
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.DiscountType, new { @id = "discountTypeQ", @class = "form-control", @readonly = "readonly" })
+                                                </td>
+                                                <td>
+                                                    SubTotal (S$):
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.SubTotal, new { @Value = Model.QuotationRecord != null ? String.Format("{0:n4}", Model.QuotationRecord.SubTotal) : "", @id = "subTotalQ", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                    @*<input id="txtSubTotal" class="form-control" readonly="readonly" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Discount Value
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.DiscountValue, new { @Value = Model.QuotationRecord != null ? String.Format("{0:n4}", Model.QuotationRecord.DiscountValue) : "", @id = "discountValueQ", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                </td>
+                                                <td>
+                                                    Discount (S$):
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.DiscountAmount, new { @Value = Model.QuotationRecord != null ? String.Format("{0:n4}", Model.QuotationRecord.DiscountAmount) : "", @id = "discountAmountQ", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    Actual Amount (S$):
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.ActualAmount, new { @Value = Model.QuotationRecord != null ? String.Format("{0:n4}", Model.QuotationRecord.ActualAmount) : "", @id = "actualAmountQ", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                    @*<input id="txtActualAmount" class="form-control" readonly="readonly" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    GST Type
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.GSTType, new { @Value = Model.QuotationRecord != null ? String.Format(Model.QuotationRecord.GSTType) : "", @id = "gstTypeQ", @class = "form-control", @readonly = "readonly" })
+                                                </td>
+                                                <td>
+                                                    GST:<br />(9% from 1st Jan 2024, 8% until 31st Dec 2023) (S$)
+                                                </td>
+
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.GST, new { @Value = Model.QuotationRecord != null ? String.Format("{0:n4}", Model.QuotationRecord.GST) : "", @id = "gstAmountQ", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                    @*<input id="txtGstAmount" class="form-control" readonly="readonly" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    Total (S$):
+                                                </td>
+
+                                                <td>
+                                                    @Html.TextBoxFor(model => Model.QuotationRecord.QuotationValue, new { @Value = Model.QuotationRecord != null ? String.Format("{0:n4}", Model.QuotationRecord.QuotationValue) : "", @id = "totalAmountQ", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                    @*<input id="txtNetTotal" class="form-control" readonly="readonly" />*@
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                </div>
+
+                            </div>
+
+                            @* QuotationRecord *@
+
+                        </div>
+
+
+                        @* MKS *@
+
+
+                    <div>
+                        <div class="col-md-12 btn-warning">
+                            <h4> Invoice Details</h4>
+                        </div>
+
+                        @* InvoiceRecord *@
+
+                     
+                        <div class="col-md-12">
+
+                            <div class="col-md-12">
+                                <table id="quotation-Summary" class="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Discount Type
+                                            </td>
+                                            <td>
+                                                @*@Html.TextBoxFor(model => Model.InvoiceRecord.DiscountType, new { @id = "discountTypeI", @class = "form-control", @readonly = "readonly" })*@
+                                                @Html.DropDownListFor(model => Model.InvoiceRecord.DiscountType, Model.DiscountTypes, "--Select--", new { @id = "ddlDiscountType", @class = "form-control" })
+                                                @Html.HiddenFor(model => Model.InvoiceRecord.DiscountType)
+                                            </td>
+                                            <td>
+                                                SubTotal (S$):
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.TotalPhaseAmount, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n4}", Model.InvoiceRecord.TotalPhaseAmount) : "", @id = "subTotalI", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                @*<input id="txtSubTotal" class="form-control" readonly="readonly" />*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Discount Value
+                                            </td>
+                                            <td>
+                                                @*@Html.TextBoxFor(model => Model.InvoiceRecord.DiscountValue, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n4}", Model.InvoiceRecord.DiscountValue) : "", @id = "discountValueI", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })*@
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.DiscountValue, new { @id = "txtDiscountVal", @class = "form-control" })
+                                            </td>
+                                            <td>
+                                                Discount (S$):
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.DiscountAmount, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n4}", Model.InvoiceRecord.DiscountAmount) : "", @id = "discountAmountI", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Actual Amount (S$):
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.ActualAmount, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n4}", Model.InvoiceRecord.ActualAmount) : "", @id = "actualAmountI", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                @*<input id="txtActualAmount" class="form-control" readonly="readonly" />*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                GST Type
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.GSTType, new { @Value = Model.InvoiceRecord != null && Model.InvoiceRecord.GSTType != null ? String.Format(Model.InvoiceRecord.GSTType) : "", @id = "gstTypeI", @class = "form-control", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                GST: <br/> (9% from 1st Jan 2024, 8% until 31st Dec 2023) (S$) (S$)
+                                            </td>
+
+                                            <td>
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.TotalGSTAmount, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n4}", Model.InvoiceRecord.TotalGSTAmount) : "", @id = "gstAmountI", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                @*<input id="txtGstAmount" class="form-control" readonly="readonly" />*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Total (S$):
+                                            </td>
+
+                                            <td>
+                                                @Html.TextBoxFor(model => Model.InvoiceRecord.InvoiceAmount, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n4}", Model.InvoiceRecord.InvoiceAmount) : "", @id = "totalAmountI", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                                                @*<input id="txtNetTotal" class="form-control" readonly="readonly" />*@
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6">
+
+                            </div>
+
+                        </div>
+
+                        @* InvoiceRecord *@
+
+                    </div>
+
+
+
+                    </div>
+
+                    <!-- /.Right Column-->
+
+                </div>
+
+                <!-- /.col -->
+
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+
+        <h3>
+            Phase Items
+        </h3>
+        <div class="box">
+
+            <div id="invoice-phase">
+                @if (Model.InvoiceRecord != null && Model.InvoiceRecord.InvoicePhases != null)
+                {
+                    if (Model.InvoiceRecord.IsProgressClaimRequired == "true")
+                    {
+                        Html.RenderPartial("EditPhase", Model);
+                    }
+                    else
+                    {
+                        Html.RenderPartial("EditPhaseNoClaim", Model);
+                    }
+                }
+            </div>
+
+
+            <div class="box-footer">
+                <a href="@Url.Action("Index", "Invoice")" class="btn btn-primary">Back</a>
+                @if (Model.InvoiceRecord == null || Model.PageMode == "Edit")
+                {
+                    if (Model.InvoiceRecord != null)
+                    {
+                        if (Model.InvoiceRecord.IsProgressClaimRequired == "true")
+                        {
+                            <button type="button" id="progressClaimDetails" data-id="@Model.InvoiceRecord.Id" class="btn btn-primary">View Progress Claim</button>
+                            <a href="@Url.Action("PrintProgressClaim", "Invoice", new { @invoiceId = Model.InvoiceRecord.Id })" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Progress Claim</a>
+
+                            if (string.Compare(Model.InvoiceRecord.ProgressClaimStatus, "Approved", StringComparison.OrdinalIgnoreCase) == 0)
+                            {
+                                <button type="button" id="invoiceDetails" data-id="@Model.InvoiceRecord.Id" class="btn btn-primary">View Invoice</button>
+                                <a href="@Url.Action("PrintInvoice", "Invoice", new { @invoiceId = Model.InvoiceRecord.Id })" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Invoice</a>
+                            }
+                        }
+                        else
+                        {
+                            <button type="button" id="invoiceDetails" data-id="@Model.InvoiceRecord.Id" class="btn btn-primary">View Invoice</button>
+                            <a href="@Url.Action("PrintInvoice", "Invoice", new { @invoiceId = Model.InvoiceRecord.Id })" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print Invoice</a>
+                        }
+
+                    }
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                }
+            </div>
+
+        </div>
+        <!-- /.box -->
+    }
+    <!-- /.box -->
+    <!-- Previous Phase Items-->
+    <div id="added-phase"></div>
+
+</section>
+<!-- /.content -->
+
+<div id='progressClaimModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 800px;">
+            <div id='progressClaimModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div id='invoiceModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 800px;">
+            <div id='invoiceModalContent'></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿@model DualGlobe.ERP.Models.CPFModel
+
+
+<div class="box">
+    <div class="box-body">
+        @using (Html.BeginForm(FormMethod.Post))
+            {
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.SelectedMonth, "Select Month: ") <span class="required">*</span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.SelectedMonth, new SelectList(Model.MonthList, "Value", "Text"), "--Select--", new { @id = "ddlMonth", @class = "form-control", @required = "required" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.SelectedYear, "Select Year: ") <span class="required">*</span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.SelectedYear, new SelectList(Model.YearList, "Value", "Text"), "--Select--", new { @id = "ddlYear", @class = "form-control", @required = "required" })
+                    </div>
+                </div>
+
+                <div class="col-xs-1">
+                    @*<a href="@Url.Action("Search", "CPF",  new { @month = Model.SelectedMonth, @year = Model.SelectedYear})" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Search Details</a>*@
+                    <button type="submit" name="action:Search" class="btn btn-primary pull-right">Find CPF</button>
+                </div>
+
+                <div class="col-xs-1">
+                    <button type="submit" id="addcpf" name="action:Add" class="btn btn-primary pull-right">Add CPF</button>
+                </div>
+
+                <div class="col-xs-2">
+                    @*<a href="@Url.Action("Search", "CPF",  new { @month = Model.SelectedMonth, @year = Model.SelectedYear})" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Search Details</a>*@
+                    <button type="submit" id="regenerate" name="action:Regenerate" class="btn btn-primary pull-right">Re-Generate CPF</button>
+                </div>
+            </div>
+            }
+    </div>
+</div>

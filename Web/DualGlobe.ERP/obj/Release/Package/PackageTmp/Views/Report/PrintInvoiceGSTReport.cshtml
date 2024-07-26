@@ -1,0 +1,93 @@
+﻿@using DualGlobe.ERP.Utility;
+@model DualGlobe.ERP.Models.InvoiceModel
+       
+@{
+    ViewBag.Title = "Sales Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Sales Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblClient" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seriol No</th>
+                            <th>Quotation No</th>
+                            <th>PO No</th>
+                            <th>Invoice No</th>
+                            <th>Date</th>
+                            <th>Client Name</th>
+                            <th>Sub Total</th>
+                            <th>GST</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    @if (Model.InvoiceArray != null)
+                    {
+                    <tbody>
+                        @{
+                            int i = 0;
+                            decimal gstSum = 0;
+                            decimal subTotalSum = 0;
+                            foreach (var item in Model.InvoiceArray)
+                            {
+                                decimal gst = item.TotalDiscountedGST.GetValueOrDefault(0) > 0 ? item.TotalDiscountedGST.GetValueOrDefault(0) : item.TotalGSTAmount.GetValueOrDefault(0);
+                                decimal subTotal = item.TotalDiscountedPhaseInvoice.GetValueOrDefault(0) > 0 ? (item.TotalPhaseAmount.GetValueOrDefault(0) - item.TotalDiscountedPhaseInvoice.GetValueOrDefault(0)) : item.TotalPhaseAmount.GetValueOrDefault(0);
+                                gstSum = gstSum + gst;
+                                subTotalSum = subTotalSum + subTotal;
+                                <tr>
+                                    <td>@(++i)</td>
+                                    <td>@item.QuotationId</td>
+                                    <td>@Utilities.GetPONumberByQuotationId(item.QuotationId.GetValueOrDefault())</td>
+                                    <td>@item.Id</td>
+                                    <td>@item.InvoiceDate.Value.ToString("d")</td>
+                                    <td>@Utilities.GetClientName(item.ClientId.GetValueOrDefault())</td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", subTotal)</td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", gst) </td>
+                                    <td style="text-align:right;">S$@String.Format("{0:n}", item.InvoiceAmount.Value)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total</b></td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", subTotalSum)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", gstSum)</td>
+                                <td style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray.AsEnumerable().Sum(j => j.InvoiceAmount.GetValueOrDefault(0)))</td>
+                            </tr>
+                        </tfoot>
+                            }
+                </table>
+
+
+
+
+
+
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

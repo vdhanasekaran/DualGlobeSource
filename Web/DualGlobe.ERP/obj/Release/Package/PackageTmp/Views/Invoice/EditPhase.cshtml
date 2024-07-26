@@ -1,0 +1,113 @@
+﻿
+@model DualGlobe.ERP.Models.InvoiceModel
+
+<!-- /.box-body -->
+@Html.HiddenFor(model => Model.InvoiceRecord.Id)
+@Html.HiddenFor(model => Model.InvoiceRecord.QuotationId)
+@Html.HiddenFor(model => Model.InvoiceRecord.ClientId)
+@Html.HiddenFor(model => Model.InvoiceRecord.DiscountValue)
+
+<div class="box-body">
+    <div class="row">
+        <div class="col-md-1">
+            <div class="form-group">
+                @Html.LabelFor(model => Model.InvoiceRecord.PhaseName, "Phase Description:")
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.TextAreaFor(model => Model.InvoiceRecord.PhaseName, new { @id = "txtPhaseDesc", @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                @Html.LabelFor(model => Model.InvoiceRecord.InvoiceAmount, "Invoice Amount:")
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.TextBoxFor(model => Model.InvoiceRecord.InvoiceAmount, new { @Value = Model.InvoiceRecord != null ? String.Format("{0:n2}", Model.InvoiceRecord.InvoiceAmount) : "", @id = "txtInvoiceAmount", @class = "form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+
+                @*@Html.HiddenFor(model => Model.InvoiceRecord.TotalDiscountedGST, new { @id = "txtTotalDiscountedGST", @class = "form-control" })*@
+                @*@Html.HiddenFor(model => Model.InvoiceRecord.TotalPhaseAmount, new { @id = "txtTotalPhaseAmount", @class = "form-control" })*@
+                @*@Html.HiddenFor(model => Model.InvoiceRecord.TotalDiscountedPhaseInvoice, new { @id = "txtTotalDiscountedPhaseInvoice", @class = "form-control" })*@
+            </div>
+        </div>
+        @if (Model.InvoiceRecord != null && Model.PageMode != "Edit")
+        {
+            <div class="col-md-1">
+                <div class="form-group">
+                    @Html.Label("Balance Amount:")
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input class="form-control" style="text-align:right" id="txtBalanceAmount" readonly="readonly" type="text" value="">
+                </div>
+            </div>
+        }
+        
+        @if (Model.InvoiceRecord != null && Model.PageMode == "Edit")
+        {
+            if (Model.InvoiceRecord.IsProgressClaimRequired == "true" && string.Compare(Model.InvoiceRecord.ProgressClaimStatus, "Approved", StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                <div class="col-md-1">
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.InvoiceRecord.ProgressClaimStatus, "Claim Status :")
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Model.InvoiceRecord.ProgressClaimStatus, Model.ProgressClaimStatus, new { @id = "ddlClaimStatus", @class = "form-control" })
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <a href="@Url.Action("AddPayment", "Invoice", new { @invoiceId = Model.InvoiceRecord.Id })" class="btn btn-primary">Add/View Payment</a>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+    <table id="tblAddPhase" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:50%;">Item Description</th>
+                <th style="width:10%;">Percentage</th>
+                <th style="width:15%;">Quotation Amount</th>
+                @*<th style="width:10%;">GST Amount</th>*@
+                <th style="width:15%;">Invoice Phase Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.InvoiceRecord.InvoicePhases.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].Id)
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].InvoiceId)
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].UnitPrice)
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].Quantity)
+                        @Html.TextAreaFor(model => Model.InvoiceRecord.InvoicePhases[i].Description, new { @class = "form-control", @required = "required" })
+                    </td>
+                    <td>@Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].Percentage, new { @class = "percentage form-control pull-right", @dir = "rtl", @required = "required" })</td>
+                    <td>@Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].QuotationAmount, new { @class = "quotation-amount form-control pull-right", @dir = "rtl", @readonly = "readonly" })</td>
+
+                    @*<td>@Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].GST, new { @class = "gst-amount form-control", @readonly = "readonly" })
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].GSTAmount, new { @class = "invoice-gst-amount form-control"})
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].DiscountedGSTAmount, new { @class = "discount-invoice-gst-amount form-control" })</td>*@
+
+                    <td>
+                        @Html.TextBoxFor(model => Model.InvoiceRecord.InvoicePhases[i].PhaseAmount, new { @class = "amount form-control pull-right", @dir = "rtl", @readonly = "readonly" })
+                        @Html.HiddenFor(model => Model.InvoiceRecord.InvoicePhases[i].PhaseInvoiceAmount, new { @class = "invoice-phase-amount form-control" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- /.box-body -->

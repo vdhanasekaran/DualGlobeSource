@@ -1,0 +1,207 @@
+﻿@using DualGlobe.ERP.Utility
+@model DualGlobe.ERP.Models.InvoiceModel
+
+@{
+    ViewBag.Title = "View Invoice";
+}
+
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Invoice Details</h4>
+</div>
+<div class="modal-body">
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div style="text-align:center;" class="col-xs-12">
+                <img src="~/Content/Logo/Company_Logo.png" height="35" width="250" />
+            </div>
+            <div style="text-align:center;" class="col-xs-12">
+                <span>
+                    @System.Configuration.ConfigurationManager.AppSettings["AddressLine1"] |
+                    @System.Configuration.ConfigurationManager.AppSettings["AddressLine2"] <br />
+                    @System.Configuration.ConfigurationManager.AppSettings["Email"] |
+                    @System.Configuration.ConfigurationManager.AppSettings["Phone"]
+                </span>
+            </div>
+            @*<div class="col-xs-3">
+                    <span class="pull-right">
+                        @System.Configuration.ConfigurationManager.AppSettings["CompanyReg"]<br />
+                        <b>Date:</b> @DateTime.Today.ToString("dd/MM/yyyy")
+                    </span>
+                </div>*@
+            <!-- /.col -->
+        </div>
+        <hr />
+        <!-- info row -->
+        <div class="row invoice-info">
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                To
+                <address>
+                    <strong>@Utilities.GetClientName(Model.InvoiceArray[0].ClientId.Value)</strong><br>
+                    @Model.InvoiceArray[0].Address
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                <span class="pull-right">
+                    <br />
+                    <b>Invoice No #@Model.InvoiceArray[0].Id</b><br>
+                    Quotation No #@Model.InvoiceArray[0].QuotationId<br>
+                    @if (Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()) > 0)
+                    {
+                        <b>Project Name:</b> @Utilities.GetProjectName(Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()))
+                    }
+                    @if (!string.IsNullOrEmpty(Utilities.GetRefNumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
+                    {
+                        <b>Reference Number:</b> @Utilities.GetRefNumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())
+                    }
+                    @if (!string.IsNullOrEmpty(Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
+                    {
+                        <b>PO Number:</b> @Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())
+                    }
+                    <br>
+                    <b>Date Created:</b> @Model.InvoiceArray[0].InvoiceDate.Value.ToString("dd/MM/yyyy")
+                </span>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- .row -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Ref: </b>Sub Contract Claim for the Month @Model.InvoiceArray[0].InvoiceDate.Value.ToString("MMMM")</p>
+            </div>
+            <!-- /.col -->
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p><b>Attention: </b>@Model.InvoiceArray[0].Attention</p>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>SNo.</th>
+                            <th>Description</th>
+                            @*<th style="text-align:right;">GST</th>*@
+                            <th style="text-align:right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>@Model.InvoiceArray[0].PhaseName</td>
+                            @*<td style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].TotalGSTAmount.GetValueOrDefault(0))</td>*@
+                            <td style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].TotalPhaseAmount.GetValueOrDefault(0))</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:right;">SubTotal(S$): </th>
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].TotalPhaseAmount.GetValueOrDefault(0))</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:right;">Discount Percentage: </th>
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].DiscountValue.GetValueOrDefault(0))</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:right;">Discount: </th>
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].DiscountAmount.GetValueOrDefault(0))</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:right;">Actual Amount: </th>
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].ActualAmount.GetValueOrDefault(0))</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:right;">GST(9% from 1st Jan 2024, 8% until 31st Dec 2023) (S$): </th>
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].TotalGSTAmount.GetValueOrDefault(0))</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th style="text-align:right;">Total: </th>
+
+                            <th style="text-align:right;">S$@String.Format("{0:n}", Model.InvoiceArray[0].InvoiceAmount.GetValueOrDefault(0))</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+
+        <!-- /Table row -->
+        @if (Model.InvoiceArray.Any(i => i.Payments != null && i.Payments.Count > 0))
+        {
+            var paidInvoices = Model.InvoiceArray.Where(i => i.Payments != null && i.Payments.Count > 0).ToList();
+            <div class="row">
+                <div class="col-xs-12">
+                    <p><b>Previous Invoice Claim Details</b></p>
+                </div>
+                <!-- /.col -->
+            </div>
+            for (int j = 0; j < paidInvoices.Count; j++)
+            {
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><b>Invoice Description: @paidInvoices[j].PhaseName</b></p>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- Table row -->
+                <div class="row">
+                    <div class="col-xs-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Invoice Id</th>
+                                    <th>Payment Date</th>
+                                    <th>Payment Mode</th>
+                                    <th style="text-align:right;">Paid Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var payment in paidInvoices[j].Payments)
+                                {
+                                    <tr>
+                                        <td>@paidInvoices[j].Id</td>
+                                        <td>@payment.PaymentDate</td>
+                                        <td>@payment.PaymentMethod</td>
+                                        <td style="text-align:right;">$$@String.Format("{0:n}", payment.Amount.GetValueOrDefault(0))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /Table row -->
+            }
+        }
+    </section>
+</div>
+<div class="modal-footer">
+    <div class="row no-print">
+        <div class="col-xs-12">
+            <a href="@Url.Action("PrintInvoice","Invoice", new { @invoiceId = Model.InvoiceArray[0].Id})" target="_blank" class="btn btn-success"><i class="fa fa-print"></i> Print</a>
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+

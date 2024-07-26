@@ -1,0 +1,661 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\vivek\Desktop\26Jul2024</_PublishTargetUrl>
+    <History>True|2024-07-26T00:50:24.1676605Z;True|2024-05-10T09:55:48.8438289+08:00;True|2024-01-24T18:14:05.6846155+08:00;True|2024-01-04T03:38:01.4057689+08:00;True|2023-03-20T12:10:43.4716707+08:00;True|2023-03-20T12:09:44.6569689+08:00;True|2023-03-20T12:07:04.3154977+08:00;True|2023-01-26T08:50:51.1954686+08:00;True|2023-01-16T10:17:17.7498439+08:00;True|2023-01-16T10:16:47.9768636+08:00;True|2023-01-13T17:58:28.7346433+08:00;True|2023-01-13T17:57:49.6340767+08:00;True|2023-01-02T20:25:09.2652127+08:00;True|2023-01-02T19:46:42.1328632+08:00;True|2023-01-02T16:23:45.1836656+08:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="ApplicationInsights.config">
+      <publishTime>01/03/2024 22:27:21</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/22/2013 11:13:40</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>02/22/2013 11:13:40</publishTime>
+    </File>
+    <File Include="bin/ApplicationInsights.config">
+      <publishTime>01/03/2024 22:27:21</publishTime>
+    </File>
+    <File Include="bin/DualGlobe.ERP.dll">
+      <publishTime>07/26/2024 08:50:20</publishTime>
+    </File>
+    <File Include="bin/DualGlobe.ERP.pdb">
+      <publishTime>07/26/2024 08:50:20</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>03/02/2015 12:02:26</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>03/02/2015 12:02:26</publishTime>
+    </File>
+    <File Include="bin/Library.DualGlobe.ERP.dll">
+      <publishTime>05/10/2024 09:55:40</publishTime>
+    </File>
+    <File Include="bin/Library.DualGlobe.ERP.dll.config">
+      <publishTime>01/03/2024 22:27:28</publishTime>
+    </File>
+    <File Include="bin/Library.DualGlobe.ERP.pdb">
+      <publishTime>05/10/2024 09:55:40</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
+      <publishTime>08/06/2015 20:16:50</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.dll">
+      <publishTime>10/30/2015 04:45:38</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
+      <publishTime>10/30/2015 04:58:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
+      <publishTime>10/30/2015 04:49:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.dll">
+      <publishTime>10/30/2015 04:49:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.dll">
+      <publishTime>10/30/2015 04:49:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.dll">
+      <publishTime>10/29/2015 01:10:06</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>04/03/2015 19:37:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>04/03/2015 19:37:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>04/03/2015 19:37:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>06/15/2015 04:36:24</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>02/13/2015 15:46:30</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>02/13/2015 15:46:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>02/13/2015 15:46:38</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>02/13/2015 15:46:36</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
+      <publishTime>02/13/2015 15:46:38</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Google.dll">
+      <publishTime>02/13/2015 15:46:38</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.MicrosoftAccount.dll">
+      <publishTime>02/13/2015 15:46:40</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>02/13/2015 15:46:40</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
+      <publishTime>02/13/2015 15:46:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>07/25/2012 14:18:56</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>08/03/2014 23:03:56</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>11/13/2012 14:49:34</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>06/18/2015 22:49:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>06/18/2015 22:49:46</publishTime>
+    </File>
+    <File Include="bin/Scripts/fancyTable.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="bin/Sprockets.dll">
+      <publishTime>10/05/2012 00:05:32</publishTime>
+    </File>
+    <File Include="bin/Sprockets.Web.Optimization.dll">
+      <publishTime>10/05/2012 00:05:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/28/2015 06:34:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/28/2015 06:32:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>08/09/2012 01:58:28</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/28/2015 06:32:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/28/2015 06:34:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/28/2015 06:34:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/28/2015 06:34:30</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>07/17/2013 19:33:52</publishTime>
+    </File>
+    <File Include="Content/AdminLTE.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/AdminLTE.min.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/bootstrap-timepicker.min.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/dataTables.bootstrap.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/datepicker3.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/Logo/Company_Logo.png">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/printPdf.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/skins/_all-skins.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="Content/skins/_all-skins.min.css">
+      <publishTime>01/03/2024 22:27:22</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>01/03/2024 22:27:21</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>01/03/2024 22:27:28</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>01/03/2024 22:27:21</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>01/04/2024 01:27:19</publishTime>
+    </File>
+    <File Include="Scripts/ai.0.15.0-build58334.js">
+      <publishTime>01/03/2024 22:27:23</publishTime>
+    </File>
+    <File Include="Scripts/ai.0.15.0-build58334.min.js">
+      <publishTime>01/03/2024 22:27:23</publishTime>
+    </File>
+    <File Include="Scripts/app.min.js">
+      <publishTime>01/03/2024 22:27:23</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-datepicker.js">
+      <publishTime>01/03/2024 22:27:23</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-timepicker.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/dataTables.bootstrap.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/fancyTable.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/fastclick.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.2.3.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.accordion.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.base64.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.dataTables.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.slimscroll.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/loadingoverlay.min.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>01/03/2024 22:27:24</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Scripts/tableExport.js">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Account/AddUser.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Account/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Account/UserDetails.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Allowance/Allowance.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Allowance/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Client/Client.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Client/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Company/Company.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Company/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/CPF/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/CPF/List.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/CPF/Search.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Employee/Employee.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Employee/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/EmployeeProject/EmployeeProject.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/EmployeeProject/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expense/AddExpense.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expense/AddOperationExpense.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expense/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expense/OperationExpense.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/ExpenseCategory/ExpenseCategory.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/ExpenseCategory/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expire/CSOC.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expire/Passport.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Expire/Workpermit.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Income/AddIncome.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Income/OtherIncome.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Insurance/Index.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Insurance/Insurance.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Invoice/AddPayment.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Invoice/AddPhase.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Invoice/EditPhase.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Invoice/EditPhaseNoClaim.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/Invoice/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Invoice/Invoice.cshtml">
+      <publishTime>01/04/2024 01:17:30</publishTime>
+    </File>
+    <File Include="Views/Invoice/PrintInvoice.cshtml">
+      <publishTime>01/04/2024 01:17:56</publishTime>
+    </File>
+    <File Include="Views/Invoice/PrintProgressClaim.cshtml">
+      <publishTime>01/24/2024 18:10:12</publishTime>
+    </File>
+    <File Include="Views/Invoice/ViewInvoice.cshtml">
+      <publishTime>07/26/2024 08:46:14</publishTime>
+    </File>
+    <File Include="Views/Invoice/ViewProgressClaim.cshtml">
+      <publishTime>01/24/2024 18:11:15</publishTime>
+    </File>
+    <File Include="Views/Leave/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Leave/Leave.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/LoanAndAdvance/EMIPreview.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/LoanAndAdvance/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/LoanAndAdvance/LoanAndAdvance.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/LoanAndAdvance/LoanDetails.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Overtime/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Overtime/Overtime.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Payroll/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Payroll/PaySlip.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Payroll/PrintPaySlip.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Payroll/ViewLevy.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Payroll/ViewPaySlip.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Payroll/ViewSalary.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Project/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Project/Project.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/PublicHoliday/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/PublicHolidayPay/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/PublicHolidayPay/PublicHolidayPay.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Quotation/Index.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Quotation/PrintQuotation.cshtml">
+      <publishTime>01/04/2024 01:18:32</publishTime>
+    </File>
+    <File Include="Views/Quotation/Quotation.cshtml">
+      <publishTime>01/04/2024 01:18:54</publishTime>
+    </File>
+    <File Include="Views/Quotation/ViewQuotation.cshtml">
+      <publishTime>01/04/2024 01:19:14</publishTime>
+    </File>
+    <File Include="Views/Report/AttendanceReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/ClientReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/CPFReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/EmployeeReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/InvoiceGSTReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/LevyReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/PrintAttendanceReport.cshtml">
+      <publishTime>01/03/2024 22:27:26</publishTime>
+    </File>
+    <File Include="Views/Report/PrintClientReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintCPFReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintEmployeeReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintInvoiceGSTReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintLevyReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintProfitLossReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintProjectEmployeeReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintProjectProfitLossReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintProjectReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintPurchaseGSTReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintSalaryReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PrintSDLReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/ProfitLossReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/ProjectEmployeeReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/ProjectProfitLossReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/ProjectReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/PurchaseGSTReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/SalaryReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Report/SDLReport.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/RestDay/Index.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/RestDay/RestDay.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/RestDayPay/Index.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/RestDayPay/RestDayPay.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Shared/AccessDenied.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Shared/Lockout.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Shared/_BaseLayout.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>07/26/2024 08:53:00</publishTime>
+    </File>
+    <File Include="Views/Shared/_PrintLayout.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Shared/_PrintPdfLayout.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Supplier/Index.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Supplier/Supplier.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Timesheet/Holiday.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Timesheet/Index.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Timesheet/Search.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Timesheet/Timesheet.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Views/WorkingHour/Index.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/WorkingHour/WorkingHour.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/WorkPermitAddress/Index.cshtml">
+      <publishTime>01/03/2024 22:27:27</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>01/03/2024 22:27:25</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>05/10/2024 09:55:45</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

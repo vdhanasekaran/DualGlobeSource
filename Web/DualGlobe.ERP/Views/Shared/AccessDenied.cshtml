@@ -1,0 +1,35 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "UnAuthorize";
+}
+
+
+<section class="content-header">
+    <h1>
+        Access Denied
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Error</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="error-page">
+        <h2 class="headline text-yellow"> 401</h2>
+
+        <div class="error-content">
+            <h3><i class="fa fa-warning text-yellow"></i> Oops! You don't have access to this Page.</h3>
+
+            <p>
+                Meanwhile, you may <a href="@Url.Action("Index", "Home")">return to dashboard</a>.
+            </p>
+
+        </div>
+        <!-- /.error-content -->
+    </div>
+    <!-- /.error-page -->
+</section>
+<!-- /.content -->

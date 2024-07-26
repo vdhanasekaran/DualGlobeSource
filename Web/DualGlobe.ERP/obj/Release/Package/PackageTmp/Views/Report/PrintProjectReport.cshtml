@@ -1,0 +1,68 @@
+﻿@model List<DualGlobe.ERP.Models.ProjectReportModel>
+    
+@{
+    ViewBag.Title = "Project Report";
+    Layout = "~/Views/Shared/_PrintPdfLayout.cshtml";
+}
+
+<!-- info row -->
+<div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+        <h3>
+            Project Report
+        </h3>
+    </div>
+</div>
+<!-- /.row -->
+<!-- Table row -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="tblProject" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seriol No</th>
+                            <th>Project Id</th>
+                            <th>Project Name</th>
+                            <th>Client Name</th>
+                            <th>Project Value</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Payment Received</th>
+                            <th>Outstanding</th>
+                            <th>Workforce Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 0;
+                            foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@(++i)</td>
+                                <td>@item.ProjectId</td>
+                                <td>@item.ProjectName</td>
+                                <td>@item.ClientName</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", item.ProjectValue.Value)</td>
+                                <td>@item.Status</td>
+                                <td>@item.StartDate.ToString("d")</td>
+                                <td>@item.EndDate.ToString("d")</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", item.ReceivedPayment.Value)</td>
+                                <td style="text-align:right;">@String.Format("{0:n}", item.OutstandingAmount.Value)</td>
+                                <td>@item.ProjectEmployees</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<!-- /.row -->

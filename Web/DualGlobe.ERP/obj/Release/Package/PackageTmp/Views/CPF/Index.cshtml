@@ -1,0 +1,29 @@
+﻿@model DualGlobe.ERP.Models.CPFModel
+
+@{
+    ViewBag.Title = "CPF";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        CPF Details
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">CPF Details</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div id="divSearch">
+        @{Html.RenderPartial("Search", Model);}
+    </div>
+
+    <div id="divHoliday">
+        @{Html.RenderPartial("List", Model);}
+    </div>
+
+
+</section>
+<!-- /.content -->
