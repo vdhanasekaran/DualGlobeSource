@@ -32,16 +32,35 @@
             <b>Quotation No:</b> @Model.InvoiceArray[0].QuotationId<br>
 
             @*   @if (Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()) > 0)
-                {
-                <b>Project Name:</b> @Utilities.GetProjectName(Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()))<br>
-                } *@
+        {
+        <b>Project Name:</b> @Utilities.GetProjectName(Utilities.GetProjectByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()))<br>
+        } *@
             @if (!string.IsNullOrEmpty(Utilities.GetRefNumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
             {
                 <b>Reference Number:</b> @Utilities.GetRefNumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())<br>
             }
-            @if (!string.IsNullOrEmpty(Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
-            {
-                <b>PO Number:</b> @Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())<br>
+            @*@if (!string.IsNullOrEmpty(Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault())))
+        {
+            <b>PO Number:</b> @HttpUtility.HtmlDecode(Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault()))<br>
+        }*@
+
+            @{
+                var poNumber = Utilities.GetPONumberByQuotationId(Model.InvoiceArray[0].QuotationId.GetValueOrDefault());
+                if (!string.IsNullOrEmpty(poNumber))
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    var poSplit = poNumber.Split(',').Select(s => s.Trim()).ToList();
+                    <b>PO Number:</b>
+                    for (int i = 0; i < poSplit.Count; i++)
+                    {
+                        <span>@poSplit[i]</span>
+                        if (i != poSplit.Count - 1)
+                        {
+                            <span>,</span>
+                        }
+                    }
+                    <br />
+                }
             }
             <b>Date:</b> @Model.InvoiceArray[0].InvoiceDate.Value.ToString("dd/MM/yyyy")
         </span>
