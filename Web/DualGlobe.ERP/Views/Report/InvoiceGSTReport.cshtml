@@ -151,7 +151,24 @@
                                 <tr>
                                     <td>@(++i)</td>
                                     <td>@item.QuotationId</td>
-                                    <td>@Utilities.GetPONumberByQuotationId(item.QuotationId.GetValueOrDefault())</td>
+                                    <td>
+                                        @{
+                                            var poNumbers = Utilities.GetPONumberByQuotationId(item.QuotationId.GetValueOrDefault());
+                                            if (!string.IsNullOrEmpty(poNumbers))
+                                            {
+                                                var poSplit = poNumbers.Split(',');
+                                                for (int k = 0; k < poSplit.Length; k++)
+                                                {
+                                                    <span>@poSplit[k]</span>
+                                                    if (k != poSplit.Length - 1)
+                                                    {
+                                                        <span>,</span>
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    </td>
                                     <td>@item.Id</td>
                                     <td>@item.InvoiceDate.Value.ToString("d")</td>
                                     <td>@Utilities.GetClientName(item.ClientId.GetValueOrDefault())</td>
